@@ -1,1 +1,8 @@
- 
+ .country-list {
+    padding: 2rem;
+ }
+
+ .country-list ul {
+    list-style-type: none;
+    padding: 0;
+ }
