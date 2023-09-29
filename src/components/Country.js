@@ -1,1 +1,1 @@
-import './styles/country.css';
+import '../styles/country.css';

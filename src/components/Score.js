@@ -1,1 +1,1 @@
-import './styles/score.css';
+import '../styles/score.css';

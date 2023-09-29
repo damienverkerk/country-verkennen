@@ -1,1 +1,1 @@
-import './styles/register.css';
+import '../styles/register.css';

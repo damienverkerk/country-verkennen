@@ -1,1 +1,1 @@
-import './styles/login.css';
+import '../styles/login.css';

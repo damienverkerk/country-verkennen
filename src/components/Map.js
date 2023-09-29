@@ -1,1 +1,1 @@
-import './styles/map.css';
+import '../styles/map.css';
