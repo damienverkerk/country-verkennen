@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { AuthProvider } from '../contexts/AuthContext';
 import Header from './common/Header';
 import Footer from './common/Footer';
 import Login from './features/Login';
@@ -10,6 +11,7 @@ import '../styles/app.css';
 function App(){
     return (
         <Router>
+        <AuthProvider>
             <div className='app'>
                 <Header />
                 <main>
@@ -22,6 +24,7 @@ function App(){
                 </main>
                 <Footer />
             </div>
+            </AuthProvider>
         </Router>
     );
 }
