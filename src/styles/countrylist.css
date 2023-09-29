@@ -1,0 +1,15 @@
+.country-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.country-item {
+    background-color: #f0f0f0;
+    margin-bottom: 10px;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.country-item:hover{
+    background-color: #d4d4d4;
+}
