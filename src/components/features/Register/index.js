@@ -4,6 +4,7 @@ import { useAuth } from '../../../contexts/AuthContext';
 import Button from '../../common/Button';
 import Input from '../../common/Input';
 import '../../../styles/register.css';
+import axios from 'axios';
 
 function Register() {
   const [username, setUsername] = useState('');
@@ -24,27 +25,24 @@ function Register() {
     };
 
     try {
-      const response = await fetch(`${baseUrl}/users`, {
-        method: "POST",
-        Headers: {
-          'Content-Type': 'application/json',
-          'X-Api-Key':'countryverkenner:sn57awrFZpM9VJe6fyKg'
-      },
-        body: JSON.stringify(userData)
-      });
-
-      if(response.ok) {
-        const contentType = response.headers.get("content-type");
-        if(contentType && contentType.includes("application/json")) {
-          const responseData = await response.json();
-        }
-        navigate('/login');
-      } else{
-        const responseData = await response.json();
-        throw new Error(responseData.message || "Registratie mislukt!");
+      const response = await axios.post(`${baseUrl}/users`, userData, {
+        headers: {
+          "Content-Type": "application/json",
+          "x-api-key": "countryverkenner:sn57awrFZpM9VJe6fyKg"
       }
+      });
+      
+      navigate('/login');
     } catch (error) {
-      setError(error.message);
+      if (error.response) {
+        if (error.response.status === 403) {
+          setError('Toegang geweigerd. Controlleer je toestemmingen of API-sleutel.');
+        } else {
+          setError(error.response.data.message || 'Er is een fout opgetreden bij de registratie.');
+        }
+      } else {
+        setError(error.message);
+      }
     }
   };
 
