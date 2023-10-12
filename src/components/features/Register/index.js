@@ -15,7 +15,7 @@ function Register() {
   const navigate = useNavigate();
 
   const handleRegister = async () => {
-    const baseUrl = "https://api.datavortex.nl/Countryverkenner";
+    const baseUrl = "https://api.datavortex.nl/countryverkenner";
   
     const userData = {
       username: username,
@@ -27,8 +27,8 @@ function Register() {
     try {
       const response = await axios.post(`${baseUrl}/users`, userData, {
         headers: {
-          "Content-Type": "application/json",
-          "x-api-key": "countryverkenner:sn57awrFZpM9VJe6fyKg"
+          'Content-Type': 'application/json',
+          'X-Api-Key': 'countryverkenner:sn57awrFZpM9VJe6fyKg'
       }
       });
       
@@ -38,7 +38,7 @@ function Register() {
         if (error.response.status === 403) {
           setError('Toegang geweigerd. Controlleer je toestemmingen of API-sleutel.');
         } else {
-          setError(error.response.data.message || 'Er is een fout opgetreden bij de registratie.');
+          setError(error.response.data|| 'Er is een fout opgetreden bij de registratie.');
         }
       } else {
         setError(error.message);
