@@ -1,0 +1,17 @@
+.country-selector {
+    padding: 1rem;
+    background-color: #F5F5F5;
+    font-family: 'Roboto', sans-serif;
+  }
+  
+  .country-selector ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .country-selector li {
+    margin-bottom: 0.5rem;
+  }
+  
+  /* Voeg hier verdere styling toe, gebaseerd op jouw design specificaties. */
+  
