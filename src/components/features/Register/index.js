@@ -13,12 +13,38 @@ function Register() {
   const { register } = useAuth();
   const navigate = useNavigate();
 
-  const handleRegister = () => {
+  const handleRegister = async () => {
+    const baseUrl = "https://api.datavortex.nl/Countryverkenner";
+  
+    const userData = {
+      username: username,
+      email: email,
+      password: password,
+      info: "testinfo"
+    };
+
     try {
-      register(username, email, password);
-      navigate('/login'); // Navigeer naar de loginpagina bij succesvolle registratie
+      const response = await fetch(`${baseUrl}/users`, {
+        method: "POST",
+        Headers: {
+          'Content-Type': 'application/json',
+          'X-Api-Key':'countryverkenner:sn57awrFZpM9VJe6fyKg'
+      },
+        body: JSON.stringify(userData)
+      });
+
+      if(response.ok) {
+        const contentType = response.headers.get("content-type");
+        if(contentType && contentType.includes("application/json")) {
+          const responseData = await response.json();
+        }
+        navigate('/login');
+      } else{
+        const responseData = await response.json();
+        throw new Error(responseData.message || "Registratie mislukt!");
+      }
     } catch (error) {
-      setError(error.message); // Toon een foutmelding indien registratie mislukt
+      setError(error.message);
     }
   };
 
