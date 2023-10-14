@@ -12,7 +12,8 @@ export function AuthProvider({ children }) {
   });
 
   const [token, setToken] = useState(() => {
-    return localStorage.getItem('jwtToken');
+    const savedToken = localStorage.getItem('jwtToken');
+    return savedToken || null;
   });
 
   // registreren
@@ -35,8 +36,9 @@ export function AuthProvider({ children }) {
     throw error;
   }
   };
-  // ophalen token
-  const getJwtToken = async (username, password) => {
+
+  //login
+  const login = async (username, password) => {
     try{
       const response = await axios.post(`${baseUrl}/users/authenticate`, {username, password}, {
         headers: {
@@ -48,16 +50,22 @@ export function AuthProvider({ children }) {
       const token = response.data.token;
       setToken(token);
       localStorage.setItem('jwtToken', token);
-      return token;
+      
+      setCurrentUser({ username });
+      localStorage.setItem('user', JSON.stringify({ username }));
     } catch (error) {
       throw error;
     } 
   };
 
-  //login
-  
   //logout
-
+  const logout = () => {
+    setCurrentUser(null);
+    setToken(null);
+    localStorage.removeItem('user');
+    localStorage.removeItem('jwtToken');
+  }
+  
   return (
     <AuthContext.Provider value={{ currentUser, token, register }}>
       {children}
