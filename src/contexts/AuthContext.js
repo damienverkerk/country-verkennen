@@ -15,6 +15,7 @@ export function AuthProvider({ children }) {
     return localStorage.getItem('jwtToken');
   });
 
+  // registreren
   const register = async ( username, email, password) => {
   const userData = {
     username: username,
@@ -34,9 +35,27 @@ export function AuthProvider({ children }) {
     throw error;
   }
   };
+  // ophalen token
+  const getJwtToken = async (username, password) => {
+    try{
+      const response = await axios.post(`${baseUrl}/users/authenticate`, {username, password}, {
+        headers: {
+          'Context-Type': 'application/json',
+          'X-Api-Key': 'countryverkenner:sn57awrFZpM9VJe6fyKg'
+        }
+      });
+
+      const token = response.data.token;
+      setToken(token);
+      localStorage.setItem('jwtToken', token);
+      return token;
+    } catch (error) {
+      throw error;
+    } 
+  };
 
   //login
-
+  
   //logout
 
   return (
