@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import '../../../styles/header.css';
+import LoginLogoutButton from '../../features/LoginLogout';
 
 function Header(){
     return(
@@ -8,10 +9,10 @@ function Header(){
             <div className='logo'>ReisApp</div>
             <nav className='nav'>
                 <Link to="/">Home</Link>
-                <Link to="/login">Login</Link>
                 <Link to="/register">Register</Link>
                 <Link to="/countries">Countries</Link>
                 <Link to="/select-countries">Select Countries</Link>
+                <LoginLogoutButton />
             </nav>
         </header>
     );

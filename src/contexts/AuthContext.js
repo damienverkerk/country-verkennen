@@ -65,9 +65,9 @@ export function AuthProvider({ children }) {
     localStorage.removeItem('user');
     localStorage.removeItem('jwtToken');
   }
-  
+
   return (
-    <AuthContext.Provider value={{ currentUser, token, register }}>
+    <AuthContext.Provider value={{ currentUser, token, register, login, logout }}>
       {children}
     </AuthContext.Provider>
   );
