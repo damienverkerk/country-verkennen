@@ -13,12 +13,21 @@
     letter-spacing: 1px;
  }
 
+ .nav {
+   display: flex;
+   align-items: center;
+   width:fit-content;
+ }
  .nav a {
     margin: 0 1rem;
     color: #ffffff;
     text-decoration: none;
+    padding:  0.625rem 1.25rem; 
+    border-radius: 4px;
+    transition: background 0.3s ease;
  }
 
  .nav a:hover{
-    text-decoration: underline;
+    text-decoration: none;
+    background: #2a347e;
  }
