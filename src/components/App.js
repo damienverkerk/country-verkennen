@@ -10,6 +10,8 @@ import FavoriteCountryList from './features/FavoriteCountryList'; // Gebruik de 
 import CountryDetail from './features/CountryDetail';
 import CountrySelector from './features/CountrySelector';
 import '../styles/app.css';
+import { UserPreferencesProvider } from '../contexts/UserPreferencesContext';
+import Dashboard from './features/Dashboard';
 
 function ProtectedRoute({children}) {
     const { currentUser } = useAuth();
@@ -21,24 +23,26 @@ function ProtectedRoute({children}) {
 function App(){
     return (
         <Router>
-        <AuthProvider>
-            <FavoriteCountriesProvider> {/* Wikkel je hele app in de FavoriteCountriesProvider */}
-                <div className='app'>
-                    <Header />
-                    <main>
-                        <Routes>
-                            <Route path="/login" element={<Login />} />
-                            <Route path="/register" element={<Register />} />
-                            <Route path="/countries/favorites" element={<ProtectedRoute><FavoriteCountryList /></ProtectedRoute>} />
-                            <Route path="/countries/:cca3" element={<CountryDetail />} />
-                            <Route path="/select-countries" element={<ProtectedRoute><CountrySelector /></ProtectedRoute>} />
-                            <Route path="/" element={<div>Home</div>} />
-                        </Routes>
-                    </main>
-                    <Footer />
-                </div>
-            </FavoriteCountriesProvider>
-        </AuthProvider>
+            <AuthProvider>
+                <UserPreferencesProvider>
+                    <FavoriteCountriesProvider> {/* Wikkel je hele app in de FavoriteCountriesProvider */}
+                        <div className='app'>
+                            <Header />
+                            <main>
+                                <Routes>
+                                    <Route path="/login" element={<Login />} />
+                                    <Route path="/register" element={<Register />} />
+                                    <Route path="/countries/favorites" element={<ProtectedRoute><FavoriteCountryList /></ProtectedRoute>} />
+                                    <Route path="/countries/:cca3" element={<CountryDetail />} />
+                                    <Route path="/select-countries" element={<ProtectedRoute><CountrySelector /></ProtectedRoute>} />
+                                    <Route path="/" element={<Dashboard />} />
+                                </Routes>
+                            </main>
+                            <Footer />
+                        </div>
+                    </FavoriteCountriesProvider>
+                </UserPreferencesProvider>
+            </AuthProvider>
         </Router>
     );
 }
