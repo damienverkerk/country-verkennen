@@ -14,13 +14,19 @@ const FavoriteCountriesList = () => {
         getCountries();
     }, []);
 
-    const toggleFavorite = ( countryCode ) => {
+    const toggleFavorite = (countryCode) => {
         if (favorites.includes(countryCode)) {
             setFavorites(fav => fav.filter(code => code !== countryCode));
         } else {
-            setFavorites(fav => [...fav, countryCode]);
+            if (favorites.length < 10) {
+                setFavorites(fav => [...fav, countryCode]);
+            } else {
+                // Feedback voor de limiet van 10 landen
+                alert("Je hebt het maximum aantal van 10 landen bereikt!");
+            }
         }
     };
+    
 
     return(
         <div>
