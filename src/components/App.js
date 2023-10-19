@@ -12,6 +12,10 @@ import CountrySelector from './features/CountrySelector';
 import '../styles/app.css';
 import { UserPreferencesProvider } from '../contexts/UserPreferencesContext';
 import Dashboard from './features/Dashboard';
+import PreferencesForm from './features/PreferencesForm';
+import CountryList from './features/CountryList';
+import FilteredCountryList from './features/FilteredCountryList';
+
 
 function ProtectedRoute({children}) {
     const { currentUser } = useAuth();
@@ -32,9 +36,12 @@ function App(){
                                 <Routes>
                                     <Route path="/login" element={<Login />} />
                                     <Route path="/register" element={<Register />} />
+                                    <Route path="/countries" element={<CountryList />} />
                                     <Route path="/countries/favorites" element={<ProtectedRoute><FavoriteCountryList /></ProtectedRoute>} />
                                     <Route path="/countries/:cca3" element={<CountryDetail />} />
                                     <Route path="/select-countries" element={<ProtectedRoute><CountrySelector /></ProtectedRoute>} />
+                                    <Route path="/preferences" element={<ProtectedRoute><PreferencesForm /></ProtectedRoute>} />
+                                    <Route path="/filter-countries" element={<ProtectedRoute><FilteredCountryList /></ProtectedRoute>} />
                                     <Route path="/" element={<Dashboard />} />
                                 </Routes>
                             </main>
