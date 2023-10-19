@@ -1,46 +1,40 @@
-/* Basisstijlen voor de filtercontainer */
 .filters {
     padding: 20px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    background-color: #f9f9f9;
+    border-radius: 46px;
+    background-color: #f5f5f5;
     max-width: 600px;
     margin: 30px auto;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
+    box-shadow: 0 0 40px #0000001a;
 }
 
-/* Stijl voor de dropdowns (select tags) */
 .filters select {
     width: 100%;
-    padding: 12px 15px;
+    padding: 5px 31px;
     margin-bottom: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    background-color: #fff;
+    border-radius: 46px;
+    background-color: #d7c8c766;
     font-size: 16px;
+    box-shadow: 0 0 40px #0000001a;
 }
 
-/* Stijl voor de range sliders */
 .filters input[type="range"] {
-    width: 48%; /* Laat twee sliders naast elkaar verschijnen */
+    width: 48%; 
     margin-right: 2%;
     cursor: pointer;
 }
 
-/* Aangepaste stijlen voor de laatste slider (om marges te corrigeren) */
 .filters input[type="range"]:last-child {
     margin-right: 0;
 }
 
-/* Hover effect voor de dropdowns en sliders */
 .filters select:hover,
 .filters input[type="range"]:hover {
     border-color: #888;
 }
 
-/* Focus effect voor de dropdowns */
 .filters select:focus {
     border-color: #555;
     outline: none;

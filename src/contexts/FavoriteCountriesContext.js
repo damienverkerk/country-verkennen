@@ -6,7 +6,6 @@ export const FavoriteCountriesProvider = ({ children }) => {
   const initialFavorites = JSON.parse(localStorage.getItem('favorites')) || [];
   const [favorites, setFavorites] = useState(initialFavorites);
 
-  // Sla favorieten op in localStorage wanneer ze veranderen
   useEffect(() => {
     try {
       localStorage.setItem('favorites', JSON.stringify(favorites));

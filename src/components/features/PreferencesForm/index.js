@@ -27,7 +27,7 @@ const PreferencesForm = () => {
       </label>
       <label>
         berggebieden:
-        <input
+        <input 
           type="checkbox"
           name="prefersMountains"
           checked={preferences.prefersMountains}

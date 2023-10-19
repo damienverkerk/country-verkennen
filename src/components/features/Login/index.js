@@ -15,12 +15,12 @@ function Login() {
   const handleLogin = async () => {
     try {
       await login(username, password);
-      navigate('/'); // Navigeer naar de homepagina bij succesvolle login
+      navigate('/');
     } catch (error) {
       if (error.response) {
         setError(error.response.data || 'Er is een fout opgetreden bij het inloggen.');
       } else{
-      setError(error.message); // Toon een foutmelding indien login mislukt
+      setError(error.message);
       }
     }
   };

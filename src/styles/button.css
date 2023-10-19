@@ -1,18 +1,16 @@
 .custom-button {
-    background-color: #1A237E; /* Donkerblauwe kleur */
-    color: #FFFFFF; /* Witte tekst */
-    border: none;
-    padding: 0.75rem 1.5rem; /* Maak de button iets groter voor een moderner gevoel */
+    background-color: #f5f5f5; 
+    color: #82171c9e; 
+    border-radius: 48px;
+    border-color: #82171c9e;
+    padding: 0.75rem 1.5rem; 
     cursor: pointer;
-    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Voeg een subtiele overgang toe */
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    border-radius: 4px;
-    font-family: 'Poppins', sans-serif; /* Gebruik dezelfde moderne lettertype als de rest van je site */
-    font-weight: 600; /* Dikkere tekst */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; 
+    font-weight: 600;
     font-size: 1rem;
 }
 
 .custom-button:hover {
-    transform: translateY(-2px); /* Subtiele "lift" op hover */
-    box-shadow: 0px 6px 8px rgba(0, 0, 0, 0.15);
+    background-color: #82171c9e;
+    color: white;
 }

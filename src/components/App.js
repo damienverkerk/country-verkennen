@@ -1,12 +1,12 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from '../contexts/AuthContext';
-import { FavoriteCountriesProvider } from '../contexts/FavoriteCountriesContext';  // Importeer de context provider
+import { FavoriteCountriesProvider } from '../contexts/FavoriteCountriesContext'; 
 import Header from './common/Header';
 import Footer from './common/Footer';
 import Login from './features/Login';
 import Register from './features/Register';
-import FavoriteCountryList from './features/FavoriteCountryList'; // Gebruik de nieuwe naam
+import FavoriteCountryList from './features/FavoriteCountryList'; 
 import CountryDetail from './features/CountryDetail';
 import CountrySelector from './features/CountrySelector';
 import '../styles/app.css';
@@ -29,7 +29,7 @@ function App(){
         <Router>
             <AuthProvider>
                 <UserPreferencesProvider>
-                    <FavoriteCountriesProvider> {/* Wikkel je hele app in de FavoriteCountriesProvider */}
+                    <FavoriteCountriesProvider> 
                         <div className='app'>
                             <Header />
                             <main>

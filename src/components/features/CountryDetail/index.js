@@ -43,7 +43,6 @@ function CountryDetail() {
     <p><strong>Currencies:</strong> {Object.values(country.currencies).map(currency => currency.name).join(', ')}</p>
     <p><strong>Flag:</strong></p>
     <img src={country.flags.png} alt={`${country.name.common} flag`} width="100" />
-    {/* Voeg hier extra details toe die je wilt weergeven */}
   </div>
   );
 }

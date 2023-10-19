@@ -21,7 +21,6 @@ const FavoriteCountriesList = () => {
             if (favorites.length < 10) {
                 setFavorites(fav => [...fav, countryCode]);
             } else {
-                // Feedback voor de limiet van 10 landen
                 alert("Je hebt het maximum aantal van 10 landen bereikt!");
             }
         }
