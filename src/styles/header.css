@@ -19,6 +19,18 @@
   align-items: center;
   gap: 1rem;
 }
+.logo a { 
+   color: #82171c9e;
+   text-decoration: none;
+   padding: 0.625rem 1.25rem;
+   border-radius: 20px;
+   transition: background-color 0.3s ease, transform 0.3s ease;
+}
+.logo a:hover {
+   text-decoration: none;
+   color: #82171cc7;
+   transform: scale(1.10);
+}
 
 .nav a {
    color: #82171c9e;
@@ -30,7 +42,6 @@
 
 .nav a:hover {
    text-decoration: none;
-   background-color: #ffffff;
-   color: #000000; 
-   transform: scale(1.05);
+   color: #82171cc7;
+   transform: scale(1.10);
 }

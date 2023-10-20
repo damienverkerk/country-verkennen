@@ -54,7 +54,7 @@ const FilteredCountryList = () => {
 
     function adjustFontSize(text) {
         const maxLength = 18;  
-        let currentSize = 22;  
+        let currentSize = 18;  
 
         if (text.length > maxLength) {
             const reductionFactor = maxLength / text.length;
