@@ -2,6 +2,20 @@ import React, { useState, useEffect } from 'react';
 import { fetchCountries } from '../../../services/countryService';
 import '../../../styles/countryFilters.css';
 
+
+function debounce(fn, delay) {
+  let timerId;
+  return function (...args) {
+      if (timerId) {
+          clearTimeout(timerId);
+      }
+      timerId = setTimeout(() => {
+          fn(...args);
+          timerId = null;
+      }, delay);
+  }
+}
+
 const CountryFilters = ({ onFilterChange }) => {
   const [languages, setLanguages] = useState([]);
   const [regions, setRegions] = useState([]);
@@ -56,7 +70,7 @@ const CountryFilters = ({ onFilterChange }) => {
     onFilterChange('populationMax', value);
 };
 
-
+const debouncedFilterChange = debounce(onFilterChange, 200);
   return (
     <div className="filters">
       <div className='filters-select'>
@@ -81,8 +95,11 @@ const CountryFilters = ({ onFilterChange }) => {
             min="0" 
             max={maxPopulation} 
             value={populationRange[1]} 
-            onChange={e => handlePopulationChange(parseInt(e.target.value))}
-        />
+            onChange={e => {
+              const value = parseInt(e.target.value);
+              setPopulationRange([populationRange[0], value]);
+              debouncedFilterChange('populationMax', value);
+          }}/>
         <span>{populationRange[1]}</span>
     </div>
     </div>
