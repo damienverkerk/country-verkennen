@@ -9,7 +9,7 @@ function Header(){
             <div className='logo'>ReisApp</div>
             <nav className='nav'>
                 <Link to="/">Home</Link>
-                <Link to="/countries/favorites">Countries</Link>
+                <Link to="/filter-countries">FilterCountries</Link>
                 <Link to="/select-countries">Select Countries</Link>
                 <LoginLogoutButton />
             </nav>
