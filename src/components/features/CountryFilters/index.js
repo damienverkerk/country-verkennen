@@ -7,6 +7,7 @@ const CountryFilters = ({ onFilterChange }) => {
   const [regions, setRegions] = useState([]);
   const [currencies, setCurrencies] = useState([]);
   const [populationRange, setPopulationRange] = useState([0, 1000000000]); 
+  const [maxPopulation, setMaxPopulation] = useState(0);
 
   useEffect(() => {
     const initData = async () => {
@@ -41,14 +42,24 @@ const CountryFilters = ({ onFilterChange }) => {
       setLanguages(uniqueLanguages);
       setRegions(uniqueRegions);
       setCurrencies(uniqueCurrencies);
-      
+      const maxPop = Math.max(...countries.map(country => country.population));
+      setMaxPopulation(maxPop);
+      setPopulationRange([0, maxPop]);
     };
     
     initData();
   }, []);
 
+  const handlePopulationChange = (value) => {
+    const newRange = [populationRange[0], value];
+    setPopulationRange(newRange);
+    onFilterChange('populationMax', value);
+};
+
+
   return (
     <div className="filters">
+      <div className='filters-select'>
       <select onChange={e => onFilterChange('language', e.target.value)}>
         <option value="">Select a language</option>
         {languages.map(lang => <option key={lang} value={lang}>{lang}</option>)}
@@ -63,21 +74,17 @@ const CountryFilters = ({ onFilterChange }) => {
         <option value="">Select a currency</option>
         {currencies.map(currency => <option key={currency} value={currency}>{currency}</option>)}
       </select>
-
-      <input 
-        type="range" 
-        min="0" 
-        max="1000000000" 
-        value={populationRange[0]} 
-        onChange={e => onFilterChange('populationMin', parseInt(e.target.value))}
-      />
-      <input 
-        type="range" 
-        min="0" 
-        max="1000000000" 
-        value={populationRange[1]} 
-        onChange={e => onFilterChange('populationMax', parseInt(e.target.value))}
-      />
+      </div>
+      <div className='filters-range'>
+        <input 
+            type="range" 
+            min="0" 
+            max={maxPopulation} 
+            value={populationRange[1]} 
+            onChange={e => handlePopulationChange(parseInt(e.target.value))}
+        />
+        <span>{populationRange[1]}</span>
+    </div>
     </div>
   );
 };
