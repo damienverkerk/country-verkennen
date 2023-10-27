@@ -1,41 +1,41 @@
 import React, { useState, useEffect } from 'react';
-import { fetchCountries } from '../../../services/countryService';
-import '../../../styles/countrySelector.css'; // Vergeet niet dit pad aan te passen als je de stijl in een andere map plaatst
+import useCountries from '../../../hooks/useCountries';
+import '../../../styles/countrySelector.css';
 import { useAuth } from '../../../contexts/AuthContext';
-import {Link} from 'react-router-dom';
 
 function CountrySelector() {
   const { currentUser } = useAuth();
-  const [countries, setCountries] = useState([]);
+  const [countries, error] = useCountries();
+  const [searchTerm, setSearchTerm] = useState('');
+  const [filteredCountries, setFilteredCountries] = useState([]);
   const [selectedCountries, setSelectedCountries] = useState([]);
-  const [error, setError] = useState(null);
 
   useEffect(() => {
-    const loadCountries = async () => {
-      try {
-        const fetchedCountries = await fetchCountries();
-        setCountries(fetchedCountries);
-      } catch (error) {
-        console.error('Error loading countries', error);
-        setError('Failed to load countries.');
-      }
-    };
-    loadCountries();
-  }, []);
-
-  useEffect(() => {
-    if(currentUser) {
-      localStorage.setItem(`selectedCountries-${currentUser.username}`,JSON.stringify(selectedCountries));
+    if (countries && countries.length) {
+        setFilteredCountries(countries);
     }
-  }, [selectedCountries,currentUser]);
+  }, [countries]);
 
+
+  useEffect(() => {
+    if (countries) {
+        setFilteredCountries(
+            countries.filter(country => 
+                country.name.common.toLowerCase().includes(searchTerm.toLowerCase())
+            )
+        );
+    }
+  }, [searchTerm, countries]);
 
   const handleSelectCountry = (country) => {
     if (selectedCountries.includes(country.cca3)) {
       setSelectedCountries(selectedCountries.filter(c => c !== country.cca3));
-    } else {
+    } else if (selectedCountries.length < 10) {
       setSelectedCountries([...selectedCountries, country.cca3]);
+    } else if (selectedCountries.length >= 10) {
+      alert('Je kunt maximaal 10 landen selecteren.');
     }
+    setSearchTerm('');
   };
 
   if (error) {
@@ -43,28 +43,33 @@ function CountrySelector() {
   }
 
   if (!currentUser) {
-    return(
-      <div>
-        <p>You need to be logged in to select countries. <Link to="/login">Login Here</Link></p>
-      </div>
-    )
+    return <div>You need to be logged in to select countries.</div>;
   }
 
   return (
-    <div className="country-selector">
+    <div className="wrapper">
       <h1>Select Countries</h1>
-      <ul>
-        {countries.map((country) => (
-          <li key={country.cca3}>
-            <input 
-              type="checkbox" 
-              checked={selectedCountries.includes(country.cca3)}
-              onChange={() => handleSelectCountry(country)}
-            />
+      <input 
+        type="text" 
+        value={searchTerm} 
+        onChange={e => setSearchTerm(e.target.value)} 
+        placeholder="Zoek landen..."
+      />
+      <div className="search-results">
+        {filteredCountries.map(country => (
+          <div 
+            key={country.cca3} 
+            onClick={() => handleSelectCountry(country)}
+          >
             {country.name.common}
-          </li>
+          </div>
         ))}
-      </ul>
+      </div>
+      <div className="selected-countries">
+        {selectedCountries.map(cca3 => (
+          <div key={cca3}>{countries.find(c => c.cca3 === cca3)?.name.common}</div>
+        ))}
+      </div>
     </div>
   );
 }

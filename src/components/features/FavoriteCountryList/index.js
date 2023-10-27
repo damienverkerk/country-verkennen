@@ -1,18 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import { fetchCountries } from '../../../services/countryService';
+import React from 'react';
+import useCountries from '../../../hooks/useCountries';
 import { useFavoriteCountries } from '../../../contexts/FavoriteCountriesContext';
 
 const FavoriteCountriesList = () => {
-    const [countries, setCountries] = useState([]);
+    const [countries, error] = useCountries(); 
     const { favorites, setFavorites } = useFavoriteCountries();
-
-    useEffect(() => {
-        const getCountries = async () => {
-            const data = await fetchCountries();
-            setCountries(data);
-        };
-        getCountries();
-    }, []);
 
     const toggleFavorite = (countryCode) => {
         if (favorites.includes(countryCode)) {
@@ -25,7 +17,10 @@ const FavoriteCountriesList = () => {
             }
         }
     };
-    
+
+    if (error) {
+        return <div>{error}</div>;
+    }
 
     return(
         <div>
@@ -41,4 +36,4 @@ const FavoriteCountriesList = () => {
     );
 };
 
-export default FavoriteCountriesList
+export default FavoriteCountriesList;

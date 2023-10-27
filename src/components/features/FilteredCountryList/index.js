@@ -1,36 +1,27 @@
 import React, { useState, useEffect } from 'react';
-import { fetchCountries } from '../../../services/countryService';
+import useCountries from '../../../hooks/useCountries';
 import CountryFilters from '../CountryFilters';
 import Button from '../../common/Button';
 import '../../../styles/filteredCountryList.css';
 
 const FilteredCountryList = () => {
-    const [allCountries, setAllCountries] = useState([]);
+    const [allCountries, error] = useCountries();
     const [filteredCountries, setFilteredCountries] = useState([]);
     const [filters, setFilters] = useState({
         populationMin: 0,
         populationMax: Number.MAX_VALUE
     });
     const [currentPage, setCurrentPage] = useState(1);
-    const resultsPerPage = 10;
+    const resultsPerPage = 15;
 
     useEffect(() => {
-        const fetchAllCountries = async () => {
-            try {
-                const countries = await fetchCountries();
-                setAllCountries(countries);
-                setFilteredCountries(countries);
-            } catch (error) {
-                console.error("Error while fetching countries:", error);
-            }
-        };
-
-        fetchAllCountries();
-    }, []);
+        if (allCountries && allCountries.length) {
+            setFilteredCountries(allCountries);
+        }
+    }, [allCountries]);
 
     useEffect(() => {
         const applyFilters = () => {
-            console.log(filters.populationMin, filters.populationMax);
             const filtered = allCountries.filter(country => {
                 return (
                     (!filters.language || (country.languages && typeof country.languages === 'object' && Object.values(country.languages).includes(filters.language))) &&
@@ -64,42 +55,46 @@ const FilteredCountryList = () => {
         return `${currentSize}px`;
     }
 
+    if (error) {
+        return <div>{error}</div>;
+    }
+
     return (
         <div className="wrapper">
-            <div className="dashboard-container">
-            <CountryFilters onFilterChange={(key, value) => {
-                setFilters(prev => ({ ...prev, [key]: value }));
-                }} />
-        
-                <div className="country-cards-container country-card-container">
-                    {currentResults.map(country => (
-                        <div key={country.cca3} className="country-card">
-                            <img src={country.flags.png} alt={`${country.name.common} vlag`} className="country-flag"/>
-                            <div className="country-details" style={{fontSize: adjustFontSize(country.name.common)}}>
-                                <p>{country.name.common}</p>
-                            </div>
-                        </div>
-                    ))}
+<div className="dashboard-container">
+<CountryFilters onFilterChange={(key, value) => {
+    setFilters(prev => ({ ...prev, [key]: value }));
+    }} />
+
+    <div className="country-cards-container country-card-container">
+        {currentResults.map(country => (
+            <div key={country.cca3} className="country-card">
+                <img src={country.flags.png} alt={`${country.name.common} vlag`} className="country-flag"/>
+                <div className="country-details" style={{fontSize: adjustFontSize(country.name.common)}}>
+                    <p>{country.name.common}</p>
                 </div>
             </div>
-            <div className="pagination-controls">
-                <Button 
-                    id="custom-button"
-                    disabled={currentPage === 1} 
-                    onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
-                >
-                    Vorige
-                </Button>
-                <span>{currentPage}</span>
-                <Button 
-                    id="custom-button"
-                    disabled={currentPage === Math.ceil(filteredCountries.length / resultsPerPage)}
-                    onClick={() => setCurrentPage(prev => Math.min(prev + 1, Math.ceil(filteredCountries.length / resultsPerPage)))}
-                >
-                    Volgende
-                </Button>
-            </div>
-        </div>
+        ))}
+    </div>
+</div>
+<div className="pagination-controls">
+    <Button 
+        id="custom-button"
+        disabled={currentPage === 1} 
+        onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+    >
+        Vorige
+    </Button>
+    <span>{currentPage}</span>
+    <Button 
+        id="custom-button"
+        disabled={currentPage === Math.ceil(filteredCountries.length / resultsPerPage)}
+        onClick={() => setCurrentPage(prev => Math.min(prev + 1, Math.ceil(filteredCountries.length / resultsPerPage)))}
+    >
+        Volgende
+    </Button>
+</div>
+</div>
     );
 };
 

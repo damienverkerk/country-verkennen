@@ -1,27 +1,12 @@
-import React, { useEffect, useState } from 'react';
-import { fetchCountries } from '../../../services/countryService';
+import React from 'react';
+import  useCountries  from '../../../hooks/useCountries';
 import { Link } from 'react-router-dom';
 import '../../../styles/countryList.css';
 
 function CountryList() {
-  const [countries, setCountries] = useState([]);
-  const [error, setError] = useState(null);
+  const [countries, error] = useCountries();
 
-  useEffect(() => {
-    const loadCountries = async () => {
-      try {
-        const fetchedCountries = await fetchCountries();
-        const sortedCountries = [...fetchedCountries].sort((a, b) =>
-        a.name.common.localeCompare(b.name.common)
-      );
-      setCountries(sortedCountries);
-      } catch (error) {
-        console.error('Error loading countries', error);
-        setError('Failed to load countries.');
-      }
-    };
-    loadCountries();
-  }, []);
+  const sortedCountries = countries ? [...countries].sort((a, b) => a.name.common.localeCompare(b.name.common)) : [];
 
   if (error) {
     return <div>{error}</div>;
@@ -31,7 +16,7 @@ function CountryList() {
     <div className="country-list">
       <h1>Country List</h1>
       <ul>
-        {countries.map((country) => (
+        {sortedCountries.map((country) => (
           <li key={country.cca3}>
             <Link to={`/countries/${country.cca3}`}>
               {country.name.common}

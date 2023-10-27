@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { fetchCountries } from '../../../services/countryService';
-import '../../../styles/countryFilters.css';
 
+import React, { useState, useEffect } from 'react';
+import  useCountries  from '../../../hooks/useCountries';
+import '../../../styles/countryFilters.css';
 
 function debounce(fn, delay) {
   let timerId;
@@ -17,6 +17,7 @@ function debounce(fn, delay) {
 }
 
 const CountryFilters = ({ onFilterChange }) => {
+  const [countries] = useCountries();
   const [languages, setLanguages] = useState([]);
   const [regions, setRegions] = useState([]);
   const [currencies, setCurrencies] = useState([]);
@@ -24,85 +25,70 @@ const CountryFilters = ({ onFilterChange }) => {
   const [maxPopulation, setMaxPopulation] = useState(0);
 
   useEffect(() => {
-    const initData = async () => {
-      const countries = await fetchCountries();
+    if (countries && countries.length > 0) {
+      const uniqueLanguages = [...new Set(countries.flatMap(country => country.languages ? Object.values(country.languages) : []))];
+      const uniqueRegions = [...new Set(countries.map(country => country.subregion).filter(subregion => subregion))];
+      const uniqueCurrencies = [...new Set(countries.flatMap(country => country.currencies ? Object.values(country.currencies).map(cur => cur.name) : []))];
 
-      const uniqueLanguages = [
-        ...new Set(
-          countries
-            .flatMap(country => 
-              country.languages ? Object.values(country.languages) : []
-            )
-        )
-      ];
-      const uniqueRegions = [
-        ...new Set(
-          countries
-            .map(country => country.subregion)
-            .filter(subregion => subregion)
-        )
-      ];
-      
-      const uniqueCurrencies = [
-        ...new Set(
-          countries
-            .flatMap(country => 
-              country.currencies ? Object.values(country.currencies).map(cur => cur.name) : []
-            )
-        )
-      ];
-      
-    console.log(uniqueLanguages);
       setLanguages(uniqueLanguages);
       setRegions(uniqueRegions);
       setCurrencies(uniqueCurrencies);
+
       const maxPop = Math.max(...countries.map(country => country.population));
       setMaxPopulation(maxPop);
       setPopulationRange([0, maxPop]);
-    };
-    
-    initData();
-  }, []);
+    }
+  }, [countries]);
 
   const handlePopulationChange = (value) => {
     const newRange = [populationRange[0], value];
     setPopulationRange(newRange);
     onFilterChange('populationMax', value);
-};
+  };
 
-const debouncedFilterChange = debounce(onFilterChange, 200);
+  const debouncedFilterChange = debounce(onFilterChange, 200);
+
   return (
     <div className="filters">
-      <div className='filters-select'>
-      <select onChange={e => onFilterChange('language', e.target.value)}>
-        <option value="">Select a language</option>
-        {languages.map(lang => <option key={lang} value={lang}>{lang}</option>)}
-      </select>
+    <div className='filters-select'>
+    <select onChange={e => onFilterChange('language', e.target.value)}>
+      <option value="">Select a language</option>
+      {languages.map(lang => <option key={lang} value={lang}>{lang}</option>)}
+    </select>
 
-      <select onChange={e => onFilterChange('region', e.target.value)}>
-        <option value="">Select a region</option>
-        {regions.map(region => <option key={region} value={region}>{region}</option>)}
-      </select>
+    <select onChange={e => onFilterChange('region', e.target.value)}>
+      <option value="">Select a region</option>
+      {regions.map(region => <option key={region} value={region}>{region}</option>)}
+    </select>
 
-      <select onChange={e => onFilterChange('currency', e.target.value)}>
-        <option value="">Select a currency</option>
-        {currencies.map(currency => <option key={currency} value={currency}>{currency}</option>)}
-      </select>
-      </div>
-      <div className='filters-range'>
-        <input 
-            type="range" 
-            min="0" 
-            max={maxPopulation} 
-            value={populationRange[1]} 
-            onChange={e => {
-              const value = parseInt(e.target.value);
-              setPopulationRange([populationRange[0], value]);
-              debouncedFilterChange('populationMax', value);
-          }}/>
-        <span>{populationRange[1]}</span>
+    <select onChange={e => onFilterChange('currency', e.target.value)}>
+      <option value="">Select a currency</option>
+      {currencies.map(currency => <option key={currency} value={currency}>{currency}</option>)}
+    </select>
     </div>
-    </div>
+    <div className='filters-range'>
+      <input 
+          type="range" 
+          min="0" 
+          max={maxPopulation} 
+          value={populationRange[1]} 
+          onChange={e => {
+            const value = parseInt(e.target.value);
+            setPopulationRange([populationRange[0], value]);
+            debouncedFilterChange('populationMax', value);
+        }}/>
+      <span>{populationRange[1]}</span>
+  </div>
+  </div>
+
+
+
   );
 };
+
 export default CountryFilters;
+
+
+
+
+

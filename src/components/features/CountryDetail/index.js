@@ -1,27 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useParams } from 'react-router-dom';
-import { fetchCountries } from '../../../services/countryService';
+import  useCountries  from '../../../hooks/useCountries';
 import '../../../styles/countryDetail.css';
 
 function CountryDetail() {
-  const [country, setCountry] = useState(null);
-  const [error, setError] = useState(null);
   const { cca3 } = useParams();
+  const [countries, error] = useCountries();  
 
-  useEffect(() => {
-    const loadCountryDetail = async () => {
-      try {
-        const countries = await fetchCountries();
-        const foundCountry = countries.find(c => c.cca3 === cca3);
-        if (!foundCountry) throw new Error('Country not found');
-        setCountry(foundCountry);
-      } catch (error) {
-        console.error('Error loading country detail', error);
-        setError('Failed to load country detail.');
-      }
-    };
-    loadCountryDetail();
-  }, [cca3]);
+  const country = countries ? countries.find(c => c.cca3 === cca3) : null;
 
   if (error) {
     return <div>{error}</div>;

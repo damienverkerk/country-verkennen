@@ -15,6 +15,7 @@ import Dashboard from './features/Dashboard';
 import PreferencesForm from './features/PreferencesForm';
 import CountryList from './features/CountryList';
 import FilteredCountryList from './features/FilteredCountryList';
+import ScoreCalculator from './features/ScoreCalculator';
 
 
 function ProtectedRoute({children}) {
@@ -42,6 +43,7 @@ function App(){
                                     <Route path="/select-countries" element={<ProtectedRoute><CountrySelector /></ProtectedRoute>} />
                                     <Route path="/preferences" element={<ProtectedRoute><PreferencesForm /></ProtectedRoute>} />
                                     <Route path="/filter-countries" element={<ProtectedRoute><FilteredCountryList /></ProtectedRoute>} />
+                                    <Route path="/top-countries" element={<ProtectedRoute><ScoreCalculator /></ProtectedRoute>} />
                                     <Route path="/" element={<Dashboard />} />
                                 </Routes>
                             </main>
