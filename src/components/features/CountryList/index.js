@@ -1,31 +1,51 @@
-import React from 'react';
-import  useCountries  from '../../../hooks/useCountries';
-import { Link } from 'react-router-dom';
-import '../../../styles/countryList.css';
+import React, { useState, useEffect } from 'react';
+import useCountries from '../../../hooks/useCountries';
 
-function CountryList() {
-  const [countries, error] = useCountries();
+function CountryList({ onCountrySelect, selectedCountries, preferences }) {
+    const [allCountries, error] = useCountries();
+    const [filteredCountries, setFilteredCountries] = useState([]);
 
-  const sortedCountries = countries ? [...countries].sort((a, b) => a.name.common.localeCompare(b.name.common)) : [];
+    useEffect(() => {
+        if (allCountries && allCountries.length) {
+            setFilteredCountries(allCountries);
+        }
+    }, [allCountries]);
 
-  if (error) {
-    return <div>{error}</div>;
-  }
+    useEffect(() => {
+        const applyFilters = () => {
+            const filtered = allCountries.filter(country => {
+                return (
+                    (!preferences.language || (country.languages && typeof country.languages === 'object' && Object.values(country.languages).includes(preferences.language))) &&
+                    (!preferences.region || country.subregion === preferences.region) &&
+                    (!preferences.currency || (country.currencies && typeof country.currencies === 'object' && Object.values(country.currencies).some(cur => cur.name === preferences.currency))) &&
+                    country.population >= preferences.populationMin &&
+                    country.population <= preferences.populationMax
+                );
+            });
+            setFilteredCountries(filtered);
+        };
 
-  return (
-    <div className="country-list">
-      <h1>Country List</h1>
-      <ul>
-        {sortedCountries.map((country) => (
-          <li key={country.cca3}>
-            <Link to={`/countries/${country.cca3}`}>
-              {country.name.common}
-            </Link>
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
+        applyFilters();
+    }, [preferences, allCountries]);
+
+    if (error) {
+        return <div>{error}</div>;
+    }
+
+    return (
+      <div>
+          {filteredCountries.map(country => (
+              <div key={country.cca3}>
+                  {country.name.common}
+                  <button onClick={() => onCountrySelect(country.cca3)}>
+                      {selectedCountries.includes(country.cca3) ? 'Deselect' : 'Select'}
+                  </button>
+              </div>
+          ))}
+      </div>
+    );
 }
 
 export default CountryList;
+
+

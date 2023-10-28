@@ -1,13 +1,28 @@
 import React from 'react';
+import CountrySelection from '../countrySelection';
+import MultiSelectDropdown from '../MultiSelectDropdown';
+import CountryRecommender from '../CountryRecommender';
 import '../../../styles/dashboard.css';
-import PreferencesForm from '../PreferencesForm';
 
-function Dashboard() {
+const handleCountrySelect = (cca3) => {
+    console.log(cca3)
+};
+const Dashboard = () => {
     return (
         <div className="dashboard-container">
-            <h1>Welcome to your Dashboard</h1>
-            <p>Here's an overview of your preferences and activities.</p>
-            <PreferencesForm />
+            <div className="country-selection">
+                <CountrySelection/>
+            </div>
+            <div className="country-selection">
+             <MultiSelectDropdown onSelect={handleCountrySelect} />
+            </div>
+            <div className="travel-history">
+                {/* Hier komt de interactieve wereldkaart */}
+            </div>
+            
+            <div className="country-scores">
+            <CountryRecommender />
+            </div>
         </div>
     );
 }

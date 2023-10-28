@@ -1,0 +1,27 @@
+.multi-select-dropdown {
+    position: relative;
+    width: 300px;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    width: 100%;
+    max-height: 200px;
+    overflow-y: auto;
+    border: 1px solid #ccc;
+    z-index: 1;
+}
+
+.multi-select-dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.dropdown-content div {
+    padding: 8px;
+    cursor: pointer;
+}
+
+.dropdown-content div.selected {
+    background-color: #e0e0e0;
+}
