@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import useCountries from '../../../hooks/useCountries';
 import '../../../styles/countrySelector.css';
 import { useAuth } from '../../../contexts/AuthContext';
+import { fetchCountryByCode, getCapitalCoordinates } from '../../../services/countryService'; 
 
-function CountrySelector() {
+function CountrySelector({ setSelectedCountryCoordinates }) { 
   const { currentUser } = useAuth();
   const [countries, error] = useCountries();
   const [searchTerm, setSearchTerm] = useState('');
@@ -16,7 +17,6 @@ function CountrySelector() {
     }
   }, [countries]);
 
-
   useEffect(() => {
     if (countries) {
         setFilteredCountries(
@@ -27,13 +27,25 @@ function CountrySelector() {
     }
   }, [searchTerm, countries]);
 
-  const handleSelectCountry = (country) => {
-    if (selectedCountries.includes(country.cca3)) {
+  const handleSelectCountry = async (country) => {
+    if (!selectedCountries.includes(country.cca3)) {
+      try {
+        const countryData = await fetchCountryByCode(country.cca3);
+        const capital = countryData.capital && countryData.capital[0]; 
+        if (capital) {
+          const coordinates = await getCapitalCoordinates(capital, country.cca3);
+          setSelectedCountryCoordinates({ 
+            ...coordinates,
+            name: countryData.name.common,
+            capital
+          });
+          setSelectedCountries([...selectedCountries, country.cca3]);
+        }
+      } catch (error) {
+        console.error('Failed to fetch country data:', error);
+      }
+    } else {
       setSelectedCountries(selectedCountries.filter(c => c !== country.cca3));
-    } else if (selectedCountries.length < 10) {
-      setSelectedCountries([...selectedCountries, country.cca3]);
-    } else if (selectedCountries.length >= 10) {
-      alert('Je kunt maximaal 10 landen selecteren.');
     }
     setSearchTerm('');
   };
