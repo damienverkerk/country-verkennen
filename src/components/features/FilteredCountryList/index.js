@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import useCountries from '../../../hooks/useCountries';
 import CountryFilters from '../CountryFilters';
 import Button from '../../common/Button';
-import '../../../styles/filteredCountryList.css';
+import '../../../styles/countryList.css';
 
 const FilteredCountryList = () => {
     const [allCountries, error] = useCountries();

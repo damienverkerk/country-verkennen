@@ -1,23 +1,65 @@
-.country-list {
-   background-color: #F5F5F5;
-   color: #212121;
-   font-family: 'Roboto', sans-serif;
- }
- 
- .country-list ul {
-   list-style-type: none;
-   padding: 0;
- }
- 
- .country-list li {
-   background-color: #FFF;
-   margin-bottom: 0.1rem;
-   padding: 0.5rem;
-   border-radius: 4px;
- }
- 
- .country-list a {
-   color: #1A237E;
-   text-decoration: none;
- }
- 
+.dashboard-container {
+    display: flex;
+    gap: 20px;
+    padding: 20px;
+    background-color: #f5f5f5;
+    max-width: 80%;
+    margin: 50px auto;
+}
+
+.dashboard-container > div:last-child {
+    flex-grow: 1; 
+    display: flex;
+    gap: 20px;
+}
+
+.country-card-container {
+    display: flex;
+    flex-wrap: wrap; 
+    gap: 20px; 
+    margin-top: 20px; 
+}
+
+.country-card {
+    flex: 0 0 calc(20% - 20px); 
+    border-radius: 46px; 
+    background-color: #f5f5f5; 
+    box-shadow: 0 0 40px #0000001a;
+}
+
+.country-card img {
+    width: 100%; 
+    height: 120px; 
+    object-fit: cover;  
+    border-top-left-radius: 48px; 
+    border-top-right-radius: 48px; 
+}
+
+.country-card .country-details {
+    padding: 10px; 
+    font-size: 22px; 
+    border-radius: 46px;
+    text-align: center; 
+    font-weight: 600;
+}
+
+
+.pagination-controls {
+    display: flex;
+    justify-content: center;  
+    align-items: center;
+    gap: 10px;
+}
+
+
+
+.pagination-number {
+    font-weight: bold;
+}
+
+.custom-button:disabled {
+    background-color: #b3c2d1;
+    cursor: not-allowed;
+    color:#82171c9e;
+    border-color: #8f9aa5; 
+}

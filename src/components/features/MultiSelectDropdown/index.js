@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import useCountries from '../../../hooks/useCountries';
-import '../../../styles/filteredCountryList.css';
+import '../../../styles/countryList.css';
 
 const MultiSelectDropdown = ({ onSelect }) => {
     const [allCountries] = useCountries();

@@ -9,6 +9,7 @@ import '../../../styles/dashboard.css';
 
 const Dashboard = () => {
     const [selectedCountries, setSelectedCountries] = useState([]);
+    const [selectedCountryCodes, setSelectedCountryCodes] = useState([]);
 
     const handleCountrySelect = async (countryCode) => {
         try {
@@ -32,6 +33,9 @@ const Dashboard = () => {
                     ]);
                 }
             }
+        const handleDropdownSelect = (selectedCodes) => {
+            setSelectedCountryCodes(selectedCodes);
+        };
         } catch (error) {
             console.error('Failed to fetch country data or coordinates:', error);
         }
@@ -48,9 +52,6 @@ const Dashboard = () => {
                     <MultiSelectDropdown onSelect={handleCountrySelect} />
                 </section>
 
-                <section className="dashboard-section country-recommender">
-                    <CountryRecommender />
-                </section>
             </div>
             
             <div className="country-list-section">
