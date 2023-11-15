@@ -3,13 +3,21 @@ import CountrySelection from '../countrySelection';
 import MultiSelectDropdown from '../MultiSelectDropdown';
 import CountryRecommender from '../CountryRecommender';
 import CountryList from '../CountryList';
-import InteractiveMap from '../InteractiveMap'; 
-import { fetchCountryByCode, getCapitalCoordinates } from '../../../services/countryService'; 
+import InteractiveMap from '../InteractiveMap';
+import { fetchCountryByCode, getCapitalCoordinates } from '../../../services/countryService';
+import CountryFilters from '../CountryFilters';
 import '../../../styles/dashboard.css';
 
 const Dashboard = () => {
     const [selectedCountries, setSelectedCountries] = useState([]);
     const [selectedCountryCodes, setSelectedCountryCodes] = useState([]);
+    const [filters, setFilters] = useState({
+        language: '',
+        region: '',
+        currency: '',
+        populationMin: 0,
+        populationMax: Number.MAX_VALUE
+    });
 
     const handleCountrySelect = async (countryCode) => {
         try {
@@ -33,12 +41,20 @@ const Dashboard = () => {
                     ]);
                 }
             }
-        const handleDropdownSelect = (selectedCodes) => {
-            setSelectedCountryCodes(selectedCodes);
-        };
         } catch (error) {
             console.error('Failed to fetch country data or coordinates:', error);
         }
+    };
+
+    const handleFilterChange = (filterKey, value) => {
+        setFilters(prevFilters => ({
+            ...prevFilters,
+            [filterKey]: value
+        }));
+    };
+
+    const handleDropdownSelect = (selectedCodes) => {
+        setSelectedCountryCodes(selectedCodes);
     };
 
     return (
@@ -49,21 +65,27 @@ const Dashboard = () => {
                 </section>
 
                 <section className="dashboard-section filters-dropdown">
-                    <MultiSelectDropdown onSelect={handleCountrySelect} />
+                    <MultiSelectDropdown onSelect={handleDropdownSelect} />
                 </section>
 
+                <section className="dashboard-section country-filters">
+                    <CountryFilters onFilterChange={handleFilterChange} />
+                </section>
             </div>
             
             <div className="country-list-section">
                 <section className="dashboard-section country-list">
-                    <CountryList onCountrySelect={handleCountrySelect} />
+                    <CountryList 
+                        onCountrySelect={handleCountrySelect} 
+                        selectedCountryCodes={selectedCountryCodes} 
+                        preferences={filters} 
+                    />
                 </section>
             </div>
 
             <div className="map-section">
                 <InteractiveMap selectedCountries={selectedCountries} />
             </div>
-
         </div>
     );
 }

@@ -4,49 +4,55 @@ import Pagination from '../../common/Pagination';
 import Loading from '../../common/Loading';
 import '../../../styles/countryList.css';
 
-function CountryList({ onCountrySelect, selectedCountryCodes = [], preferences = {} }) {
+function calculateMatchScore(country, filters) {
+  let score = 0;
+  let totalCriteria = 0;
+
+  if (filters.language) {
+    totalCriteria += 2;
+    if (country.languages && Object.values(country.languages).includes(filters.language)) {
+      score += 2;
+    }
+  }
+
+  if (filters.region) {
+    totalCriteria += 1;
+    if (country.subregion === filters.region) {
+      score += 1;
+    }
+  }
+
+  return totalCriteria > 0 ? (score / totalCriteria) * 100 : 0;
+}
+
+
+
+
+
+function getScoredCountries(countries, filters) {
+  return countries.map(country => ({
+    ...country,
+    score: calculateMatchScore(country, filters)
+  })).sort((a, b) => b.score - a.score);
+}
+
+function CountryList({ onCountrySelect, selectedCountryCodes, preferences = {} }) {
   const [allCountries, error] = useCountries();
   const [isLoading, setIsLoading] = useState(true);
   const [filteredCountries, setFilteredCountries] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const resultsPerPage = 5;
-
-  const {
-    language = '',
-    region = '',
-    currency = '',
-    populationMin = 0,
-    populationMax = Number.MAX_VALUE,
-  } = preferences;
+  const resultsPerPage = 25;
 
   useEffect(() => {
     if (allCountries && allCountries.length > 0) {
       setIsLoading(false);
-      const applyFilters = () => {
-        const filtered = allCountries.filter(country => {
-          const matchesPreferences = 
-            (!language || (country.languages && typeof country.languages === 'object' && Object.values(country.languages).includes(language))) &&
-            (!region || country.subregion === region) &&
-            (!currency || (country.currencies && typeof country.currencies === 'object' && Object.values(country.currencies).some(cur => cur.name === currency))) &&
-            country.population >= populationMin &&
-            country.population <= populationMax;
-          
-          const isSelectedCountry = !selectedCountryCodes.length || selectedCountryCodes.includes(country.cca3);
-    
-          return matchesPreferences && isSelectedCountry;
-        });
-        setFilteredCountries(filtered);
-      };
-      applyFilters();
+      const scoredCountries = getScoredCountries(allCountries, preferences);
+      console.log('Scored Countries:', scoredCountries);
+      setFilteredCountries(scoredCountries);
     } else {
       setIsLoading(true);
     }
-  }, [language, region, currency, populationMin, populationMax, allCountries, selectedCountryCodes]);
-
-  // Paginatie logica
-  const indexOfLastResult = currentPage * resultsPerPage;
-  const indexOfFirstResult = indexOfLastResult - resultsPerPage;
-  const currentResults = filteredCountries.slice(indexOfFirstResult, indexOfLastResult);
+  }, [allCountries, preferences]);
 
   if (isLoading) {
     return <Loading />;
@@ -56,17 +62,18 @@ function CountryList({ onCountrySelect, selectedCountryCodes = [], preferences =
     return <div>{error}</div>;
   }
 
+  const indexOfLastResult = currentPage * resultsPerPage;
+  const indexOfFirstResult = indexOfLastResult - resultsPerPage;
+  const currentResults = filteredCountries.slice(indexOfFirstResult, indexOfLastResult);
+
   return (
     <div className="dashboard-container">
       <div className="country-card-container">
         {currentResults.map(country => (
-          <div key={country.cca3} 
-               className="country-card" 
-               onClick={() => onCountrySelect(country.cca3)} 
-               style={{ cursor: 'pointer' }}>
+          <div key={country.cca3} className="country-card" onClick={() => onCountrySelect(country.cca3)}>
             <img src={country.flags.png} alt={`${country.name.common} vlag`} />
             <div className="country-details">
-              <p>{country.name.common}</p>
+              <p>{country.name.common} - Score: {country.score.toFixed(2)}%</p>
             </div>
           </div>
         ))}
