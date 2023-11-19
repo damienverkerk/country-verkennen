@@ -1,48 +1,29 @@
+/* Stijlen voor filtersectie */
 .filters {
-    display: flex;
-    flex-direction: column;
-    gap: 10px; 
-  }
-  
-  .filters-select {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px; 
-  }
-  
-  .filters-select select {
-    flex-grow: 1;
-  }
-  
-  .filters-range {
-    display: flex;
-    align-items: center;
-    gap: 10px; 
-  }
-  
-  select, input[type=range] {
-    width: 100%; 
-    padding: 8px; 
-    border: 1px solid #ccc;
-    border-radius: 4px; 
-  }
-  
-  input[type=range] {
-    -webkit-appearance: none; 
-    appearance: none;
-  }
-  
-  input[type=range]::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-  }
-  
-  input[type=range]::-moz-range-thumb {
-  }
-  
-  @media (max-width: 768px) {
-    .filters-select {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 15px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  background-color: var(--background-color);
+}
+
+/* Responsieve aanpassingen */
+@media (max-width: 600px) {
+  .filters {
       flex-direction: column;
-    }
   }
-  
+}
+
+.filters select, .filters input {
+  padding: 10px;
+  border-radius: 48px;
+  border: 1px solid #ccc;
+  font-family: var(--primary-font);
+  background-color: #d7c8c766;
+  width: 100%;
+  box-sizing: border-box;
+}

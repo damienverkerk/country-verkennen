@@ -1,16 +1,29 @@
 .custom-button {
-    background-color: #f5f5f5; 
-    color: #82171c9e; 
-    border-radius: 48px;
-    border-color: #82171c9e;
+    background-color: #f5f5f5; /* Aangepast om overeen te komen met de body achtergrondkleur */
+    color: #82171c9e; /* Behouden zoals het is */
+    border-radius: 48px; /* Behouden zoals het is */
+    border-color: #82171c9e; /* Behouden zoals het is */
     padding: 0.75rem 1.5rem; 
     cursor: pointer;
     transition: transform 0.3s ease, box-shadow 0.3s ease; 
     font-weight: 600;
     font-size: 1rem;
+    transition: transform 0.3s ease, background-color 0.3s ease;
 }
 
 .custom-button:hover {
-    background-color: #82171c9e;
-    color: white;
+    background-color: #82171c9e; /* Behouden zoals het is */
+    color: white; /* Behouden zoals het is */
+}
+.custom-button {
+    /* bestaande stijlen */
+    transition: transform 0.3s ease, background-color 0.3s ease; /* voeg background-color toe voor een soepele kleurovergang */
+}
+
+.custom-button:hover, .custom-button:focus {
+    transform: scale(1.05); /* licht vergroten bij hover of focus */
+    background-color: #82171c9e; /* optionele kleurverandering bij hover of focus */
+}
+.custom-button:focus {
+    outline: 2px solid var(--primary-color);
 }

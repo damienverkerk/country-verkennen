@@ -1,7 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import CountrySelection from '../countrySelection';
-import MultiSelectDropdown from '../MultiSelectDropdown';
-import CountryRecommender from '../CountryRecommender';
 import CountryList from '../CountryList';
 import InteractiveMap from '../InteractiveMap';
 import { fetchCountryByCode, getCapitalCoordinates } from '../../../services/countryService';
@@ -10,7 +8,9 @@ import '../../../styles/dashboard.css';
 
 const Dashboard = () => {
     const [selectedCountries, setSelectedCountries] = useState([]);
+    const [wishListCountries, setWishListCountries] = useState([]);
     const [selectedCountryCodes, setSelectedCountryCodes] = useState([]);
+    console.log('Initial selected countries:', selectedCountries);
     const [filters, setFilters] = useState({
         language: '',
         region: '',
@@ -18,34 +18,36 @@ const Dashboard = () => {
         populationMin: 0,
         populationMax: Number.MAX_VALUE
     });
+    const [step, setStep] = useState(1); 
+    useEffect(() => {
+        console.log('Selected countries after update:', selectedCountries);
+    }, [selectedCountries]);
 
-    const handleCountrySelect = async (countryCode) => {
-        try {
-            const countryData = await fetchCountryByCode(countryCode);
-            const alreadySelected = selectedCountries.some(c => c.cca3 === countryCode);
-
-            if (alreadySelected) {
-                setSelectedCountries(selectedCountries.filter(c => c.cca3 !== countryCode));
-            } else {
-                const capital = countryData.capital && countryData.capital[0];
-                if (capital) {
-                    const coordinates = await getCapitalCoordinates(capital, countryCode);
-                    setSelectedCountries([
-                        ...selectedCountries,
-                        {
-                            ...coordinates,
-                            name: countryData.name.common,
-                            capital: capital,
-                            cca3: countryCode
-                        }
-                    ]);
-                }
+    const handleCountrySelect = async (selectedCountries) => {
+        const countriesWithCoordinates = await Promise.all(selectedCountries.map(async (country) => {
+            if (!country.lat || !country.lng) {
+                const coordinates = await getCapitalCoordinates(country.capital, country.cca3);
+                return { ...country, ...coordinates };
             }
-        } catch (error) {
-            console.error('Failed to fetch country data or coordinates:', error);
-        }
+            return country;
+        }));
+    
+        setSelectedCountries(countriesWithCoordinates);
     };
+    
 
+    const handleWishListSelect = async (selectedCountries) => {
+        const countriesWithCoordinates = await Promise.all(selectedCountries.map(async (country) => {
+            if (!country.lat || !country.lng) {
+                const coordinates = await getCapitalCoordinates(country.capital, country.cca3);
+                return { ...country, ...coordinates };
+            }
+            return country;
+        }));
+    
+        setWishListCountries(countriesWithCoordinates);
+    };
+    
     const handleFilterChange = (filterKey, value) => {
         setFilters(prevFilters => ({
             ...prevFilters,
@@ -57,35 +59,72 @@ const Dashboard = () => {
         setSelectedCountryCodes(selectedCodes);
     };
 
+    const nextStep = () => {
+        if (step < 4) {
+            setStep(step + 1);
+        }
+    };
+
+    const prevStep = () => {
+        if (step > 1) {
+            setStep(step - 1);
+        }
+    };
+
     return (
         <div className="dashboard-container">
-            <div className="filters-container">
-                <section className="dashboard-section country-selection">
-                    <CountrySelection onCountrySelect={handleCountrySelect} />
-                </section>
+            {step === 1 && (
+    <section className="dashboard-section country-selection">
+        <h1>In welke landen ben je geweest?</h1>
+        <CountrySelection 
+            onCountrySelect={handleCountrySelect} 
+            selectedCountries={selectedCountries}
+            title="Bezochte landen"/>
+        <button onClick={nextStep}>Volgende</button>
+    </section>
+)}
 
-                <section className="dashboard-section filters-dropdown">
-                    <MultiSelectDropdown onSelect={handleDropdownSelect} />
-                </section>
+{step === 2 && (
+    <>
+        <section className="dashboard-section country-selection">
+            <CountrySelection 
+                onCountrySelect={handleWishListSelect}
+                selectedCountries={wishListCountries}
+                title="Wenslijst landen" />
+        <button onClick={prevStep}>Terug</button>
+        <button onClick={nextStep}>Volgende</button>
+        </section>
+    </>
+)}
 
-                <section className="dashboard-section country-filters">
-                    <CountryFilters onFilterChange={handleFilterChange} />
-                </section>
-            </div>
-            
-            <div className="country-list-section">
-                <section className="dashboard-section country-list">
-                    <CountryList 
-                        onCountrySelect={handleCountrySelect} 
-                        selectedCountryCodes={selectedCountryCodes} 
-                        preferences={filters} 
-                    />
-                </section>
-            </div>
+            {step === 3 && (
+                <>
+                    <section className="dashboard-section country-filters">
+                        <CountryFilters onFilterChange={handleFilterChange} />
+                    <button onClick={prevStep}>Terug</button>
+                    <button onClick={nextStep}>Volgende</button>
+                    </section>
+                </>
+            )}
 
-            <div className="map-section">
-                <InteractiveMap selectedCountries={selectedCountries} />
-            </div>
+            {step === 4 && (
+                <>
+                    <div className="country-list-section">
+                        <section className="dashboard-section country-list">
+                            <CountryList 
+                                onCountrySelect={handleCountrySelect} 
+                                selectedCountryCodes={selectedCountryCodes} 
+                                preferences={filters} 
+                            />
+                        </section>
+                    </div>
+
+                    <div className="map-section">
+                        <InteractiveMap selectedCountries={selectedCountries} wishListCountries={wishListCountries}/>
+                    </div>
+                    <button onClick={prevStep}>Terug</button>
+                </>
+            )}
         </div>
     );
 }

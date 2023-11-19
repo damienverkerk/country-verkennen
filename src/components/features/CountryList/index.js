@@ -47,7 +47,6 @@ function CountryList({ onCountrySelect, selectedCountryCodes, preferences = {} }
     if (allCountries && allCountries.length > 0) {
       setIsLoading(false);
       const scoredCountries = getScoredCountries(allCountries, preferences);
-      console.log('Scored Countries:', scoredCountries);
       setFilteredCountries(scoredCountries);
     } else {
       setIsLoading(true);
@@ -71,7 +70,7 @@ function CountryList({ onCountrySelect, selectedCountryCodes, preferences = {} }
       <div className="country-card-container">
         {currentResults.map(country => (
           <div key={country.cca3} className="country-card" onClick={() => onCountrySelect(country.cca3)}>
-            <img src={country.flags.png} alt={`${country.name.common} vlag`} />
+            <img className="country-flag" src={country.flags.png} alt={`${country.name.common} vlag`} />
             <div className="country-details">
               <p>{country.name.common} - Score: {country.score.toFixed(2)}%</p>
             </div>

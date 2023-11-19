@@ -9,8 +9,6 @@ function Header(){
             <div className='logo'><Link to="/">ReisApp</Link></div>
             <nav className='nav'>
                 <Link to="/">Home</Link>
-                <Link to="/filter-countries">FilterCountries</Link>
-                <Link to="/select-countries">Select Countries</Link>
                 <LoginLogoutButton />
             </nav>
         </header>

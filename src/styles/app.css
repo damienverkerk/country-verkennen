@@ -1,65 +1,29 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto:wght@400;700&display=swap');
-
-@font-face {
-    font-family: Satoshi;
-    font-weight: 400;
-    src: url(../assets/fonts/Satoshi-Regular.otf)
-}
-
-@font-face {
-    font-family: Satoshi;
-    font-weight: 500;
-    src: url(../assets/fonts/Satoshi-Medium.otf)
+:root {
+    --primary-font: 'Satoshi', sans-serif;
+    --secondary-font: 'Montserrat', sans-serif;
+    --primary-color: #82171c9e;
+    --background-color: #f5f5f5;
 }
 
 body {
-    margin: 0;
-    font-family: 'Satoshi';
-    color: #212121;
-    font-weight: 600;
-    background-color: #f5f5f5;
+    font-family: var(--primary-font);
+    background-color: var(--background-color);
+    overflow-x:hidden;
 }
 
 h1, h2, h3, h4, h5, h6 {
-    font-family: 'Satoshi';
-    font-weight: 600;
+    font-family: var(--secondary-font);
 }
-
-.container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-    box-sizing: border-box;
-}
-
-
-.main-content {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-}
-
-@media (min-width: 768px) {
-    .main-content {
-        flex-direction: row;
-        justify-content: space-between;
+@media (max-width: 600px) {
+    body {
+        width:100vw;
+        font-size: 0.9rem;
     }
-}
-
-.button {
-    background-color: #FFC107;
-    color: #1A237E;
-    border: none;
-    padding: 10px 20px;
-    cursor: pointer;
-    transition: background 0.3s ease;
-}
-
-.button:hover {
-    background-color: #FFD54F;
+    h1, h2, h3, h4, h5, h6 {
+        font-size: 1.2rem;
+    }
+  }
+  * {
+    box-sizing: border-box;
 }

@@ -1,0 +1,25 @@
+
+.country-selection {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 10px;
+    padding: 15px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    background-color: var(--background-color);
+}
+
+.country-selection select {
+    width: 100%;
+    padding: 10px;
+    border-radius: 48px;
+    border: 1px solid #ccc;
+    font-family: var(--primary-font);
+    background-color: #d7c8c766;
+}
+@media (max-width: 600px) {
+    .country-selection {
+        padding: 10px;
+    }
+}
