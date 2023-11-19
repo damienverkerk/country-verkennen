@@ -1,12 +1,16 @@
-# Projectnaam
+# Country-verkennen
 
-Welkom bij [Country-verkennen], een webapplicatie gebouwd met React. Deze applicatie is ontworpen om [korte beschrijving van de functionaliteit en het doel van de app].
+## Inleiding
 
-## Beginnen
+Welkom bij Country-verkennen, een innovatieve webapplicatie gebouwd met React. Deze applicatie is ontworpen om je toekomstige vakantiebestemmingen te vinden. Ons doel is om de beste land te selecteren op basis van de gebruikers behoeften.
 
-Deze instructies helpen je om een kopie van het project op te zetten en te draaien op je lokale machine voor ontwikkelings- en testdoeleinden.
+## Screenshot
 
-### Voorvereisten
+![Screenshot van de applicatie](https://github.com/damienverkerk/country-verkennen/blob/main/src/assets/images/Screenshot.png?raw=true)
+
+Een afbeelding die een blik werpt op de gebruikersinterface van de applicatie.
+
+## Benodigdheden
 
 Voordat je begint, zorg ervoor dat je de volgende software geïnstalleerd hebt:
 
@@ -18,6 +22,7 @@ Je kunt de versies controleren met:
 ```bash
 node -v
 npm -v
+```
 
 ## Installatie Instructies
 Volg deze stappen om de applicatie te installeren en te runnen:
@@ -27,7 +32,7 @@ Volg deze stappen om de applicatie te installeren en te runnen:
 3. **Installeer de Nodige Packages**: npm install
 
 
-5. **Start de Applicatie**:
+5. **Start de Applicatie**: npm start
 
 ## Inloggegevens
 Maak een account aan en je kunt inloggen met de aangemaakte account, indien dit niet werkt:
