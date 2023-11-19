@@ -27,12 +27,11 @@ npm -v
 ## Installatie Instructies
 Volg deze stappen om de applicatie te installeren en te runnen:
 
-1. **Clone het Project**: 
-2. **Ga naar de Projectmap**:
+1. **Clone het Project**: git clone https://github.com/damienverkerk/country-verkennen
+2. **Ga naar de Projectmap**
 3. **Installeer de Nodige Packages**: npm install
 
-
-5. **Start de Applicatie**: npm start
+4. **Start de Applicatie**: npm start
 
 ## Inloggegevens
 Maak een account aan en je kunt inloggen met de aangemaakte account, indien dit niet werkt:
