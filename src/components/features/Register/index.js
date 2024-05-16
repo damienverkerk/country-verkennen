@@ -4,7 +4,6 @@ import { useAuth } from '../../../contexts/AuthContext';
 import Button from '../../common/Button';
 import Input from '../../common/Input';
 import '../../../styles/register.css';
-import axios from 'axios';
 
 function Register() {
   const [username, setUsername] = useState('');
@@ -14,14 +13,31 @@ function Register() {
   const { register } = useAuth();
   const navigate = useNavigate();
 
-  const handleRegister = async () => {
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    if (username.length < 3) {
+      setError('Username must be at least 3 characters long');
+      return;
+    }
+
+    if (!/\S+@\S+\.\S+/.test(email)) {
+      setError('Email is not valid');
+      return;
+    }
+
+    if (password.length < 6) {
+      setError('Password must be at least 6 characters long');
+      return;
+    }
+
     try {
       await register(username, email, password);
       navigate('/login');
     } catch (error) {
       if (error.response) {
         if (error.response.status === 403) {
-          setError( 'Toegang geweigerd. Controlleer je toestemmingen of API-sleutel.');
+          setError('Toegang geweigerd. Controleer je toestemmingen of API-sleutel.');
         } else {
           setError(error.response.data || 'Er is een fout opgetreden bij de registratie.');
         }
@@ -35,10 +51,31 @@ function Register() {
     <div className="register">
       <h2>Register</h2>
       {error && <p>{error}</p>}
-      <Input placeholder="Username" value={username} onChange={(e) => setUsername(e.target.value)} />
-      <Input placeholder="Email" value={email} onChange={(e) => setEmail(e.target.value)} />
-      <Input placeholder="Password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-      <Button onClick={handleRegister}>Register</Button>
+      <form onSubmit={handleSubmit}>
+        <Input
+          placeholder="Username"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          required
+          minLength="3"
+        />
+        <Input
+          placeholder="Email"
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
+        <Input
+          placeholder="Password"
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+          minLength="6"
+        />
+        <Button type="submit">Register</Button>
+      </form>
     </div>
   );
 }
