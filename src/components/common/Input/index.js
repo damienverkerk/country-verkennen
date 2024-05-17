@@ -1,9 +1,9 @@
 import React from 'react';
 import '../../../styles/input.css';
 
-function Input({ onChange, ...props }) {
+function Input({ type = "text", onChange, ...props }) {
     return (
-        <input className='custom-input' onChange={onChange} {...props} />
+        <input type={type} onChange={onChange} className="custom-input" {...props} />
     );
 }
 

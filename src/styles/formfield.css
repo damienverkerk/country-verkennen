@@ -1,0 +1,19 @@
+.form-field {
+    margin-bottom: 15px;
+  }
+  
+  .form-field label {
+    display: flex;
+    flex-direction: column;
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  
+  .form-field input {
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  

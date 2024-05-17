@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import useCountries from '../../../hooks/useCountries';
 import Pagination from '../../common/Pagination';
 import Loading from '../../common/Loading';
+import CountryCard from '../CountryCard';
 import '../../../styles/countryList.css';
 
 function calculateMatchScore(country, filters) {
@@ -24,10 +25,6 @@ function calculateMatchScore(country, filters) {
 
   return totalCriteria > 0 ? (score / totalCriteria) * 100 : 0;
 }
-
-
-
-
 
 function getScoredCountries(countries, filters) {
   return countries.map(country => ({
@@ -69,12 +66,7 @@ function CountryList({ onCountrySelect, selectedCountryCodes, preferences = {} }
     <div className="dashboard-container">
       <div className="country-card-container">
         {currentResults.map(country => (
-          <div key={country.cca3} className="country-card" onClick={() => onCountrySelect(country.cca3)}>
-            <img className="country-flag" src={country.flags.png} alt={`${country.name.common} vlag`} />
-            <div className="country-details">
-              <p>{country.name.common} - Score: {country.score.toFixed(2)}%</p>
-            </div>
-          </div>
+          <CountryCard key={country.cca3} country={country} onCountrySelect={onCountrySelect} />
         ))}
       </div>
       <Pagination 

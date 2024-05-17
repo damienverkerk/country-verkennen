@@ -1,8 +1,7 @@
 import React from 'react';
-import Button from '../../common/Button'; 
-
 import { useAuth } from '../../../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import Button from '../../common/Button';
 
 function LoginLogoutButton() {
     const { currentUser, logout } = useAuth();
@@ -10,7 +9,7 @@ function LoginLogoutButton() {
 
     const handleLogout = () => {
         logout();
-        navigate('/');
+        navigate('/login');
     };
 
     const handleLoginClick = () => {
@@ -22,7 +21,7 @@ function LoginLogoutButton() {
     };
 
     return (
-        <div>
+        <div className="login-logout">
             {currentUser ? (
                 <Button onClick={handleLogout}>Uitloggen</Button>
             ) : (

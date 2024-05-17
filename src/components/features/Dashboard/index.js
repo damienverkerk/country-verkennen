@@ -1,130 +1,63 @@
 import React, { useState, useEffect } from 'react';
-import CountrySelection from '../countrySelection';
-import CountryList from '../CountryList';
-import InteractiveMap from '../InteractiveMap';
-import { fetchCountryByCode, getCapitalCoordinates } from '../../../services/countryService';
-import CountryFilters from '../CountryFilters';
+import { Link } from 'react-router-dom';
+import CountrySelection from '../CountrySelection';
 import '../../../styles/dashboard.css';
 
 const Dashboard = () => {
     const [selectedCountries, setSelectedCountries] = useState([]);
     const [wishListCountries, setWishListCountries] = useState([]);
-    const [selectedCountryCodes, setSelectedCountryCodes] = useState([]);
-    console.log('Initial selected countries:', selectedCountries);
-    const [filters, setFilters] = useState({
-        language: '',
-        region: '',
-        currency: '',
-        populationMin: 0,
-        populationMax: Number.MAX_VALUE
-    });
-    const [step, setStep] = useState(1); 
+
     useEffect(() => {
-        console.log('Selected countries after update:', selectedCountries);
-    }, [selectedCountries]);
-
-    const handleCountrySelect = async (selectedCountries) => {
-        const countriesWithCoordinates = await Promise.all(selectedCountries.map(async (country) => {
-            if (!country.lat || !country.lng) {
-                const coordinates = await getCapitalCoordinates(country.capital, country.cca3);
-                return { ...country, ...coordinates };
-            }
-            return country;
-        }));
-    
-        setSelectedCountries(countriesWithCoordinates);
-    };
-    
-
-    const handleWishListSelect = async (selectedCountries) => {
-        const countriesWithCoordinates = await Promise.all(selectedCountries.map(async (country) => {
-            if (!country.lat || !country.lng) {
-                const coordinates = await getCapitalCoordinates(country.capital, country.cca3);
-                return { ...country, ...coordinates };
-            }
-            return country;
-        }));
-    
-        setWishListCountries(countriesWithCoordinates);
-    };
-    
-    const handleFilterChange = (filterKey, value) => {
-        setFilters(prevFilters => ({
-            ...prevFilters,
-            [filterKey]: value
-        }));
-    };
-
-    const handleDropdownSelect = (selectedCodes) => {
-        setSelectedCountryCodes(selectedCodes);
-    };
-
-    const nextStep = () => {
-        if (step < 4) {
-            setStep(step + 1);
-        }
-    };
-
-    const prevStep = () => {
-        if (step > 1) {
-            setStep(step - 1);
-        }
-    };
+        // Hier kunnen we de geselecteerde en wenslijst landen ophalen als dat nodig is
+    }, []);
 
     return (
         <div className="dashboard-container">
-            {step === 1 && (
-    <section className="dashboard-section country-selection">
-        <h1>In welke landen ben je geweest?</h1>
-        <CountrySelection 
-            onCountrySelect={handleCountrySelect} 
-            selectedCountries={selectedCountries}
-            title="Bezochte landen"/>
-        <button onClick={nextStep}>Volgende</button>
-    </section>
-)}
+            <section className="dashboard-section">
+                <h2>Welkom bij ReisApp</h2>
+                <p>Gebruik deze dashboard om je reisvoorkeuren te beheren en nieuwe bestemmingen te ontdekken.</p>
+            </section>
 
-{step === 2 && (
-    <>
-        <section className="dashboard-section country-selection">
-            <CountrySelection 
-                onCountrySelect={handleWishListSelect}
-                selectedCountries={wishListCountries}
-                title="Wenslijst landen" />
-        <button onClick={prevStep}>Terug</button>
-        <button onClick={nextStep}>Volgende</button>
-        </section>
-    </>
-)}
-
-            {step === 3 && (
-                <>
-                    <section className="dashboard-section country-filters">
-                        <CountryFilters onFilterChange={handleFilterChange} />
-                    <button onClick={prevStep}>Terug</button>
-                    <button onClick={nextStep}>Volgende</button>
-                    </section>
-                </>
-            )}
-
-            {step === 4 && (
-                <>
-                    <div className="country-list-section">
-                        <section className="dashboard-section country-list">
-                            <CountryList 
-                                onCountrySelect={handleCountrySelect} 
-                                selectedCountryCodes={selectedCountryCodes} 
-                                preferences={filters} 
-                            />
-                        </section>
+            <section className="dashboard-section">
+                <h2>Overzicht</h2>
+                <div className="dashboard-cards">
+                    <div className="dashboard-card">
+                        <h3>Bezochte Landen</h3>
+                        {selectedCountries.length > 0 ? (
+                            <ul>
+                                {selectedCountries.map(country => (
+                                    <li key={country.cca3}>{country.name.common}</li>
+                                ))}
+                            </ul>
+                        ) : (
+                            <p>Je hebt nog geen landen toegevoegd.</p>
+                        )}
+                        <Link to="/visited">Bezochte landen beheren</Link>
                     </div>
 
-                    <div className="map-section">
-                        <InteractiveMap selectedCountries={selectedCountries} wishListCountries={wishListCountries}/>
+                    <div className="dashboard-card">
+                        <h3>Wenslijst Landen</h3>
+                        {wishListCountries.length > 0 ? (
+                            <ul>
+                                {wishListCountries.map(country => (
+                                    <li key={country.cca3}>{country.name.common}</li>
+                                ))}
+                            </ul>
+                        ) : (
+                            <p>Je hebt nog geen landen toegevoegd aan je wenslijst.</p>
+                        )}
+                        <Link to="/wishlist">Wenslijst landen beheren</Link>
                     </div>
-                    <button onClick={prevStep}>Terug</button>
-                </>
-            )}
+                </div>
+            </section>
+
+            <section className="dashboard-section">
+                <h2>Ga verder</h2>
+                <ul className="dashboard-links">
+                    <li><Link to="/filters">Filters instellen</Link></li>
+                    <li><Link to="/results">Resultaten bekijken</Link></li>
+                </ul>
+            </section>
         </div>
     );
 }
