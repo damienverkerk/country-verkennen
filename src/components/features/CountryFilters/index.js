@@ -1,15 +1,15 @@
-
 import React, { useState, useEffect } from 'react';
-import  useCountries  from '../../../hooks/useCountries';
+import useCountries from '../../../hooks/useCountries';
+import Select from '../../common/Select';
+import RangeInput from '../../common/RangeInput';
 import '../../../styles/countryFilters.css';
-
 
 const CountryFilters = ({ onFilterChange }) => {
   const [countries] = useCountries();
   const [languages, setLanguages] = useState([]);
   const [regions, setRegions] = useState([]);
   const [currencies, setCurrencies] = useState([]);
-  const [populationRange, setPopulationRange] = useState([0, 1000000000]); 
+  const [populationRange, setPopulationRange] = useState([0, 1000000000]);
   const [maxPopulation, setMaxPopulation] = useState(0);
 
   useEffect(() => {
@@ -33,39 +33,36 @@ const CountryFilters = ({ onFilterChange }) => {
     setPopulationRange(newRange);
     onFilterChange('populationMax', value);
   };
+
   return (
     <div className="filters">
-        <div className='filters-select'>
-            <select onChange={e => onFilterChange('language', e.target.value)}>
-                <option value="">Select a language</option>
-                {languages.map(lang => <option key={lang} value={lang}>{lang}</option>)}
-            </select>
+      <div className='filters-select'>
+        <Select 
+          options={languages} 
+          onChange={e => onFilterChange('language', e.target.value)} 
+          defaultOption="Select a language" 
+        />
 
-            <select onChange={e => onFilterChange('region', e.target.value)}>
-                <option value="">Select a region</option>
-                {regions.map(region => <option key={region} value={region}>{region}</option>)}
-            </select>
+        <Select 
+          options={regions} 
+          onChange={e => onFilterChange('region', e.target.value)} 
+          defaultOption="Select a region" 
+        />
 
-            <select onChange={e => onFilterChange('currency', e.target.value)}>
-                <option value="">Select a currency</option>
-                {currencies.map(currency => <option key={currency} value={currency}>{currency}</option>)}
-            </select>
-        </div>
-        <div className='filters-range'>
-            <input 
-                type="range" 
-                min="0" 
-                max={maxPopulation} 
-                value={populationRange[1]} 
-                onChange={e => {
-                    const value = parseInt(e.target.value, 10);
-                    handlePopulationChange(value);
-                }}
-            />
-            <span>{populationRange[1]}</span>
-        </div>
+        <Select 
+          options={currencies} 
+          onChange={e => onFilterChange('currency', e.target.value)} 
+          defaultOption="Select a currency" 
+        />
+      </div>
+      <RangeInput 
+        min="0" 
+        max={maxPopulation} 
+        value={populationRange[1]} 
+        onChange={e => handlePopulationChange(parseInt(e.target.value, 10))}
+      />
     </div>
-);
+  );
 };
 
 export default CountryFilters;

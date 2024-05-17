@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../../contexts/AuthContext';
 import Button from '../../common/Button';
-import Input from '../../common/Input';
+import Form from '../../common/Form';
+import FormField from '../../common/FormField';
 import '../../../styles/register.css';
 
 function Register() {
@@ -48,35 +49,16 @@ function Register() {
   };
 
   return (
-    <div className="register">
+    <main className="register">
       <h2>Register</h2>
       {error && <p>{error}</p>}
-      <form onSubmit={handleSubmit}>
-        <Input
-          placeholder="Username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          required
-          minLength="3"
-        />
-        <Input
-          placeholder="Email"
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-        <Input
-          placeholder="Password"
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-          minLength="6"
-        />
+      <Form onSubmit={handleSubmit}>
+        <FormField label="Username" value={username} onChange={(e) => setUsername(e.target.value)} required minLength="3" />
+        <FormField label="Email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+        <FormField label="Password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} required minLength="6" />
         <Button type="submit">Register</Button>
-      </form>
-    </div>
+      </Form>
+    </main>
   );
 }
 

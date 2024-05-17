@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../../contexts/AuthContext';
 import Button from '../../common/Button';
-import Input from '../../common/Input';
+import Form from '../../common/Form';
+import FormField from '../../common/FormField';
 import '../../../styles/login.css';
 
 function Login() {
@@ -14,7 +15,7 @@ function Login() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    
+
     if (username.length < 3) {
       setError('Username must be at least 3 characters long');
       return;
@@ -38,28 +39,15 @@ function Login() {
   };
 
   return (
-    <div className="login">
+    <main className="login">
       <h2>Login</h2>
       {error && <p>{error}</p>}
-      <form onSubmit={handleSubmit}>
-        <Input
-          placeholder="Username"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          required
-          minLength="3"
-        />
-        <Input
-          placeholder="Password"
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-          minLength="6"
-        />
+      <Form onSubmit={handleSubmit}>
+        <FormField label="Username" value={username} onChange={(e) => setUsername(e.target.value)} required minLength="3" />
+        <FormField label="Password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} required minLength="6" />
         <Button type="submit">Login</Button>
-      </form>
-    </div>
+      </Form>
+    </main>
   );
 }
 
