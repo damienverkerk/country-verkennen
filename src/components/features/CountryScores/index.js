@@ -6,7 +6,6 @@ const CountryScores = ({ selectedCountries, preferences }) => {
     const [topCountries, setTopCountries] = useState([]);
 
     useEffect(() => {
-        // Een eenvoudige functie om de 'score' van een land te berekenen op basis van de voorkeuren
         const calculateScore = (country) => {
             let score = 0;
 
@@ -25,7 +24,6 @@ const CountryScores = ({ selectedCountries, preferences }) => {
             return score;
         };
 
-        // Bereken de scores voor de geselecteerde landen
         const scoredCountries = selectedCountries.map(countryCode => {
             const country = allCountries.find(c => c.cca3 === countryCode);
             return {
@@ -34,14 +32,13 @@ const CountryScores = ({ selectedCountries, preferences }) => {
             };
         });
 
-        // Sorteer de landen op score en neem de top 5
         const sortedCountries = scoredCountries.sort((a, b) => b.score - a.score).slice(0, 5);
 
         setTopCountries(sortedCountries);
     }, [selectedCountries, preferences, allCountries]);
 
     return (
-        <div>
+        <section>
             <h2>Top 5 Aanbevolen Landen</h2>
             <ul>
                 {topCountries.map(country => (
@@ -50,7 +47,7 @@ const CountryScores = ({ selectedCountries, preferences }) => {
                     </li>
                 ))}
             </ul>
-        </div>
+        </section>
     );
 };
 

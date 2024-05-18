@@ -14,7 +14,7 @@ const WishListPage = ({ wishListCountries, onCountrySelect }) => {
     };
 
     return (
-        <div className="page-container">
+        <section className="page-container">
             <header>
                 <h1>Welke landen staan op je wenslijst?</h1>
             </header>
@@ -29,7 +29,7 @@ const WishListPage = ({ wishListCountries, onCountrySelect }) => {
                 <button onClick={handleBack}>Terug</button>
                 <button onClick={handleNext}>Volgende</button>
             </footer>
-        </div>
+        </section>
     );
 }
 

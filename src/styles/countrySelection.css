@@ -1,25 +1,26 @@
-
-.country-selection {
+section {
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    margin-bottom: 10px;
-    padding: 15px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-    background-color: var(--background-color);
+    gap: 1rem;
 }
 
-.country-selection select {
-    width: 100%;
-    padding: 10px;
-    border-radius: 48px;
-    border: 1px solid #ccc;
-    font-family: var(--primary-font);
-    background-color: #d7c8c766;
+select {
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
 }
-@media (max-width: 600px) {
-    .country-selection {
-        padding: 10px;
-    }
+
+button {
+    margin-left: 0.5rem;
+    padding: 0.5rem;
+    border: none;
+    background-color: var(--primary-color);
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: var(--primary-color-dark);
 }

@@ -1,19 +1,20 @@
 import React from 'react';
 import '../../../styles/rangeInput.css';
 
-function RangeInput({ min, max, value, onChange }) {
+const RangeInput = ({ label, min, max, value, onChange }) => {
   return (
-    <div className='range-input'>
+    <div className="range-input">
+      <label>{label}</label>
       <input 
         type="range" 
         min={min} 
-        max={max} 
+        max={max}
         value={value} 
-        onChange={onChange} 
+        onChange={e => onChange(Number(e.target.value))} 
       />
       <span>{value}</span>
     </div>
   );
-}
+};
 
 export default RangeInput;

@@ -5,7 +5,6 @@
    background: var(--background-color);
    padding: 1.5rem 2rem;
    color: var(--primary-color);
-   position: relative;
    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
    width: 100%;
 }
@@ -13,9 +12,7 @@
 .logo {
    font-size: 1.5em;
    font-weight: 700;
-   letter-spacing: 1.5px;
    font-family: var(--secondary-font);
-   cursor: pointer;
 }
 
 .nav {
@@ -26,15 +23,13 @@
 
 .nav ul {
    display: flex;
-   align-items: center;
-   gap: 1rem;
    list-style: none;
    padding: 0;
    margin: 0;
 }
 
 .nav li {
-   display: inline;
+   margin: 0 0.5rem;
 }
 
 .nav a {
@@ -51,35 +46,28 @@
    transform: scale(1.10);
 }
 
-.login-logout {
-   display: flex;
-   gap: 1rem;
-}
-
 @media (max-width: 600px) {
    .header {
-       padding: 1rem; 
-       flex-direction: column; 
+       padding: 1rem;
+       flex-direction: column;
    }
 
    .logo {
-       margin-bottom: 1rem; 
+       margin-bottom: 1rem;
+   }
+
+   .logo a {
+       font-size: 1rem;
    }
 
    .nav {
        width: 100%;
-       justify-content: center; 
+       justify-content: center;
    }
 
    .nav a {
-       padding: 0.5rem 0.6rem; 
-       font-size: 0.8rem; 
-   }
-
-   .login-logout {
-       flex-direction: column;
-       gap: 0.5rem;
-       align-items: center;
+       padding: 0.5rem 0.6rem;
+       font-size: 0.8rem;
    }
 
    .custom-button {

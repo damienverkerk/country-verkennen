@@ -1,0 +1,16 @@
+.country-detail {
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  max-width: 800px;
+  margin: 2rem auto;
+}
+
+.country-detail h2 {
+  margin-top: 0;
+}
+
+.country-detail p {
+  margin: 0.5rem 0;
+}

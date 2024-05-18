@@ -1,13 +1,19 @@
 .range-input {
-    display: flex;
-    align-items: center;
-  }
-  
-  .range-input input[type="range"] {
-    margin-right: 10px;
-  }
-  
-  .range-input span {
-    font-size: 14px;
-  }
-  
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.range-input label {
+  font-weight: bold;
+}
+
+.range-input input {
+  flex: 1;
+}
+
+.range-input span {
+  min-width: 50px;
+  text-align: right;
+}

@@ -13,7 +13,6 @@ export const fetchCountries = async () => {
   }
 };
 
-
 export const fetchCountryByCode = async (countryCode) => {
   try {
     const response = await axios.get(`https://restcountries.com/v3.1/alpha/${countryCode}`);
@@ -26,7 +25,6 @@ export const fetchCountryByCode = async (countryCode) => {
     throw error;
   }
 };
-
 
 export const getCapitalCoordinates = async (capital, countryCode) => {
   const geoapifyApiKey = 'c55e7ee0dae54a60876749704dd417ac'; 

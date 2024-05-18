@@ -1,29 +1,21 @@
-/* Stijlen voor filtersectie */
 .filters {
   display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  width: 100%;
-  margin-bottom: 10px;
-  padding: 15px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  border-radius: 8px;
-  background-color: var(--background-color);
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 2rem;
 }
 
-/* Responsieve aanpassingen */
-@media (max-width: 600px) {
-  .filters {
-      flex-direction: column;
+.filters .filters-select,
+.filters .filters-range {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+@media (min-width: 600px) {
+  .filters .filters-select,
+  .filters .filters-range {
+      flex-direction: row;
+      align-items: center;
   }
-}
-
-.filters select, .filters input {
-  padding: 10px;
-  border-radius: 48px;
-  border: 1px solid #ccc;
-  font-family: var(--primary-font);
-  background-color: #d7c8c766;
-  width: 100%;
-  box-sizing: border-box;
 }
