@@ -8,59 +8,45 @@ const CountryFilters = ({ onFilterChange }) => {
   const [countries] = useCountries();
   const [languages, setLanguages] = useState([]);
   const [regions, setRegions] = useState([]);
+  const [subregions, setSubregions] = useState([]);
   const [currencies, setCurrencies] = useState([]);
   const [populationRange, setPopulationRange] = useState([0, 1000000000]);
-  const [maxPopulation, setMaxPopulation] = useState(0);
+  const [areaRange, setAreaRange] = useState([0, 17098242]);
 
   useEffect(() => {
     if (countries && countries.length > 0) {
       const uniqueLanguages = [...new Set(countries.flatMap(country => country.languages ? Object.values(country.languages) : []))];
-      const uniqueRegions = [...new Set(countries.map(country => country.subregion).filter(subregion => subregion))];
+      const uniqueRegions = [...new Set(countries.map(country => country.region).filter(region => region))];
+      const uniqueSubregions = [...new Set(countries.map(country => country.subregion).filter(subregion => subregion))];
       const uniqueCurrencies = [...new Set(countries.flatMap(country => country.currencies ? Object.values(country.currencies).map(cur => cur.name) : []))];
 
       setLanguages(uniqueLanguages);
       setRegions(uniqueRegions);
+      setSubregions(uniqueSubregions);
       setCurrencies(uniqueCurrencies);
-
-      const maxPop = Math.max(...countries.map(country => country.population));
-      setMaxPopulation(maxPop);
-      setPopulationRange([0, maxPop]);
     }
   }, [countries]);
 
   const handlePopulationChange = (value) => {
     const newRange = [populationRange[0], value];
     setPopulationRange(newRange);
-    onFilterChange('populationMax', value);
+    onFilterChange('population', value);
+  };
+
+  const handleAreaChange = (value) => {
+    const newRange = [areaRange[0], value];
+    setAreaRange(newRange);
+    onFilterChange('area', value);
   };
 
   return (
     <div className="filters">
-      <div className='filters-select'>
-        <Select 
-          options={languages} 
-          onChange={e => onFilterChange('language', e.target.value)} 
-          defaultOption="Select a language" 
-        />
-
-        <Select 
-          options={regions} 
-          onChange={e => onFilterChange('region', e.target.value)} 
-          defaultOption="Select a region" 
-        />
-
-        <Select 
-          options={currencies} 
-          onChange={e => onFilterChange('currency', e.target.value)} 
-          defaultOption="Select a currency" 
-        />
-      </div>
-      <RangeInput 
-        min="0" 
-        max={maxPopulation} 
-        value={populationRange[1]} 
-        onChange={e => handlePopulationChange(parseInt(e.target.value, 10))}
-      />
+      <Select onChange={e => onFilterChange('language', e.target.value)} options={languages} label="Taal" />
+      <Select onChange={e => onFilterChange('region', e.target.value)} options={regions} label="Regio" />
+      <Select onChange={e => onFilterChange('subregion', e.target.value)} options={subregions} label="Subregio" />
+      <Select onChange={e => onFilterChange('currency', e.target.value)} options={currencies} label="Valuta" />
+      <RangeInput min="0" max="1000000000" value={populationRange[1]} onChange={handlePopulationChange} label="Bevolking" />
+      <RangeInput min="0" max="17098242" value={areaRange[1]} onChange={handleAreaChange} label="Oppervlakte" />
     </div>
   );
 };

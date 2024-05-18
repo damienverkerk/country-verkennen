@@ -10,7 +10,7 @@ const VisitedCountriesPage = ({ selectedCountries, onCountrySelect }) => {
     };
 
     return (
-        <div className="page-container">
+        <section className="page-container">
             <header>
                 <h1>In welke landen ben je geweest?</h1>
             </header>
@@ -24,7 +24,7 @@ const VisitedCountriesPage = ({ selectedCountries, onCountrySelect }) => {
             <footer>
                 <button onClick={handleNext}>Volgende</button>
             </footer>
-        </div>
+        </section>
     );
 }
 

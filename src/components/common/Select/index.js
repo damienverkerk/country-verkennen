@@ -1,15 +1,18 @@
 import React from 'react';
 import '../../../styles/select.css';
 
-function Select({ options, onChange, defaultOption }) {
+const Select = ({ label, options, onChange }) => {
   return (
-    <select onChange={onChange}>
-      <option value="">{defaultOption}</option>
-      {options.map(option => (
-        <option key={option} value={option}>{option}</option>
-      ))}
-    </select>
+    <div className="select-input">
+      <label>{label}</label>
+      <select onChange={onChange}>
+        <option value="">Selecteer een optie</option>
+        {options.map(option => (
+          <option key={option} value={option}>{option}</option>
+        ))}
+      </select>
+    </div>
   );
-}
+};
 
 export default Select;

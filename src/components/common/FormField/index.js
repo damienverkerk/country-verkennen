@@ -1,6 +1,6 @@
 import React from 'react';
 import Input from '../../common/Input';
-import '../../../styles/formfield.css';
+import '../../../styles/formField.css';
 
 function FormField({ label, type = "text", value, onChange, ...props }) {
     return (

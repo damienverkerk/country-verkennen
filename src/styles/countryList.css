@@ -1,47 +1,16 @@
-
-.country-list-section {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    flex-grow: 1;
-    width: 100%;
-    max-width: 1000px;
-    margin: auto;
-    padding: 15px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-    background-color: var(--background-color);
+.country-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-top: 2rem;
 }
 
-
-@media (max-width: 600px) {
-    .country-list-section {
-        padding: 10px;
-    }
-    .country-flag{
-        width:20%;
-    }
+.country-card img {
+    max-width: 100%;
+    height: auto;
+    margin-bottom: 0.5rem;
 }
 
-
-.country-card {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 10px;
-    border: 1px solid #eee;
-    border-radius: 4px;
-    cursor: pointer;
-    font-family: var(--primary-font);
-    transition: background-color 0.3s ease;
-}
-
-.country-flag {
-    width:200px;
-}
-
-
-.country-card:hover {
-    background-color: #f8f8f8;
+.country-card-details {
+    text-align: left;
 }

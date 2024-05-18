@@ -14,18 +14,18 @@ const FiltersPage = ({ onFilterChange }) => {
     };
 
     return (
-        <div className="page-container">
+        <main className="page-container">
             <header>
                 <h1>Pas filters toe</h1>
             </header>
-            <main>
+            <section>
                 <CountryFilters onFilterChange={onFilterChange} />
-            </main>
+            </section>
             <footer>
                 <button onClick={handleBack}>Terug</button>
                 <button onClick={handleNext}>Volgende</button>
             </footer>
-        </div>
+        </main>
     );
 }
 

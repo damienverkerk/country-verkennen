@@ -11,26 +11,25 @@ const ResultsPage = ({ selectedCountries, wishListCountries, selectedCountryCode
     };
 
     return (
-        <div className="results-page-container">
+        <main className="results-page-container">
             <header>
                 <h1>Resultaten</h1>
             </header>
-            <main>
-                <section className="country-list-section">
+            <section>
+                <div className="country-list-section">
                     <CountryList 
+                        countries={selectedCountries} 
                         onCountrySelect={onCountrySelect} 
-                        selectedCountryCodes={selectedCountryCodes} 
-                        preferences={preferences} 
                     />
-                </section>
-                <section className="map-section">
-                    <InteractiveMap selectedCountries={selectedCountries} wishListCountries={wishListCountries} />
-                </section>
-            </main>
+                </div>
+                <div className="map-section">
+                    <InteractiveMap selectedCountries={selectedCountryCodes} topCountries={wishListCountries} />
+                </div>
+            </section>
             <footer>
                 <button onClick={handleBack}>Terug</button>
             </footer>
-        </div>
+        </main>
     );
 }
 

@@ -7,44 +7,39 @@ import Header from './common/Header';
 import Footer from './common/Footer';
 import Login from './features/Login';
 import Register from './features/Register';
+import Dashboard from './features/Dashboard';
 import VisitedCountriesPage from './features/VisitedCountriesPage';
 import WishListPage from './features/WishListPage';
 import FiltersPage from './features/FiltersPage';
 import ResultsPage from './features/ResultsPage';
+import CountryDetail from './features/CountryDetail';
 import '../styles/app.css';
 
 function ProtectedRoute({ children }) {
     const { currentUser } = useAuth();
-    if (currentUser) return children;
-    return <Navigate to="/login" />;
+    return currentUser ? children : <Navigate to="/login" />;
 }
 
 function App() {
     const [selectedCountries, setSelectedCountries] = useState([]);
     const [wishListCountries, setWishListCountries] = useState([]);
-    const [selectedCountryCodes, setSelectedCountryCodes] = useState([]);
     const [filters, setFilters] = useState({
-        language: '',
         region: '',
+        subregion: '',
+        language: '',
         currency: '',
-        populationMin: 0,
-        populationMax: Number.MAX_VALUE
+        borders: '',
+        population: 0,
+        area: 0,
+        landlocked: false
     });
 
-    const handleCountrySelect = (selectedCountries) => {
-        // Handle country selection logic
-    };
-
-    const handleWishListSelect = (selectedCountries) => {
-        // Handle wishlist selection logic
-    };
-
-    const handleFilterChange = (filterKey, value) => {
-        setFilters(prevFilters => ({
-            ...prevFilters,
-            [filterKey]: value
-        }));
-    };
+    const handleCountrySelect = (selectedCountries) => setSelectedCountries(selectedCountries);
+    const handleWishListSelect = (selectedCountries) => setWishListCountries(selectedCountries);
+    const handleFilterChange = (filterKey, value) => setFilters(prevFilters => ({
+        ...prevFilters,
+        [filterKey]: value
+    }));
 
     return (
         <Router>
@@ -57,6 +52,18 @@ function App() {
                                 <Routes>
                                     <Route path="/login" element={<Login />} />
                                     <Route path="/register" element={<Register />} />
+                                    <Route path="/" element={
+                                        <ProtectedRoute>
+                                            <Dashboard 
+                                                selectedCountries={selectedCountries}
+                                                wishListCountries={wishListCountries}
+                                                onCountrySelect={handleCountrySelect}
+                                                onWishListSelect={handleWishListSelect}
+                                                filters={filters}
+                                                onFilterChange={handleFilterChange}
+                                            />
+                                        </ProtectedRoute>
+                                    } />
                                     <Route path="/visited" element={
                                         <ProtectedRoute>
                                             <VisitedCountriesPage
@@ -76,6 +83,7 @@ function App() {
                                     <Route path="/filters" element={
                                         <ProtectedRoute>
                                             <FiltersPage
+                                                filters={filters}
                                                 onFilterChange={handleFilterChange}
                                             />
                                         </ProtectedRoute>
@@ -85,10 +93,13 @@ function App() {
                                             <ResultsPage
                                                 selectedCountries={selectedCountries}
                                                 wishListCountries={wishListCountries}
-                                                selectedCountryCodes={selectedCountryCodes}
                                                 preferences={filters}
-                                                onCountrySelect={handleCountrySelect}
                                             />
+                                        </ProtectedRoute>
+                                    } />
+                                    <Route path="/country/:countryCode" element={
+                                        <ProtectedRoute>
+                                            <CountryDetail />
                                         </ProtectedRoute>
                                     } />
                                 </Routes>

@@ -1,21 +1,24 @@
 import { useState, useEffect } from 'react';
 import { fetchCountries } from '../services/countryService';
 
-export default function useCountries() {
+const useCountries = () => {
   const [countries, setCountries] = useState([]);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const loadCountries = async () => {
+    const fetchData = async () => {
       try {
-        const fetchedCountries = await fetchCountries();
-        setCountries(fetchedCountries);
-      } catch (err) {
-        setError('Failed to load countries.');
+        const result = await fetchCountries();
+        setCountries(result);
+      } catch (error) {
+        setError(error.message);
       }
     };
-    loadCountries();
-  }, []);
+
+    fetchData();
+  }, []); // Lege dependency array zorgt ervoor dat dit effect alleen wordt uitgevoerd bij het eerste renderen
 
   return [countries, error];
-}
+};
+
+export default useCountries;
