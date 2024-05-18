@@ -1,31 +1,28 @@
 import React from 'react';
 import CountrySelection from '../CountrySelection';
 import { useNavigate } from 'react-router-dom';
+import { useAppState } from '../../../contexts/AppStateContext';
+import '../../../styles/visitedCountriesPage.css';
 
-const VisitedCountriesPage = ({ selectedCountries, onCountrySelect }) => {
-    const navigate = useNavigate();
+const VisitedCountriesPage = () => {
+  const { selectedCountries, setSelectedCountries } = useAppState();
+  const navigate = useNavigate();
 
-    const handleNext = () => {
-        navigate('/wishlist');
-    };
+  const handleNext = () => {
+    navigate('/wishlist-countries');
+  };
 
-    return (
-        <section className="page-container">
-            <header>
-                <h1>In welke landen ben je geweest?</h1>
-            </header>
-            <main>
-                <CountrySelection 
-                    onCountrySelect={onCountrySelect} 
-                    selectedCountries={selectedCountries}
-                    title="Bezochte landen"
-                />
-            </main>
-            <footer>
-                <button onClick={handleNext}>Volgende</button>
-            </footer>
-        </section>
-    );
-}
+  return (
+    <div className="visited-countries-container">
+      <h2>Bezochte Landen</h2>
+      <CountrySelection 
+        selectedCountries={selectedCountries}
+        onCountrySelect={setSelectedCountries}
+        title="Bezochte Landen"
+      />
+      <button onClick={handleNext}>Volgende</button>
+    </div>
+  );
+};
 
 export default VisitedCountriesPage;

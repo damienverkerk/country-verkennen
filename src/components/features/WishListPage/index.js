@@ -1,36 +1,33 @@
 import React from 'react';
 import CountrySelection from '../CountrySelection';
 import { useNavigate } from 'react-router-dom';
+import { useAppState } from '../../../contexts/AppStateContext';
+import '../../../styles/wishlistPage.css';
 
-const WishListPage = ({ wishListCountries, onCountrySelect }) => {
-    const navigate = useNavigate();
+const WishListPage = () => {
+  const { wishListCountries, setWishListCountries } = useAppState();
+  const navigate = useNavigate();
 
-    const handleNext = () => {
-        navigate('/filters');
-    };
+  const handleNext = () => {
+    navigate('/filters');
+  };
 
-    const handleBack = () => {
-        navigate('/visited');
-    };
+  const handlePrev = () => {
+    navigate('/visited-countries');
+  };
 
-    return (
-        <section className="page-container">
-            <header>
-                <h1>Welke landen staan op je wenslijst?</h1>
-            </header>
-            <main>
-                <CountrySelection 
-                    onCountrySelect={onCountrySelect} 
-                    selectedCountries={wishListCountries}
-                    title="Wenslijst landen"
-                />
-            </main>
-            <footer>
-                <button onClick={handleBack}>Terug</button>
-                <button onClick={handleNext}>Volgende</button>
-            </footer>
-        </section>
-    );
-}
+  return (
+    <div className="wishlist-container">
+      <h2>Wenslijst Landen</h2>
+      <CountrySelection 
+        selectedCountries={wishListCountries}
+        onCountrySelect={setWishListCountries}
+        title="Wenslijst Landen"
+      />
+      <button onClick={handlePrev}>Terug</button>
+      <button onClick={handleNext}>Volgende</button>
+    </div>
+  );
+};
 
 export default WishListPage;

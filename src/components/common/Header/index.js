@@ -14,8 +14,8 @@ function Header() {
             {currentUser && (
                 <nav className="nav">
                     <ul>
-                        <li><Link to="/visited">Bezochte Landen</Link></li>
-                        <li><Link to="/wishlist">Wenslijst Landen</Link></li>
+                        <li><Link to="/visited-countries">Bezochte Landen</Link></li>
+                        <li><Link to="/wishlist-countries">Wenslijst Landen</Link></li>
                         <li><Link to="/filters">Filters</Link></li>
                         <li><Link to="/results">Resultaten</Link></li>
                     </ul>

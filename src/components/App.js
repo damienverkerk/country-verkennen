@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from '../contexts/AuthContext';
 import { FavoriteCountriesProvider } from '../contexts/FavoriteCountriesContext'; 
 import { UserPreferencesProvider } from '../contexts/UserPreferencesContext';
+import { AppStateProvider } from '../contexts/AppStateContext';
 import Header from './common/Header';
 import Footer from './common/Footer';
 import Login from './features/Login';
@@ -13,6 +14,8 @@ import WishListPage from './features/WishListPage';
 import FiltersPage from './features/FiltersPage';
 import ResultsPage from './features/ResultsPage';
 import CountryDetail from './features/CountryDetail';
+import useCountries from '../hooks/useCountries';
+import { calculateMatchScore } from '../utils/calculateMatchScore';
 import '../styles/app.css';
 
 function ProtectedRoute({ children }) {
@@ -21,91 +24,61 @@ function ProtectedRoute({ children }) {
 }
 
 function App() {
-    const [selectedCountries, setSelectedCountries] = useState([]);
-    const [wishListCountries, setWishListCountries] = useState([]);
-    const [filters, setFilters] = useState({
-        region: '',
-        subregion: '',
-        language: '',
-        currency: '',
-        borders: '',
-        population: 0,
-        area: 0,
-        landlocked: false
-    });
-
-    const handleCountrySelect = (selectedCountries) => setSelectedCountries(selectedCountries);
-    const handleWishListSelect = (selectedCountries) => setWishListCountries(selectedCountries);
-    const handleFilterChange = (filterKey, value) => setFilters(prevFilters => ({
-        ...prevFilters,
-        [filterKey]: value
-    }));
+    const [allCountries] = useCountries();
 
     return (
         <Router>
             <AuthProvider>
                 <UserPreferencesProvider>
                     <FavoriteCountriesProvider>
-                        <div className='app'>
-                            <Header />
-                            <main>
-                                <Routes>
-                                    <Route path="/login" element={<Login />} />
-                                    <Route path="/register" element={<Register />} />
-                                    <Route path="/" element={
-                                        <ProtectedRoute>
-                                            <Dashboard 
-                                                selectedCountries={selectedCountries}
-                                                wishListCountries={wishListCountries}
-                                                onCountrySelect={handleCountrySelect}
-                                                onWishListSelect={handleWishListSelect}
-                                                filters={filters}
-                                                onFilterChange={handleFilterChange}
-                                            />
-                                        </ProtectedRoute>
-                                    } />
-                                    <Route path="/visited" element={
-                                        <ProtectedRoute>
-                                            <VisitedCountriesPage
-                                                selectedCountries={selectedCountries}
-                                                onCountrySelect={handleCountrySelect}
-                                            />
-                                        </ProtectedRoute>
-                                    } />
-                                    <Route path="/wishlist" element={
-                                        <ProtectedRoute>
-                                            <WishListPage
-                                                wishListCountries={wishListCountries}
-                                                onCountrySelect={handleWishListSelect}
-                                            />
-                                        </ProtectedRoute>
-                                    } />
-                                    <Route path="/filters" element={
-                                        <ProtectedRoute>
-                                            <FiltersPage
-                                                filters={filters}
-                                                onFilterChange={handleFilterChange}
-                                            />
-                                        </ProtectedRoute>
-                                    } />
-                                    <Route path="/results" element={
-                                        <ProtectedRoute>
-                                            <ResultsPage
-                                                selectedCountries={selectedCountries}
-                                                wishListCountries={wishListCountries}
-                                                preferences={filters}
-                                            />
-                                        </ProtectedRoute>
-                                    } />
-                                    <Route path="/country/:countryCode" element={
-                                        <ProtectedRoute>
-                                            <CountryDetail />
-                                        </ProtectedRoute>
-                                    } />
-                                </Routes>
-                            </main>
-                            <Footer />
-                        </div>
+                        <AppStateProvider>
+                            <div className='app'>
+                                <Header />
+                                <main>
+                                    <Routes>
+                                        <Route path="/login" element={<Login />} />
+                                        <Route path="/register" element={<Register />} />
+                                        <Route path="/" element={
+                                            <ProtectedRoute>
+                                                <Dashboard 
+                                                    allCountries={allCountries}
+                                                    calculateMatchScore={calculateMatchScore}
+                                                />
+                                            </ProtectedRoute>
+                                        } />
+                                        <Route path="/visited-countries" element={
+                                            <ProtectedRoute>
+                                                <VisitedCountriesPage />
+                                            </ProtectedRoute>
+                                        } />
+                                        <Route path="/wishlist-countries" element={
+                                            <ProtectedRoute>
+                                                <WishListPage />
+                                            </ProtectedRoute>
+                                        } />
+                                        <Route path="/filters" element={
+                                            <ProtectedRoute>
+                                                <FiltersPage />
+                                            </ProtectedRoute>
+                                        } />
+                                        <Route path="/results" element={
+                                            <ProtectedRoute>
+                                                <ResultsPage
+                                                    allCountries={allCountries}
+                                                    calculateMatchScore={calculateMatchScore}
+                                                />
+                                            </ProtectedRoute>
+                                        } />
+                                        <Route path="/country/:countryCode" element={
+                                            <ProtectedRoute>
+                                                <CountryDetail allCountries={allCountries} />
+                                            </ProtectedRoute>
+                                        } />
+                                    </Routes>
+                                </main>
+                                <Footer />
+                            </div>
+                        </AppStateProvider>
                     </FavoriteCountriesProvider>
                 </UserPreferencesProvider>
             </AuthProvider>

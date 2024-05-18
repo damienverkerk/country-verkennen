@@ -1,32 +1,36 @@
 import React from 'react';
 import CountryFilters from '../CountryFilters';
 import { useNavigate } from 'react-router-dom';
+import { useAppState } from '../../../contexts/AppStateContext';
+import '../../../styles/filtersPage.css';
 
-const FiltersPage = ({ onFilterChange }) => {
-    const navigate = useNavigate();
+const FiltersPage = () => {
+  const { filters, setFilters } = useAppState();
+  const navigate = useNavigate();
 
-    const handleNext = () => {
-        navigate('/results');
-    };
+  const handleFilterChange = (filterKey, value) => {
+    setFilters(prevFilters => ({
+      ...prevFilters,
+      [filterKey]: value
+    }));
+  };
 
-    const handleBack = () => {
-        navigate('/wishlist');
-    };
+  const handleNext = () => {
+    navigate('/results');
+  };
 
-    return (
-        <main className="page-container">
-            <header>
-                <h1>Pas filters toe</h1>
-            </header>
-            <section>
-                <CountryFilters onFilterChange={onFilterChange} />
-            </section>
-            <footer>
-                <button onClick={handleBack}>Terug</button>
-                <button onClick={handleNext}>Volgende</button>
-            </footer>
-        </main>
-    );
-}
+  const handlePrev = () => {
+    navigate('/wishlist-countries');
+  };
+
+  return (
+    <div className="filters-container">
+      <h2>Filters</h2>
+      <CountryFilters filters={filters} onFilterChange={handleFilterChange} />
+      <button onClick={handlePrev}>Terug</button>
+      <button onClick={handleNext}>Volgende</button>
+    </div>
+  );
+};
 
 export default FiltersPage;
