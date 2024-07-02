@@ -2,6 +2,8 @@ import React from 'react';
 import CountrySelection from '../CountrySelection';
 import { useNavigate } from 'react-router-dom';
 import { useAppState } from '../../../contexts/AppStateContext';
+import Button from '../../common/Button';
+import Card from '../../common/Card';
 import '../../../styles/wishlistPage.css';
 
 const WishListPage = () => {
@@ -18,14 +20,22 @@ const WishListPage = () => {
 
   return (
     <div className="wishlist-container">
-      <h2>Wenslijst Landen</h2>
-      <CountrySelection 
-        selectedCountries={wishListCountries}
-        onCountrySelect={setWishListCountries}
-        title="Wenslijst Landen"
-      />
-      <button onClick={handlePrev}>Terug</button>
-      <button onClick={handleNext}>Volgende</button>
+      <Card title="Wenslijst Landen">
+        <section className="info-section">
+          <p>Selecteer de landen die je graag zou willen bezoeken. Dit helpt ons bij het aanbevelen van nieuwe bestemmingen op basis van jouw voorkeuren.</p>
+        </section>
+        <section>
+          <CountrySelection 
+            selectedCountries={wishListCountries}
+            onCountrySelect={setWishListCountries}
+            title="Wenslijst Landen"
+          />
+        </section>
+        <section className="buttons-section">
+          <Button onClick={handlePrev}>Terug</Button>
+          <Button onClick={handleNext}>Volgende</Button>
+        </section>
+      </Card>
     </div>
   );
 };

@@ -26,12 +26,14 @@ const ResultsPage = ({ allCountries, calculateMatchScore }) => {
 
   return (
     <div className="results-container">
+      <section className="results-section">
         <h2>Resultaten</h2>
         <CountryList 
           countries={filteredCountries} 
           onCountrySelect={handleCountrySelect} 
         />
-      <section className="results-section">
+      </section>
+      <section className="results-section map-container">
         <InteractiveMap 
           selectedCountries={selectedCountries.map(country => country.cca3)} 
           topCountries={filteredCountries.slice(0, 10)} 
@@ -46,4 +48,3 @@ const ResultsPage = ({ allCountries, calculateMatchScore }) => {
 };
 
 export default ResultsPage;
- 

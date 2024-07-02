@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
 import TopCountries from '../TopCountries';
 import CountryList from '../CountryList';
 import InteractiveMap from '../InteractiveMap';
@@ -24,11 +23,6 @@ const Dashboard = ({ allCountries, calculateMatchScore }) => {
     <div className="dashboard-container">
       <h2>Welkom bij de Landen Verkenner</h2>
       <TopCountries countries={filteredCountries.slice(0, 3)} />
-      <nav>
-        <Link to="/visited-countries">Bezochte Landen</Link>
-        <Link to="/wishlist-countries">Wenslijst Landen</Link>
-        <Link to="/filters">Filters</Link>
-      </nav>
       <CountryList 
         countries={filteredCountries} 
       />

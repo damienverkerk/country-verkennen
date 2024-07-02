@@ -93,7 +93,7 @@ const InteractiveMap = ({ selectedCountryCode, selectedCountries, topCountries }
   };
 
   return (
-    <MapContainer center={center} zoom={zoom} style={{ height: '500px', width: '100%' }}>
+    <MapContainer center={center} zoom={zoom} style={{ height: '100%', width: '100%' }}>
       <MapUpdater />
       <TileLayer
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
