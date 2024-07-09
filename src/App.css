@@ -1,38 +1,67 @@
-.App {
-  text-align: center;
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto:wght@400;700&display=swap');
+
+:root {
+    --primary-font: 'Montserrat', sans-serif;
+    --secondary-font: 'Roboto', sans-serif;
+    --primary-color: #82171c9e;
+    --primary-color-dark: #5a1014;
+    --background-color: #f5f5f5;
+    --disabled-color: #cccccc;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+body {
+    font-family: var(--primary-font);
+    background-color: var(--background-color);
+    overflow-x: hidden;
+    margin: 0;
+    padding: 0;
+    height: 100%;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+html {
+    height: 100%;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.app {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
-.App-link {
-  color: #61dafb;
+.content {
+    flex: 1;
+    padding: 2rem;
+    margin-bottom: 2rem; 
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+header {
+    background-color: #333;
+    color: white;
+    padding: 1rem;
+    text-align: center;
+}
+
+footer {
+    background-color: #333;
+    color: white;
+    padding: 1rem;
+    text-align: center;
+    margin-top: auto;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--secondary-font);
+}
+
+@media (max-width: 600px) {
+    body {
+        font-size: 0.9rem;
+    }
+    h1, h2, h3, h4, h5, h6 {
+        font-size: 1.2rem;
+    }
+}
+
+* {
+    box-sizing: border-box;
 }

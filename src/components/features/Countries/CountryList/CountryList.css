@@ -1,0 +1,25 @@
+.country-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: var(--spacing-medium);
+  padding: var(--spacing-medium);
+}
+
+.country-list-empty {
+  text-align: center;
+  padding: var(--spacing-large);
+  color: var(--text-color);
+  font-style: italic;
+}
+
+@media (max-width: 768px) {
+  .country-list {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  }
+}
+
+@media (max-width: 480px) {
+  .country-list {
+    grid-template-columns: 1fr;
+  }
+}

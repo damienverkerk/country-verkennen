@@ -1,0 +1,49 @@
+.visited-countries-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.info-section {
+  margin-bottom: 1rem;
+  background: #f9f9f9;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.country-selection {
+  margin-bottom: 2rem;
+}
+
+.selected-countries h3 {
+  margin-bottom: 1rem;
+}
+
+.countries-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.visited-country-card {
+  cursor: pointer;
+  transition: transform 0.2s ease-in-out;
+}
+
+.visited-country-card:hover {
+  transform: scale(1.05);
+}
+
+.buttons-section {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 1rem;
+}
+
+@media (max-width: 768px) {
+  .countries-grid {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  }
+}

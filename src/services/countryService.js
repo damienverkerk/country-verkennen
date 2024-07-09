@@ -1,4 +1,5 @@
 import axios from 'axios';
+import PropTypes from 'prop-types';
 
 export const fetchCountries = async () => {
   try {
@@ -41,4 +42,17 @@ export const getCapitalCoordinates = async (capital, countryCode) => {
     console.error('Er is een fout opgetreden tijdens het ophalen van de coördinaten:', error);
     throw error;
   }
+};
+
+fetchCountries.propTypes = {
+  countryCode: PropTypes.string
+};
+
+fetchCountryByCode.propTypes = {
+  countryCode: PropTypes.string.isRequired
+};
+
+getCapitalCoordinates.propTypes = {
+  capital: PropTypes.string.isRequired,
+  countryCode: PropTypes.string.isRequired
 };

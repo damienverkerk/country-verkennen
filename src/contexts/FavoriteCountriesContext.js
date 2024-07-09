@@ -1,4 +1,5 @@
 import React, { createContext, useState, useEffect, useContext } from 'react';
+import PropTypes from 'prop-types';
 
 const FavoriteCountriesContext = createContext();
 
@@ -19,6 +20,10 @@ export const FavoriteCountriesProvider = ({ children }) => {
       {children}
     </FavoriteCountriesContext.Provider>
   );
+};
+
+FavoriteCountriesProvider.propTypes = {
+  children: PropTypes.node.isRequired
 };
 
 export const useFavoriteCountries = () => {

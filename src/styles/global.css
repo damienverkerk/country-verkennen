@@ -1,0 +1,67 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Roboto:wght@400;700&display=swap');
+@import 'variables.css';
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--primary-font);
+  background-color: var(--background-color);
+  color: var(--text-color);
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  line-height: 1.6;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--secondary-font);
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.content {
+  flex: 1;
+  padding: var(--spacing-large);
+  margin-bottom: var(--spacing-large);
+}
+
+.form-field {
+  margin-bottom: var(--spacing-medium);
+}
+
+.form-field label {
+  display: block;
+  margin-bottom: var(--spacing-small);
+  font-weight: bold;
+}
+
+.form-field input,
+.form-field select,
+.form-field textarea {
+  width: 100%;
+  padding: var(--spacing-small);
+  border: 1px solid var(--disabled-color);
+  border-radius: var(--border-radius);
+  font-size: 1rem;
+}
+
+
+@media (max-width: 600px) {
+  body {
+    font-size: 0.9rem;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-size: 1.2rem;
+  }
+
+  .content {
+    padding: var(--spacing-medium);
+  }
+}
