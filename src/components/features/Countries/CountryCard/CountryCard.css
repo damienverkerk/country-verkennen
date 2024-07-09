@@ -1,0 +1,42 @@
+.country-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 1rem;
+  transition: transform 0.2s;
+  cursor: pointer;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.country-card:hover {
+  transform: scale(1.05);
+}
+
+.country-flag {
+  width: 100%;
+  max-width: 200px; 
+  height: auto;
+  aspect-ratio: 4 / 3; 
+  object-fit: cover;
+  margin-bottom: 1rem;
+}
+
+.country-details {
+  text-align: center;
+}
+
+.country-details h3 {
+  margin: 0.5rem 0;
+}
+
+.country-details p {
+  margin: 0.2rem 0;
+}
+
+.country-score {
+  font-weight: bold;
+  color: #333;
+}

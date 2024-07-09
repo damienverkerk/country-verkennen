@@ -1,0 +1,45 @@
+.carousel {
+  position: relative;
+  width: 100%;
+  height: auto;
+  overflow: hidden;
+}
+
+.carousel-image {
+  width: 100%;
+  height: auto;
+  max-height: 400px; 
+  object-fit: cover; 
+  display: block;
+}
+
+.carousel-overlay {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 50%;
+  background-color: rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 5;
+  transition: background-color 0.2s ease;
+}
+
+.carousel-overlay.left {
+  left: 0;
+}
+
+.carousel-overlay.right {
+  right: 0;
+}
+
+.carousel-overlay:hover {
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.carousel-arrow {
+  font-size: 2rem;
+  color: white;
+  pointer-events: none;
+}

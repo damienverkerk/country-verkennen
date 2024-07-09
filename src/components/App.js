@@ -4,19 +4,21 @@ import { AuthProvider, useAuth } from '../contexts/AuthContext';
 import { FavoriteCountriesProvider } from '../contexts/FavoriteCountriesContext'; 
 import { UserPreferencesProvider } from '../contexts/UserPreferencesContext';
 import { AppStateProvider } from '../contexts/AppStateContext';
-import Header from './common/Header';
-import Footer from './common/Footer';
-import Login from './features/Login';
-import Register from './features/Register';
-import Dashboard from './features/Dashboard';
-import VisitedCountriesPage from './features/VisitedCountriesPage';
-import WishListPage from './features/WishListPage';
-import FiltersPage from './features/FiltersPage';
-import ResultsPage from './features/ResultsPage';
-import CountryDetail from './features/CountryDetail';
+import Header from './common/Header/Header';
+import Footer from './common/Footer/Footer';
+import Login from '../pages/LoginPage/LoginPage';
+import Register from  '../pages/RegisterPage/RegisterPage';
+import Dashboard from '../pages/Dashboard/Dashboard';
+import VisitedCountriesPage from '../pages/VisitedCountriesPage/VisitedCountriesPage';
+import WishListPage from '../pages/WishListPage/WishListPage';
+import FiltersPage from '../pages/FiltersPage/FiltersPage';
+import ResultsPage from '../pages/ResultsPage/ResultsPage';
+import CountryDetailPage from '../pages/CountryDetailPage/CountryDetailPage';
 import useCountries from '../hooks/useCountries';
 import { calculateMatchScore } from '../utils/calculateMatchScore';
-import '../styles/app.css';
+import './App.css';
+import '../styles/global.css';
+import '../styles/variables.css';
 
 function ProtectedRoute({ children }) {
     const { currentUser } = useAuth();
@@ -34,7 +36,7 @@ function App() {
                         <AppStateProvider>
                             <div className='app'>
                                 <Header />
-                                <main>
+                                <div className='content'>
                                     <Routes>
                                         <Route path="/login" element={<Login />} />
                                         <Route path="/register" element={<Register />} />
@@ -71,11 +73,11 @@ function App() {
                                         } />
                                         <Route path="/country/:countryCode" element={
                                             <ProtectedRoute>
-                                                <CountryDetail allCountries={allCountries} />
+                                                <CountryDetailPage allCountries={allCountries} />
                                             </ProtectedRoute>
                                         } />
                                     </Routes>
-                                </main>
+                                </div>
                                 <Footer />
                             </div>
                         </AppStateProvider>

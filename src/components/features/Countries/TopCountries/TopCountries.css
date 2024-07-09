@@ -1,0 +1,20 @@
+.top-countries-container {
+  margin-bottom: 2rem;
+}
+
+.top-countries-list {
+  display: flex;
+  gap: 1rem;
+}
+
+.top-country-1 {
+  border: 2px solid gold;
+}
+
+.top-country-2 {
+  border: 2px solid silver;
+}
+
+.top-country-3 {
+  border: 2px solid #CD7F32;
+}

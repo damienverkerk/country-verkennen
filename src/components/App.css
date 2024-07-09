@@ -1,0 +1,23 @@
+
+  .app-header {
+    background-color: var(--primary-color);
+    color: var(--white);
+    padding: var(--spacing-medium);
+  }
+  
+  .app-main {
+    padding: var(--spacing-large);
+  }
+  
+  .app-footer {
+    background-color: var(--primary-color);
+    color: var(--white);
+    padding: var(--spacing-medium);
+    text-align: center;
+  }
+  
+  @media (max-width: 600px) {
+    .app-main {
+      padding: var(--spacing-medium);
+    }
+  }

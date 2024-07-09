@@ -1,9 +1,9 @@
 import React, { createContext, useState, useEffect, useContext } from 'react';
+import PropTypes from 'prop-types';
 
 const UserPreferencesContext = createContext();
 
 export const UserPreferencesProvider = ({ children }) => {
-  
   const defaultPreferences = {
     prefersCoastal: false,
     prefersMountains: false,
@@ -28,6 +28,10 @@ export const UserPreferencesProvider = ({ children }) => {
       {children}
     </UserPreferencesContext.Provider>
   );
+};
+
+UserPreferencesProvider.propTypes = {
+  children: PropTypes.node.isRequired
 };
 
 export const useUserPreferences = () => {

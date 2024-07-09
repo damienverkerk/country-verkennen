@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { fetchCountries } from '../services/countryService';
+import PropTypes from 'prop-types';
 
 const useCountries = () => {
   const [countries, setCountries] = useState([]);
@@ -16,9 +17,13 @@ const useCountries = () => {
     };
 
     fetchData();
-  }, []); // Lege dependency array zorgt ervoor dat dit effect alleen wordt uitgevoerd bij het eerste renderen
+  }, []);
 
   return [countries, error];
+};
+
+useCountries.propTypes = {
+  fetchCountries: PropTypes.func.isRequired
 };
 
 export default useCountries;
