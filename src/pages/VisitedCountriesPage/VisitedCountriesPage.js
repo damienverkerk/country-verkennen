@@ -4,6 +4,7 @@ import { useAppState } from '../../contexts/AppStateContext';
 import Button from '../../components/common/Button/Button';
 import Card from '../../components/common/Card/Card';
 import CountrySelection from '../../components/features/Countries/CountrySelection/CountrySelection';
+import PageLayout from '../../components/common/PageLayout/PageLayout';
 import './VisitedCountriesPage.css';
 
 const VisitedCountriesPage = () => {
@@ -15,22 +16,20 @@ const VisitedCountriesPage = () => {
   };
 
   return (
-    <div className="visited-countries-container">
-      <Card title="Bezochte Landen">
-        <section className="info-section">
-          <p>Selecteer de landen die je hebt bezocht. Dit helpt ons bij het aanbevelen van nieuwe bestemmingen op basis van jouw reiservaringen.</p>
-        </section>
-        <CountrySelection 
-          selectedCountries={selectedCountries}
-          onCountrySelect={setSelectedCountries}
-          title="Selecteer Bezochte Landen"
-          showScore={false}
-        />
-        <section className="buttons-section">
-          <Button onClick={handleNext}>Volgende</Button>
-        </section>
-      </Card>
-    </div>
+    <PageLayout title="Bezochte Landen">
+      <section className="info-section">
+        <p>Selecteer de landen die je hebt bezocht. Dit helpt ons bij het aanbevelen van nieuwe bestemmingen op basis van jouw reiservaringen.</p>
+      </section>
+      <CountrySelection 
+        selectedCountries={selectedCountries}
+        onCountrySelect={setSelectedCountries}
+        title="Selecteer Bezochte Landen"
+        showScore={false}
+      />
+      <section className="buttons-section">
+        <Button onClick={handleNext}>Volgende</Button>
+      </section>
+    </PageLayout>
   );
 };
 

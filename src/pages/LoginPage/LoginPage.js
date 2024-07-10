@@ -4,8 +4,9 @@ import { useAuth } from '../../contexts/AuthContext';
 import Button from '../../components/common/Button/Button';
 import Form from '../../components/common/Form/Form';
 import FormField from '../../components/common/FormField/FormField';
+import ErrorMessage from '../../components/common/ErrorMessage/ErrorMessage';
+import PageLayout from '../../components/common/PageLayout/PageLayout';
 import './LoginPage.css';
-import PropTypes from 'prop-types';
 
 function Login() {
   const [username, setUsername] = useState('');
@@ -31,29 +32,20 @@ function Login() {
       await login(username, password);
       navigate('/');
     } catch (error) {
-      if (error.response) {
-        setError(error.response.data || 'Er is een fout opgetreden bij het inloggen.');
-      } else {
-        setError(error.message);
-      }
+      setError(error.message);
     }
   };
 
   return (
-    <main className="login">
-      <h2>Login</h2>
-      {error && <p>{error}</p>}
+    <PageLayout title="Login">
+      {error && <ErrorMessage message={error} />}
       <Form onSubmit={handleSubmit}>
         <FormField label="Username" value={username} onChange={(e) => setUsername(e.target.value)} required minLength="3" />
         <FormField label="Password" type="password" value={password} onChange={(e) => setPassword(e.target.value)} required minLength="6" />
         <Button type="submit">Login</Button>
       </Form>
-    </main>
+    </PageLayout>
   );
 }
-
-Login.propTypes = {
-  login: PropTypes.func.isRequired
-};
 
 export default Login;

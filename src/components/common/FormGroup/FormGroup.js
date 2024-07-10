@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 import './FormGroup.css';
 
 const FormGroup = ({ children, label, className = '' }) => (
-  <div className={`form-group ${className}`}>
+  <fieldset className={`form-group ${className}`}>
     {label && <legend className="form-group-label">{label}</legend>}
     {children}
-  </div>
+  </fieldset>
 );
 
 FormGroup.propTypes = {

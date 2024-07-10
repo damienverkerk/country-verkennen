@@ -4,8 +4,9 @@ import CountryList from '../../components/features/Countries/CountryList/Country
 import InteractiveMap from '../../components/features/Map/InteractiveMap';
 import { useNavigate } from 'react-router-dom';
 import { useAppState } from '../../contexts/AppStateContext';
+import PageLayout from '../../components/common/PageLayout/PageLayout';
+import Button from '../../components/common/Button/Button';
 import './ResultsPage.css';
-import PropTypes from 'prop-types';
 
 const ResultsPage = ({ allCountries, calculateMatchScore }) => {
   const { filters, selectedCountries, wishListCountries } = useAppState();
@@ -30,7 +31,7 @@ const ResultsPage = ({ allCountries, calculateMatchScore }) => {
   const nextCountries = filteredCountries.slice(3, 19);
 
   return (
-    <div className="results-container">
+    <PageLayout title="Results">
       <section className="results-section">
         <h2>Top 3 Landen</h2>
         <TopCountries 
@@ -52,16 +53,11 @@ const ResultsPage = ({ allCountries, calculateMatchScore }) => {
         />
       </section>
       <section className="results-section buttons-section">
-        <button onClick={() => navigate('/filters')}>Terug</button>
-        <button onClick={() => navigate('/')}>Dashboard</button>
+        <Button onClick={() => navigate('/filters')}>Terug</Button>
+        <Button onClick={() => navigate('/')}>Dashboard</Button>
       </section>
-    </div>
+    </PageLayout>
   );
-};
-
-ResultsPage.propTypes = {
-  allCountries: PropTypes.arrayOf(PropTypes.object).isRequired,
-  calculateMatchScore: PropTypes.func.isRequired
 };
 
 export default ResultsPage;

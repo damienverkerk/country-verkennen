@@ -4,19 +4,13 @@ import Card from '../../../common/Card/Card';
 import './CountryDetails.css';
 
 const CountryDetails = ({ country }) => {
-  const getLanguages = (languages) => {
-    return languages ? Object.values(languages).join(', ') : 'Unknown';
-  };
+  const getLanguages = (languages) => languages ? Object.values(languages).join(', ') : 'Unknown';
 
   return (
     <Card className="country-details">
       <header>
         <h2>{country.name.common}</h2>
-        <img 
-          src={country.flags.png} 
-          alt={`Flag of ${country.name.common}`} 
-          className="country-flag"
-        />
+        <img src={country.flags.png} alt={`Flag of ${country.name.common}`} className="country-flag" />
       </header>
       <dl>
         <dt>Official Name:</dt>

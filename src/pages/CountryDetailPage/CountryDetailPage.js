@@ -5,6 +5,7 @@ import BookingSection from '../../components/features/Booking/BookingSection/Boo
 import useCountries from '../../hooks/useCountries';
 import { fetchImagesByCountry } from '../../services/imageService';
 import Card from '../../components/common/Card/Card';
+import PageLayout from '../../components/common/PageLayout/PageLayout';
 import './CountryDetailPage.css';
 
 const CountryDetailPage = () => {
@@ -31,7 +32,7 @@ const CountryDetailPage = () => {
   };
 
   return (
-    <div className="country-detail-page">
+    <PageLayout title={countryName}>
       <ImageCarousel images={images} />
       <div className="country-facts-grid">
         <Card title="Language" icon="fa-language">
@@ -51,7 +52,7 @@ const CountryDetailPage = () => {
         </Card>
       </div>
       <BookingSection country={country} />
-    </div>
+    </PageLayout>
   );
 };
 

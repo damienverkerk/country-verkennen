@@ -1,7 +1,7 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import CountryCard from '../CountryCard/CountryCard';
 import './TopCountries.css';
-import PropTypes from 'prop-types';
 
 const TopCountries = ({ countries = [], onCountrySelect }) => {
   if (countries.length === 0) {

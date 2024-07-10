@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAppState } from '../../contexts/AppStateContext';
 import CountryCard from '../../components/features/Countries/CountryCard/CountryCard';
 import Button from '../../components/common/Button/Button';
+import PageLayout from '../../components/common/PageLayout/PageLayout';
 import './Dashboard.css';
 import PropTypes from 'prop-types';
 
@@ -27,9 +28,7 @@ const Dashboard = ({ allCountries, calculateMatchScore }) => {
   };
 
   return (
-    <div className="dashboard-container">
-      <h1>Welkom bij jouw Reisavontuur</h1>
-      
+    <PageLayout title="Welkom bij jouw Reisavontuur">
       <div className="dashboard-stats">
         <div className="stat-card">
           <h3>Bezochte Landen</h3>
@@ -61,7 +60,7 @@ const Dashboard = ({ allCountries, calculateMatchScore }) => {
               <CountryCard
                 key={country.cca3}
                 country={country}
-                onSelect={() => {}} 
+                onSelect={() => {}}
                 showScore={false}
                 showRemoveButton={false}
               />
@@ -69,7 +68,7 @@ const Dashboard = ({ allCountries, calculateMatchScore }) => {
           </div>
         </div>
       )}
-    </div>
+    </PageLayout>
   );
 };
 

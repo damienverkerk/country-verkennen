@@ -54,6 +54,7 @@ const CountrySelection = ({
           className="selected-country-card"
           showScore={showScore}
           showRemoveButton={true}
+          onRemove={onRemove}
         />
       ))}
     </div>
