@@ -2,8 +2,9 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppState } from '../../contexts/AppStateContext';
 import Button from '../../components/common/Button/Button';
-import Card from '../../components/common/Card/Card';
 import CountrySelection from '../../components/features/Countries/CountrySelection/CountrySelection';
+import PageLayout from '../../components/common/PageLayout/PageLayout';
+import InfoBox from '../../components/common/InfoBox/InfoBox';
 import './VisitedCountriesPage.css';
 
 const VisitedCountriesPage = () => {
@@ -15,22 +16,23 @@ const VisitedCountriesPage = () => {
   };
 
   return (
-    <div className="visited-countries-container">
-      <Card title="Bezochte Landen">
-        <section className="info-section">
-          <p>Selecteer de landen die je hebt bezocht. Dit helpt ons bij het aanbevelen van nieuwe bestemmingen op basis van jouw reiservaringen.</p>
-        </section>
+    <PageLayout title="Bezochte Landen">
+      <main>
+        <InfoBox>
+          Selecteer de landen die je hebt bezocht. Dit helpt ons bij het aanbevelen van nieuwe bestemmingen op basis van jouw reiservaringen.
+        </InfoBox>
         <CountrySelection 
           selectedCountries={selectedCountries}
           onCountrySelect={setSelectedCountries}
           title="Selecteer Bezochte Landen"
           showScore={false}
         />
-        <section className="buttons-section">
-          <Button onClick={handleNext}>Volgende</Button>
-        </section>
-      </Card>
-    </div>
+      </main>
+      <footer className="buttons-section">
+        <Button onClick={() => navigate(-1)}>Terug</Button>
+        <Button onClick={handleNext}>Volgende</Button>
+      </footer>
+    </PageLayout>
   );
 };
 

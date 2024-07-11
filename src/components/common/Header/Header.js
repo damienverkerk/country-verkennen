@@ -12,15 +12,12 @@ function Header() {
         <header className="header">
             <div className="logo" onClick={() => navigate('/')} role="button" tabIndex="0">ReisApp</div>
             {currentUser && (
-                <nav className="nav">
+                <nav className="nav" aria-label="Main Navigation">
                     <ul>
                         <li>
                             <NavLink
                                 to="/visited-countries"
-                                className={({ isActive }) => {
-                                    console.log(isActive ? 'active-link' : '');
-                                    return isActive ? 'active-link' : '';
-                                }}
+                                className={({ isActive }) => isActive ? 'active-link' : ''}
                             >
                                 Bezochte Landen
                             </NavLink>

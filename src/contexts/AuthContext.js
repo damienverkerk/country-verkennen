@@ -26,7 +26,7 @@ export function AuthProvider({ children }) {
     };
     
     try {
-      const response = await axios.post(`${baseUrl}/users`, userData, {
+      await axios.post(`${baseUrl}/users`, userData, {
         headers: {
           'Content-Type': 'application/json',
           'X-Api-Key': 'countryverkenner:sn57awrFZpM9VJe6fyKg'

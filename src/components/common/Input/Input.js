@@ -1,17 +1,24 @@
 import React from 'react';
-import './Input.css';
 import PropTypes from 'prop-types';
+import './Input.css';
 
 function Input({ type = "text", onChange, className = "custom-input", ...props }) {
     return (
-        <input type={type} onChange={onChange} className={className} {...props} />
+        <input 
+            type={type} 
+            onChange={onChange} 
+            className={className} 
+            aria-label={props.label}
+            {...props} 
+        />
     );
 }
 
 Input.propTypes = {
     type: PropTypes.string,
     onChange: PropTypes.func.isRequired,
-    className: PropTypes.string
+    className: PropTypes.string,
+    label: PropTypes.string,
 };
 
 export default Input;

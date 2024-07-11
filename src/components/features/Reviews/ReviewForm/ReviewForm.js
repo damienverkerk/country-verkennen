@@ -1,31 +1,14 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import Button from '../../../common/Button/Button';
 import Input from '../../../common/Input/Input';
 import RatingInput from '../../../common/RatingInput/RatingInput';
 import ErrorMessage from '../../../common/ErrorMessage/ErrorMessage';
+import useReviewForm from './useReviewForm';
 import './ReviewForm.css';
 
 const ReviewForm = ({ onSubmit, countryName }) => {
-  const [rating, setRating] = useState(0);
-  const [comment, setComment] = useState('');
-  const [error, setError] = useState('');
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (rating === 0) {
-      setError('Please select a rating');
-      return;
-    }
-    if (comment.trim().length < 10) {
-      setError('Please provide a comment of at least 10 characters');
-      return;
-    }
-    onSubmit({ rating, comment });
-    setRating(0);
-    setComment('');
-    setError('');
-  };
+  const { rating, comment, error, handleRatingChange, handleCommentChange, handleSubmit } = useReviewForm(onSubmit);
 
   return (
     <form onSubmit={handleSubmit} className="review-form" aria-labelledby="review-form-title">
@@ -36,8 +19,10 @@ const ReviewForm = ({ onSubmit, countryName }) => {
         <RatingInput
           id="rating"
           value={rating}
-          onChange={setRating}
+          onChange={handleRatingChange}
           max={5}
+          required
+          aria-required="true"
         />
       </div>
 
@@ -47,15 +32,16 @@ const ReviewForm = ({ onSubmit, countryName }) => {
           id="comment"
           type="textarea"
           value={comment}
-          onChange={(e) => setComment(e.target.value)}
+          onChange={handleCommentChange}
           required
           minLength={10}
           aria-describedby="comment-description"
+          aria-required="true"
         />
         <small id="comment-description">Please provide a comment of at least 10 characters.</small>
       </div>
 
-      <ErrorMessage message={error} />
+      {error && <ErrorMessage message={error} />}
 
       <Button type="submit">Submit Review</Button>
     </form>

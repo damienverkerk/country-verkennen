@@ -1,54 +1,75 @@
-import React, { useState, useEffect } from 'react';
-import useCountries from '../../../../hooks/useCountries';
+import React from 'react';
+import PropTypes from 'prop-types';
 import Select from '../../../common/Select/Select';
 import RangeInput from '../../../common/RangeInput/RangeInput';
+import useFilterOptions from '../../../../hooks/useFilterOptions';
 import './CountryFilters.css';
-import PropTypes from 'prop-types';
+
+const FilterSection = ({ label, children }) => (
+  <div className="filter-section">
+    <h3>{label}</h3>
+    {children}
+  </div>
+);
 
 const CountryFilters = ({ onFilterChange }) => {
-  const [countries] = useCountries();
-  const [languages, setLanguages] = useState([]);
-  const [regions, setRegions] = useState([]);
-  const [subregions, setSubregions] = useState([]);
-  const [currencies, setCurrencies] = useState([]);
-  const [populationRange, setPopulationRange] = useState([0, 1000000000]);
-  const [areaRange, setAreaRange] = useState([0, 17098242]);
+  const { languages, regions, subregions, currencies, populationRange, areaRange } = useFilterOptions();
 
-  useEffect(() => {
-    if (countries && countries.length > 0) {
-      const uniqueLanguages = [...new Set(countries.flatMap(country => country.languages ? Object.values(country.languages) : []))];
-      const uniqueRegions = [...new Set(countries.map(country => country.region).filter(region => region))];
-      const uniqueSubregions = [...new Set(countries.map(country => country.subregion).filter(subregion => subregion))];
-      const uniqueCurrencies = [...new Set(countries.flatMap(country => country.currencies ? Object.values(country.currencies).map(cur => cur.name) : []))];
-
-      setLanguages(uniqueLanguages);
-      setRegions(uniqueRegions);
-      setSubregions(uniqueSubregions);
-      setCurrencies(uniqueCurrencies);
-    }
-  }, [countries]);
-
-  const handlePopulationChange = (value) => {
-    const newRange = [populationRange[0], value];
-    setPopulationRange(newRange);
-    onFilterChange('population', newRange);
+  const handleRangeChange = (filterName, value) => {
+    const newRange = [0, value];
+    onFilterChange(filterName, newRange);
   };
 
-  const handleAreaChange = (value) => {
-    const newRange = [areaRange[0], value];
-    setAreaRange(newRange);
-    onFilterChange('area', newRange);
-  };
+  const mapOptions = (options) => options.map(option => ({
+    value: option,
+    label: option
+  }));
 
   return (
-    <div className="filters">
-      <Select onChange={e => onFilterChange('language', e.target.value)} options={languages} label="Taal" />
-      <Select onChange={e => onFilterChange('region', e.target.value)} options={regions} label="Regio" />
-      <Select onChange={e => onFilterChange('subregion', e.target.value)} options={subregions} label="Subregio" />
-      <Select onChange={e => onFilterChange('currency', e.target.value)} options={currencies} label="Valuta" />
-      <RangeInput min="0" max="1000000000" value={populationRange[1]} onChange={handlePopulationChange} label="Bevolking" />
-      <RangeInput min="0" max="17098242" value={areaRange[1]} onChange={handleAreaChange} label="Oppervlakte" />
-    </div>
+    <form className="filters" aria-label="Land filters">
+      <FilterSection label="Selecteer filters">
+        <Select
+          onChange={e => onFilterChange('language', e.target.value)}
+          options={mapOptions(languages)}
+          label="Taal"
+          placeholder="Selecteer een taal"
+        />
+        <Select
+          onChange={e => onFilterChange('region', e.target.value)}
+          options={mapOptions(regions)}
+          label="Regio"
+          placeholder="Selecteer een regio"
+        />
+        <Select
+          onChange={e => onFilterChange('subregion', e.target.value)}
+          options={mapOptions(subregions)}
+          label="Subregio"
+          placeholder="Selecteer een subregio"
+        />
+        <Select
+          onChange={e => onFilterChange('currency', e.target.value)}
+          options={mapOptions(currencies)}
+          label="Valuta"
+          placeholder="Selecteer een valuta"
+        />
+      </FilterSection>
+      <FilterSection label="Pas bereiken aan">
+        <RangeInput 
+          min={0} 
+          max={populationRange[1]} 
+          value={populationRange[1]} 
+          onChange={value => handleRangeChange('population', value)} 
+          label="Bevolking" 
+        />
+        <RangeInput 
+          min={0} 
+          max={areaRange[1]} 
+          value={areaRange[1]} 
+          onChange={value => handleRangeChange('area', value)} 
+          label="Oppervlakte" 
+        />
+      </FilterSection>
+    </form>
   );
 };
 

@@ -1,16 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { MapContainer, TileLayer, GeoJSON, Marker, Popup, useMap } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
-import './InteractiveMap.css';
 import PropTypes from 'prop-types';
+import './InteractiveMap.css';
 
 const geoUrl = "/maps/world.json";  
 
-const InteractiveMap = ({ selectedCountryCode, selectedCountries, topCountries }) => {
+const useMapData = () => {
   const [countries, setCountries] = useState(null);
-  const [zoom, setZoom] = useState(2);
-  const [center, setCenter] = useState([20, 0]);
 
   useEffect(() => {
     fetch(geoUrl)
@@ -19,6 +17,14 @@ const InteractiveMap = ({ selectedCountryCode, selectedCountries, topCountries }
         setCountries(data.features);
       });
   }, []);
+
+  return countries;
+};
+
+const InteractiveMap = ({ selectedCountryCode, selectedCountries, topCountries }) => {
+  const countries = useMapData();
+  const [zoom, setZoom] = useState(2);
+  const [center, setCenter] = useState([20, 0]);
 
   useEffect(() => {
     if (selectedCountryCode && countries) {
@@ -31,7 +37,7 @@ const InteractiveMap = ({ selectedCountryCode, selectedCountries, topCountries }
     }
   }, [selectedCountryCode, countries]);
 
-  const getColor = (countryCode) => {
+  const getColor = useCallback((countryCode) => {
     if (selectedCountries.includes(countryCode)) {
       return '#FF5722'; 
     }
@@ -45,10 +51,10 @@ const InteractiveMap = ({ selectedCountryCode, selectedCountries, topCountries }
     }
 
     return '#3388ff'; 
-  };
+  }, [selectedCountries, topCountries]);
 
-  const onEachCountry = (country, layer) => {
-    const { ISO_A2 } = country.properties;
+  const onEachCountry = useCallback((country, layer) => {
+    const { ISO_A2, name } = country.properties;
     const fillColor = getColor(ISO_A2);
 
     layer.setStyle({
@@ -70,12 +76,14 @@ const InteractiveMap = ({ selectedCountryCode, selectedCountries, topCountries }
         });
       },
       click: () => {
-        console.log(`Selected Country: ${ISO_A2}`);
+        console.log(`Selected Country: ${name}`);
       },
     });
-  };
 
-  const createIcon = (url) => {
+    layer.bindTooltip(name, { permanent: false, direction: 'center' });
+  }, [getColor]);
+
+  const createIcon = useCallback((url) => {
     return new L.Icon({
       iconUrl: url,
       iconSize: [25, 15], 
@@ -83,7 +91,7 @@ const InteractiveMap = ({ selectedCountryCode, selectedCountries, topCountries }
       popupAnchor: [0, -12],
       className: 'custom-icon'
     });
-  };
+  }, []);
 
   const MapUpdater = () => {
     const map = useMap();
@@ -93,19 +101,20 @@ const InteractiveMap = ({ selectedCountryCode, selectedCountries, topCountries }
     return null;
   };
 
+  if (!countries) {
+    return <div>Loading...</div>;
+  }
+
   return (
-    <MapContainer center={center} zoom={zoom} style={{ height: '100%', width: '100%' }}>
+    <MapContainer center={center} zoom={zoom} style={{ height: '100%', width: '100%' }} aria-label="Interactive World Map">
       <MapUpdater />
       <TileLayer
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
       />
-      {countries && (
-        <GeoJSON data={countries} onEachFeature={onEachCountry} />
-      )}
+      <GeoJSON data={countries} onEachFeature={onEachCountry} />
       {selectedCountryCode
-        ? countries &&
-          countries
+        ? countries
             .filter(country => country.properties.ISO_A2 === selectedCountryCode)
             .map(country => (
               <Marker
@@ -113,9 +122,7 @@ const InteractiveMap = ({ selectedCountryCode, selectedCountries, topCountries }
                 position={L.GeoJSON.coordsToLatLng(country.geometry.coordinates[0][0])}
                 icon={createIcon(country.properties.flag)}
               >
-                <Popup>
-                  {country.properties.name}
-                </Popup>
+                <Popup>{country.properties.name}</Popup>
               </Marker>
             ))
         : topCountries.map((country, index) => (
@@ -124,9 +131,7 @@ const InteractiveMap = ({ selectedCountryCode, selectedCountries, topCountries }
               position={[country.latlng[0], country.latlng[1]]}
               icon={createIcon(country.flags.png)}
             >
-              <Popup>
-                {country.name.common}
-              </Popup>
+              <Popup>{country.name.common}</Popup>
             </Marker>
           ))}
     </MapContainer>

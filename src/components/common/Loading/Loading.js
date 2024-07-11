@@ -4,7 +4,7 @@ import './Loading.css';
 
 const Loading = ({ size = 'medium', message = 'Loading...' }) => (
   <div className={`loading loading-${size}`} role="status" aria-live="polite">
-    <div className="loading-spinner"></div>
+    <div className="loading-spinner" aria-hidden="true"></div>
     {message && <p className="loading-message">{message}</p>}
   </div>
 );

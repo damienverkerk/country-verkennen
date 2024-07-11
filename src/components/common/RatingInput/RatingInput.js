@@ -13,8 +13,9 @@ const RatingInput = ({ value, onChange, max = 5 }) => (
             name="rating"
             value={ratingValue}
             onClick={() => onChange(ratingValue)}
+            aria-label={`Rating ${ratingValue}`}
           />
-          <span className={`star ${ratingValue <= value ? 'filled' : ''}`}>&#9733;</span>
+          <span className={`star ${ratingValue <= value ? 'filled' : ''}`} aria-hidden="true">&#9733;</span>
         </label>
       );
     })}

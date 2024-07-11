@@ -52,21 +52,22 @@ const ImageCarousel = ({ images }) => {
       onTouchMove={handleSwipeMove}
       onTouchEnd={handleSwipeEnd}
       ref={carouselRef}
+      role="region"
+      aria-label="Image Carousel"
     >
       {loading && <Loading />}
       <img
         className={`carousel-image ${loading ? 'loading' : ''}`}
         src={images[currentIndex]}
-        alt={`Slide ${currentIndex}`}
-        key={images[currentIndex]}
+        alt={`Slide ${currentIndex + 1} of ${images.length}`}
         onLoad={() => setLoading(false)}
       />
-      <div className="carousel-overlay left" onClick={handlePrev}>
+      <button className="carousel-overlay left" onClick={handlePrev} aria-label="Previous image">
         <span className="carousel-arrow">&#8249;</span>
-      </div>
-      <div className="carousel-overlay right" onClick={handleNext}>
+      </button>
+      <button className="carousel-overlay right" onClick={handleNext} aria-label="Next image">
         <span className="carousel-arrow">&#8250;</span>
-      </div>
+      </button>
     </div>
   );
 };

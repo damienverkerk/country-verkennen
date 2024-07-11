@@ -29,16 +29,6 @@
     margin-top: 2rem;
 }
 
-.country-card img {
-    max-width: 100%;
-    height: auto;
-    margin-bottom: 0.5rem;
-}
-
-.country-card-details {
-    text-align: left;
-}
-
 .map-container {
     height: 500px; 
     margin-top: 2rem;

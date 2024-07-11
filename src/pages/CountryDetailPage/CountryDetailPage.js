@@ -4,54 +4,55 @@ import ImageCarousel from '../../components/common/ImageCarousel/ImageCarousel';
 import BookingSection from '../../components/features/Booking/BookingSection/BookingSection';
 import useCountries from '../../hooks/useCountries';
 import { fetchImagesByCountry } from '../../services/imageService';
-import Card from '../../components/common/Card/Card';
+import PageLayout from '../../components/common/PageLayout/PageLayout';
+import CountryFact from '../../components/common/CountryFact/CountryFact';
+import ErrorMessage from '../../components/common/ErrorMessage/ErrorMessage';
+import Loading from '../../components/common/Loading/Loading';
 import './CountryDetailPage.css';
 
 const CountryDetailPage = () => {
   const { countryCode } = useParams();
-  const [countries] = useCountries();
-  const country = countries.find(c => c.cca3 === countryCode);
+  const [countries, loading] = useCountries();
+  const [country, setCountry] = useState(null);
   const [images, setImages] = useState([]);
 
   useEffect(() => {
-    if (country) {
-      fetchImagesByCountry(country.name.common).then(setImages);
+    if (countries.length > 0) {
+      const foundCountry = countries.find(c => c.cca3 === countryCode);
+      setCountry(foundCountry);
+      if (foundCountry) {
+        fetchImagesByCountry(foundCountry.name.common).then(setImages);
+      }
     }
-  }, [country]);
+  }, [countries, countryCode]);
+
+  if (loading) {
+    return <Loading />;
+  }
 
   if (!country) {
-    return <div>Land niet gevonden</div>;
+    return <ErrorMessage message="Land niet gevonden" />;
   }
 
   const countryName = country.name.common || "Onbekend";
   const capital = country.capital ? country.capital[0] : "Onbekend";
-
-  const getLanguages = (languages) => {
-    return languages ? Object.values(languages).join(', ') : 'Onbekend';
-  };
+  const languages = country.languages ? Object.values(country.languages).join(', ') : 'Onbekend';
 
   return (
-    <div className="country-detail-page">
-      <ImageCarousel images={images} />
-      <div className="country-facts-grid">
-        <Card title="Language" icon="fa-language">
-          <p className="fact-value">{getLanguages(country.languages)}</p>
-        </Card>
-        <Card title="Population" icon="fa-users">
-          <p className="fact-value">{country.population.toLocaleString()}</p>
-        </Card>
-        <Card title="Region" icon="fa-globe">
-          <p className="fact-value">{country.region}</p>
-        </Card>
-        <Card title="Subregion" icon="fa-map">
-          <p className="fact-value">{country.subregion || 'Onbekend'}</p>
-        </Card>
-        <Card title="Capital" icon="fa-landmark">
-          <p className="fact-value">{capital}</p>
-        </Card>
-      </div>
-      <BookingSection country={country} />
-    </div>
+    <PageLayout title={countryName}>
+      <article className="country-detail">
+        <ImageCarousel images={images} />
+        <section className="country-facts-grid" aria-labelledby="country-facts-title">
+          <h2 id="country-facts-title" className="visually-hidden">Land Feiten</h2>
+          <CountryFact title="Taal" icon="fa-language" value={languages} />
+          <CountryFact title="Bevolking" icon="fa-users" value={country.population.toLocaleString()} />
+          <CountryFact title="Regio" icon="fa-globe" value={country.region} />
+          <CountryFact title="Subregio" icon="fa-map" value={country.subregion || 'Onbekend'} />
+          <CountryFact title="Hoofdstad" icon="fa-landmark" value={capital} />
+        </section>
+        <BookingSection country={country} />
+      </article>
+    </PageLayout>
   );
 };
 

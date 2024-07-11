@@ -2,16 +2,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import './Card.css';
 
-const Card = ({ title, icon, children, className }) => (
-  <div className={`card ${className}`}>
-    <div className="card-header">
-      <i className={`fas ${icon} card-icon`}></i>
+const Card = ({ title, icon, children, className, onClick }) => (
+  <article className={`card ${className}`} onClick={onClick} role="button" tabIndex="0">
+    <header className="card-header">
+      {icon && <i className={`fas ${icon} card-icon`} aria-hidden="true"></i>}
       <h3 className="card-title">{title}</h3>
-    </div>
+    </header>
     <div className="card-content">
       {children}
     </div>
-  </div>
+  </article>
 );
 
 Card.propTypes = {
@@ -19,11 +19,13 @@ Card.propTypes = {
   icon: PropTypes.string,
   children: PropTypes.node.isRequired,
   className: PropTypes.string,
+  onClick: PropTypes.func, 
 };
 
 Card.defaultProps = {
   icon: '',
   className: '',
+  onClick: () => {},  
 };
 
 export default Card;

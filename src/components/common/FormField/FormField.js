@@ -9,7 +9,7 @@ const FormField = ({ label, id, error, ...inputProps }) => (
       {label}
     </label>
     <Input id={id} {...inputProps} />
-    {error && <span className="form-field-error">{error}</span>}
+    {error && <span className="form-field-error" role="alert">{error}</span>}
   </div>
 );
 
