@@ -1,10 +1,21 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Card from '../../../common/Card/Card';
+import KeyValuePair from '../../../common/KeyValuePair/KeyValuePair';
 import './CountryDetails.css';
 
 const CountryDetails = ({ country }) => {
   const getLanguages = (languages) => languages ? Object.values(languages).join(', ') : 'Unknown';
+
+  const details = [
+    { key: 'Official Name', value: country.name.official },
+    { key: 'Capital', value: country.capital ? country.capital[0] : 'N/A' },
+    { key: 'Region', value: country.region },
+    { key: 'Subregion', value: country.subregion || 'N/A' },
+    { key: 'Population', value: country.population.toLocaleString() },
+    { key: 'Languages', value: getLanguages(country.languages) },
+    { key: 'Area', value: `${country.area.toLocaleString()} km²` },
+  ];
 
   return (
     <Card className="country-details">
@@ -13,26 +24,9 @@ const CountryDetails = ({ country }) => {
         <img src={country.flags.png} alt={`Flag of ${country.name.common}`} className="country-flag" />
       </header>
       <dl>
-        <dt>Official Name:</dt>
-        <dd>{country.name.official}</dd>
-        
-        <dt>Capital:</dt>
-        <dd>{country.capital ? country.capital[0] : 'N/A'}</dd>
-        
-        <dt>Region:</dt>
-        <dd>{country.region}</dd>
-        
-        <dt>Subregion:</dt>
-        <dd>{country.subregion || 'N/A'}</dd>
-        
-        <dt>Population:</dt>
-        <dd>{country.population.toLocaleString()}</dd>
-        
-        <dt>Languages:</dt>
-        <dd>{getLanguages(country.languages)}</dd>
-        
-        <dt>Area:</dt>
-        <dd>{country.area.toLocaleString()} km²</dd>
+        {details.map((detail) => (
+          <KeyValuePair key={detail.key} term={detail.key} description={detail.value} />
+        ))}
       </dl>
     </Card>
   );

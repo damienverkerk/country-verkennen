@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import TopCountries from '../../components/features/Countries/TopCountries/TopCountries';
 import CountryList from '../../components/features/Countries/CountryList/CountryList';
 import InteractiveMap from '../../components/features/Map/InteractiveMap';
@@ -21,43 +22,48 @@ const ResultsPage = ({ allCountries, calculateMatchScore }) => {
       })).sort((a, b) => b.score - a.score);
       setFilteredCountries(scoredCountries);
     }
-  }, [allCountries, filters, selectedCountries, wishListCountries]);
+  }, [allCountries, filters, selectedCountries, wishListCountries, calculateMatchScore]);
 
   const handleCountrySelect = (countryCode) => {
     navigate(`/country/${countryCode}`);
   };
 
   const topCountries = filteredCountries.slice(0, 3);
-  const nextCountries = filteredCountries.slice(3, 19);
+  const nextCountries = filteredCountries.slice(3, 23);
 
   return (
     <PageLayout title="Results">
-      <section className="results-section">
-        <h2>Top 3 Landen</h2>
-        <TopCountries 
-          countries={topCountries} 
-          onCountrySelect={handleCountrySelect} 
-        />
-      </section>
-      <section className="results-section">
-        <h2>Andere Landen</h2>
-        <CountryList 
-          countries={nextCountries} 
-          onCountrySelect={handleCountrySelect} 
-        />
-      </section>
-      <section className="results-section map-container">
-        <InteractiveMap 
-          selectedCountries={selectedCountries.map(country => country.cca3)} 
-          topCountries={filteredCountries.slice(0, 10)} 
-        />
-      </section>
-      <section className="results-section buttons-section">
+      <main>
+        <section aria-labelledby="top-countries-header">
+          <TopCountries 
+            countries={topCountries} 
+            onCountrySelect={handleCountrySelect} 
+          />
+        </section>
+        <section aria-labelledby="other-countries-header">
+          <CountryList 
+            countries={nextCountries} 
+            onCountrySelect={handleCountrySelect} 
+          />
+        </section>
+        <section aria-labelledby="map-header" className="map-container">
+          <InteractiveMap 
+            selectedCountries={selectedCountries.map(country => country.cca3)} 
+            topCountries={filteredCountries.slice(0, 10)} 
+          />
+        </section>
+      </main>
+      <footer className="buttons-section">
         <Button onClick={() => navigate('/filters')}>Terug</Button>
         <Button onClick={() => navigate('/')}>Dashboard</Button>
-      </section>
+      </footer>
     </PageLayout>
   );
+};
+
+ResultsPage.propTypes = {
+  allCountries: PropTypes.array.isRequired,
+  calculateMatchScore: PropTypes.func.isRequired
 };
 
 export default ResultsPage;

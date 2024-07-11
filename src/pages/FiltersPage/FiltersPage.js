@@ -1,10 +1,10 @@
 import React from 'react';
-import CountryFilters from '../../components/features/Countries/CountryFilters/CountryFilters';
 import { useNavigate } from 'react-router-dom';
 import { useAppState } from '../../contexts/AppStateContext';
-import Button from '../../components/common/Button/Button';
-import Card from '../../components/common/Card/Card';
+import CountryFilters from '../../components/features/Countries/CountryFilters/CountryFilters';
 import PageLayout from '../../components/common/PageLayout/PageLayout';
+import InfoBox from '../../components/common/InfoBox/InfoBox';
+import NavigationButtons from '../../components/common/NavigationButtons/NavigationButtons';
 import './FiltersPage.css';
 
 const FiltersPage = () => {
@@ -18,26 +18,26 @@ const FiltersPage = () => {
     }));
   };
 
-  const handleNext = () => {
-    navigate('/results');
-  };
-
-  const handlePrev = () => {
-    navigate('/wishlist-countries');
-  };
+  const handleNext = () => navigate('/results');
+  const handlePrev = () => navigate('/wishlist-countries');
 
   return (
     <PageLayout title="Filters">
-      <section className="info-section">
-        <p>Pas de filters aan om de zoekresultaten te verfijnen. Dit helpt ons bij het aanbevelen van de beste bestemmingen op basis van jouw voorkeuren.</p>
-      </section>
-      <section>
-        <CountryFilters filters={filters} onFilterChange={handleFilterChange} />
-      </section>
-      <section className="buttons-section">
-        <Button onClick={handlePrev}>Terug</Button>
-        <Button onClick={handleNext}>Volgende</Button>
-      </section>
+      <main>
+        <InfoBox>
+          Pas de filters aan om de zoekresultaten te verfijnen. Dit helpt ons bij het aanbevelen van de beste bestemmingen op basis van jouw voorkeuren.
+        </InfoBox>
+        <section aria-labelledby="filters-title">
+          <h2 id="filters-title" className="visually-hidden">Land Filters</h2>
+          <CountryFilters filters={filters} onFilterChange={handleFilterChange} />
+        </section>
+      </main>
+      <NavigationButtons 
+        onPrevious={handlePrev}
+        onNext={handleNext}
+        previousLabel="Terug"
+        nextLabel="Volgende"
+      />
     </PageLayout>
   );
 };

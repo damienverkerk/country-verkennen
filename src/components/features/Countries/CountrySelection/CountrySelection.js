@@ -1,9 +1,10 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
+import PropTypes from 'prop-types';
 import useCountries from '../../../../hooks/useCountries';
 import { getCapitalCoordinates } from '../../../../services/countryService';
 import CountryCard from '../CountryCard/CountryCard';
+import Select from '../../../common/Select/Select';
 import './CountrySelection.css';
-import PropTypes from 'prop-types';
 
 const CountrySelection = ({ 
   onCountrySelect, 
@@ -25,7 +26,7 @@ const CountrySelection = ({
       .sort((a, b) => a.name.common.localeCompare(b.name.common));
   }, [allCountries, localSelectedCountries]);
 
-  const handleCountrySelect = async (event) => {
+  const handleCountrySelect = useCallback(async (event) => {
     const countryCode = event.target.value;
     const selectedCountry = allCountries.find(country => country.cca3 === countryCode);
 
@@ -36,41 +37,43 @@ const CountrySelection = ({
       setLocalSelectedCountries(updatedCountries);
       onCountrySelect(updatedCountries);
     }
-  };
+  }, [allCountries, localSelectedCountries, onCountrySelect]);
 
-  const removeCountry = (countryToRemove) => {
+  const removeCountry = useCallback((countryToRemove) => {
     const newSelectedCountries = localSelectedCountries.filter(country => country.cca3 !== countryToRemove);
     setLocalSelectedCountries(newSelectedCountries);
     onCountrySelect(newSelectedCountries);
-  };
+  }, [localSelectedCountries, onCountrySelect]);
 
-  const defaultRenderSelectedCountries = (countries, onRemove) => (
-    <div className="countries-grid">
+  const defaultRenderSelectedCountries = useCallback((countries, onRemove) => (
+    <ul className="countries-grid">
       {countries.map(country => (
-        <CountryCard
-          key={country.cca3}
-          country={country}
-          onSelect={onRemove}
-          className="selected-country-card"
-          showScore={showScore}
-          showRemoveButton={true}
-          onRemove={onRemove}
-        />
+        <li key={country.cca3}>
+          <CountryCard
+            country={country}
+            onSelect={onRemove}
+            className="selected-country-card"
+            showScore={showScore}
+            showRemoveButton={true}
+            onRemove={onRemove}
+          />
+        </li>
       ))}
-    </div>
-  );
+    </ul>
+  ), [showScore]);
 
   return (
-    <section className="country-selection">
-      <h3>{title}</h3>
-      <select onChange={handleCountrySelect} value="">
-        <option value="">Selecteer een land</option>
-        {sortedAndFilteredCountries.map(country => (
-          <option key={country.cca3} value={country.cca3}>
-            {country.name.common}
-          </option>
-        ))}
-      </select>
+    <section className="country-selection" aria-labelledby="country-selection-title">
+      <h2 id="country-selection-title">{title}</h2>
+      <Select
+        onChange={handleCountrySelect}
+        options={sortedAndFilteredCountries.map(country => ({
+          value: country.cca3,
+          label: country.name.common
+        }))}
+        label="Selecteer een land"
+        placeholder="Selecteer een land"
+      />
       <div className="selected-countries-container">
         {renderSelectedCountries 
           ? renderSelectedCountries(localSelectedCountries, removeCountry)

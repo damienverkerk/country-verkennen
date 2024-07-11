@@ -1,23 +1,25 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import CountryCard from '../CountryCard/CountryCard';
+import EmptyState from '../../../common/EmptyState/EmptyState';
 import './CountryList.css';
 
 const CountryList = ({ countries, onCountrySelect, className = "country-list" }) => {
   if (!countries || countries.length === 0) {
-    return <div className="no-countries">Geen landen gevonden</div>;
+    return <EmptyState message="Geen landen gevonden" />;
   }
 
   return (
-    <div className={className}>
+    <ul className={className} role="list">
       {countries.map(country => (
-        <CountryCard
-          key={country.cca3}
-          country={country}
-          onSelect={onCountrySelect} 
-        />
+        <li key={country.cca3}>
+          <CountryCard
+            country={country}
+            onSelect={onCountrySelect} 
+          />
+        </li>
       ))}
-    </div>
+    </ul>
   );
 };
 
