@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useMemo } from 'react';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 
@@ -18,13 +18,7 @@ export function AuthProvider({ children }) {
   });
 
   const register = async (username, email, password) => {
-    const userData = {
-      username,
-      email,
-      password,
-      info: "testinfo"
-    };
-    
+    const userData = { username, email, password, info: "testinfo" };
     try {
       await axios.post(`${baseUrl}/users`, userData, {
         headers: {
@@ -64,8 +58,10 @@ export function AuthProvider({ children }) {
     localStorage.removeItem('jwtToken');
   };
 
+  const contextValue = useMemo(() => ({ currentUser, token, register, login, logout }), [currentUser, token]);
+
   return (
-    <AuthContext.Provider value={{ currentUser, token, register, login, logout }}>
+    <AuthContext.Provider value={contextValue}>
       {children}
     </AuthContext.Provider>
   );

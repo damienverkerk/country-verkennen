@@ -1,4 +1,4 @@
-import React, { createContext, useState, useEffect, useContext } from 'react';
+import React, { createContext, useState, useEffect, useContext, useMemo } from 'react';
 import PropTypes from 'prop-types';
 
 const UserPreferencesContext = createContext();
@@ -7,24 +7,31 @@ export const UserPreferencesProvider = ({ children }) => {
   const defaultPreferences = {
     prefersCoastal: false,
     prefersMountains: false,
-    climate: 'temperate', 
+    climate: 'temperate',
   };
 
-  const [preferences, setPreferences] = useState(defaultPreferences);
-
-  useEffect(() => {
-    const storedPreferences = localStorage.getItem('userPreferences');
-    if (storedPreferences) {
-      setPreferences(JSON.parse(storedPreferences));
+  const [preferences, setPreferences] = useState(() => {
+    try {
+      const storedPreferences = localStorage.getItem('userPreferences');
+      return storedPreferences ? JSON.parse(storedPreferences) : defaultPreferences;
+    } catch (error) {
+      console.error('Er is een fout opgetreden tijdens het parsen van de gebruikersvoorkeuren:', error);
+      return defaultPreferences;
     }
-  }, []);
+  });
 
   useEffect(() => {
-    localStorage.setItem('userPreferences', JSON.stringify(preferences));
+    try {
+      localStorage.setItem('userPreferences', JSON.stringify(preferences));
+    } catch (error) {
+      console.error('Er is een fout opgetreden tijdens het opslaan van de gebruikersvoorkeuren:', error);
+    }
   }, [preferences]);
 
+  const contextValue = useMemo(() => ({ preferences, setPreferences }), [preferences]);
+
   return (
-    <UserPreferencesContext.Provider value={{ preferences, setPreferences }}>
+    <UserPreferencesContext.Provider value={contextValue}>
       {children}
     </UserPreferencesContext.Provider>
   );
@@ -34,6 +41,4 @@ UserPreferencesProvider.propTypes = {
   children: PropTypes.node.isRequired
 };
 
-export const useUserPreferences = () => {
-  return useContext(UserPreferencesContext);
-};
+export const useUserPreferences = () => useContext(UserPreferencesContext);

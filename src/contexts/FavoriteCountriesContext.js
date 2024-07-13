@@ -1,10 +1,18 @@
-import React, { createContext, useState, useEffect, useContext } from 'react';
+import React, { createContext, useState, useEffect, useContext, useMemo } from 'react';
 import PropTypes from 'prop-types';
 
 const FavoriteCountriesContext = createContext();
 
 export const FavoriteCountriesProvider = ({ children }) => {
-  const initialFavorites = JSON.parse(localStorage.getItem('favorites')) || [];
+  const initialFavorites = useMemo(() => {
+    try {
+      return JSON.parse(localStorage.getItem('favorites')) || [];
+    } catch (error) {
+      console.error('Er is een fout opgetreden tijdens het parsen van de favorieten:', error);
+      return [];
+    }
+  }, []);
+
   const [favorites, setFavorites] = useState(initialFavorites);
 
   useEffect(() => {
@@ -15,8 +23,10 @@ export const FavoriteCountriesProvider = ({ children }) => {
     }
   }, [favorites]);
 
+  const contextValue = useMemo(() => ({ favorites, setFavorites }), [favorites]);
+
   return (
-    <FavoriteCountriesContext.Provider value={{ favorites, setFavorites }}>
+    <FavoriteCountriesContext.Provider value={contextValue}>
       {children}
     </FavoriteCountriesContext.Provider>
   );
@@ -26,6 +36,4 @@ FavoriteCountriesProvider.propTypes = {
   children: PropTypes.node.isRequired
 };
 
-export const useFavoriteCountries = () => {
-  return useContext(FavoriteCountriesContext);
-};
+export const useFavoriteCountries = () => useContext(FavoriteCountriesContext);

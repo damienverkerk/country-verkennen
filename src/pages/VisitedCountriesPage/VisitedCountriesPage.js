@@ -11,6 +11,11 @@ const VisitedCountriesPage = () => {
   const { selectedCountries, setSelectedCountries } = useAppState();
   const navigate = useNavigate();
 
+  const handleCountrySelect = (updatedCountries) => {
+    console.log('Updated selected countries:', updatedCountries);
+    setSelectedCountries(updatedCountries);
+  };
+
   const handleNext = () => {
     navigate('/wishlist-countries');
   };
@@ -23,7 +28,7 @@ const VisitedCountriesPage = () => {
         </InfoBox>
         <CountrySelection 
           selectedCountries={selectedCountries}
-          onCountrySelect={setSelectedCountries}
+          onCountrySelect={handleCountrySelect}
           title="Selecteer Bezochte Landen"
           showScore={false}
         />
