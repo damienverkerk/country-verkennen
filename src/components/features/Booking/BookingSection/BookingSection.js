@@ -1,26 +1,29 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { useNavigate } from 'react-router-dom';
 import PackageCard from '../../../common/PackageCard/PackageCard';
+import Modal from '../../../common/Modal/Modal';
+import Button from '../../../common/Button/Button';
+import { useAppState } from '../../../../contexts/AppStateContext';
 import { fetchBookingOptions } from '../../../../services/bookingService';
-import BookingModal from '../BookingModal/BookingModal';
 import './BookingSection.css';
 
 const BookingSection = ({ country }) => {
-  const [showModal, setShowModal] = useState(false);
-  const [bookingOptions, setBookingOptions] = useState([]);
+  const [showBookingModal, setShowBookingModal] = useState(false);
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [selectedHotel, setSelectedHotel] = useState(null);
+  const [bookingOptions, setBookingOptions] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+  const { addBookedTrip } = useAppState();
+  const navigate = useNavigate();
 
   const fetchHotels = useCallback(async () => {
     setIsLoading(true);
     setError(null);
     try {
       const [lat, lng] = country.capitalInfo.latlng;
-      console.log('Fetching booking options for:', lat, lng);
       const optionsWithPrices = await fetchBookingOptions(lat, lng);
-      console.log('Options with prices:', optionsWithPrices);
-
       setBookingOptions(optionsWithPrices);
       if (optionsWithPrices.length === 0) {
         setError('Geen beschikbare boekingsopties gevonden.');
@@ -37,10 +40,38 @@ const BookingSection = ({ country }) => {
     fetchHotels();
   }, [fetchHotels]);
 
-  const handleInfoClick = (hotel) => {
+  const handleInfoClick = useCallback((hotel) => {
     setSelectedHotel(hotel);
-    setShowModal(true);
-  };
+    setShowBookingModal(true);
+  }, []);
+
+  const handleCloseBookingModal = useCallback(() => {
+    setShowBookingModal(false);
+    setSelectedHotel(null);
+  }, []);
+
+  const handleBookNow = useCallback((hotel) => {
+    const newTrip = {
+      hotel: {
+        name: hotel.name,
+        chainCode: hotel.chainCode,
+        iataCode: hotel.iataCode,
+      },
+      bookingDate: new Date().toISOString(),
+      checkInDate: hotel.cheapestOffer.checkInDate,
+      checkOutDate: hotel.cheapestOffer.checkOutDate,
+      price: parseFloat(hotel.cheapestOffer.price.total),
+      currency: hotel.cheapestOffer.price.currency,
+    };
+    addBookedTrip(newTrip);
+    setShowBookingModal(false);
+    setShowSuccessModal(true);
+  }, [addBookedTrip]);
+
+  const handleCloseSuccessModal = useCallback(() => {
+    setShowSuccessModal(false);
+    navigate('/');
+  }, [navigate]);
 
   return (
     <section className="booking-section" aria-labelledby="booking-title">
@@ -63,7 +94,27 @@ const BookingSection = ({ country }) => {
           />
         ))}
       </div>
-      {showModal && <BookingModal hotel={selectedHotel} onClose={() => setShowModal(false)} />}
+      
+      <Modal
+        isOpen={showBookingModal}
+        onClose={handleCloseBookingModal}
+        title="Hotel Informatie"
+        modalType="booking"
+        hotel={selectedHotel}
+        onBookNow={handleBookNow}
+      />
+
+      <Modal
+        isOpen={showSuccessModal}
+        onClose={handleCloseSuccessModal}
+        title="Boeking Succesvol"
+        content={
+          <div>
+            <p>Uw hotel is succesvol geboekt. Bedankt voor uw reservering!</p>
+            <Button onClick={handleCloseSuccessModal}>Terug naar Dashboard</Button>
+          </div>
+        }
+      />
     </section>
   );
 };
