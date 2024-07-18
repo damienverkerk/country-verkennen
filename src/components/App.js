@@ -7,7 +7,6 @@ import { AppStateProvider } from '../contexts/AppStateContext';
 import Header from './common/Header/Header';
 import Footer from './common/Footer/Footer';
 import Login from '../pages/LoginPage/LoginPage';
-import Register from  '../pages/RegisterPage/RegisterPage';
 import Dashboard from '../pages/Dashboard/Dashboard';
 import VisitedCountriesPage from '../pages/VisitedCountriesPage/VisitedCountriesPage';
 import WishListPage from '../pages/WishListPage/WishListPage';
@@ -39,7 +38,6 @@ function App() {
                                 <div className='content'>
                                     <Routes>
                                         <Route path="/login" element={<Login />} />
-                                        <Route path="/register" element={<Register />} />
                                         <Route path="/" element={
                                             <ProtectedRoute>
                                                 <Dashboard 

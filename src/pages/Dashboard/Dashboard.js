@@ -24,7 +24,7 @@ const Dashboard = () => {
   const wishListCount = useMemo(() => wishListCountries.length, [wishListCountries]);
   const bookedTripsCount = useMemo(() => bookedTrips.length, [bookedTrips]);
 
-  const handleStartExploring = () => navigate('/filters');
+  const handleStartExploring = () => navigate('/visited-countries');
   const handleViewWishlist = () => navigate('/wishlist-countries');
   const handleViewVisited = () => navigate('/visited-countries');
 
