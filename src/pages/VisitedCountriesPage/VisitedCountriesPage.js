@@ -1,11 +1,11 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppState } from '../../contexts/AppStateContext';
-import Button from '../../components/common/Button/Button';
 import CountrySelection from '../../components/features/Countries/CountrySelection/CountrySelection';
 import PageLayout from '../../components/common/PageLayout/PageLayout';
 import InfoBox from '../../components/common/InfoBox/InfoBox';
 import './VisitedCountriesPage.css';
+import NavigationButtons from '../../components/common/NavigationButtons/NavigationButtons'
 
 const VisitedCountriesPage = () => {
   const { selectedCountries, setSelectedCountries } = useAppState();
@@ -16,9 +16,8 @@ const VisitedCountriesPage = () => {
     setSelectedCountries(updatedCountries);
   };
 
-  const handleNext = () => {
-    navigate('/wishlist-countries');
-  };
+  const handleNext = () => navigate('/wishlist-countries');
+  const handlePrev = () => navigate('/');
 
   return (
     <PageLayout title="Bezochte Landen">
@@ -33,10 +32,12 @@ const VisitedCountriesPage = () => {
           showScore={false}
         />
       </main>
-      <footer className="buttons-section">
-        <Button onClick={() => navigate(-1)}>Terug</Button>
-        <Button onClick={handleNext}>Volgende</Button>
-      </footer>
+      <NavigationButtons 
+        onPrevious={handlePrev}
+        onNext={handleNext}
+        previousLabel="Terug"
+        nextLabel="Volgende"
+      />
     </PageLayout>
   );
 };

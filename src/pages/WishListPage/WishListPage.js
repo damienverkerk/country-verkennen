@@ -1,10 +1,10 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppState } from '../../contexts/AppStateContext';
-import Button from '../../components/common/Button/Button';
 import CountrySelection from '../../components/features/Countries/CountrySelection/CountrySelection';
 import PageLayout from '../../components/common/PageLayout/PageLayout';
 import InfoBox from '../../components/common/InfoBox/InfoBox';
+import NavigationButtons from '../../components/common/NavigationButtons/NavigationButtons';
 import './WishListPage.css';
 
 const WishListPage = () => {
@@ -31,10 +31,12 @@ const WishListPage = () => {
           title="Wenslijst Landen"
         />
       </main>
-      <footer className="buttons-section">
-        <Button onClick={handlePrev}>Terug</Button>
-        <Button onClick={handleNext}>Volgende</Button>
-      </footer>
+      <NavigationButtons 
+        onPrevious={handlePrev}
+        onNext={handleNext}
+        previousLabel="Terug"
+        nextLabel="Volgende"
+      />
     </PageLayout>
   );
 };
