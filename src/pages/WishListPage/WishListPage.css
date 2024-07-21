@@ -1,23 +1,45 @@
 .wishlist-container {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 2rem;
+  padding: var(--spacing-lg);
 }
 
 .info-section {
-  margin-bottom: 1rem;
-  background: #f9f9f9;
-  padding: 1rem;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  background-color: var(--white);
+  border-radius: var(--border-radius);
+  padding: var(--spacing-md);
+  margin-bottom: var(--spacing-lg);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .info-section h2 {
+  color: var(--primary-color);
   margin-top: 0;
+  margin-bottom: var(--spacing-sm);
 }
 
-.buttons-section {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 1rem;
+.country-selection {
+  margin-bottom: var(--spacing-lg);
+}
+
+.selected-countries h3 {
+  color: var(--primary-color);
+  margin-bottom: var(--spacing-md);
+}
+
+.countries-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-lg);
+}
+
+@media (max-width: 768px) {
+  .wishlist-container {
+    padding: var(--spacing-md);
+  }
+
+  .countries-grid {
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  }
 }

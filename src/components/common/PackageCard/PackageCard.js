@@ -2,12 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Card from '../Card/Card';
 import Button from '../Button/Button';
+import './PackageCard.css';
 
 const PackageCard = ({ title, icon, price, duration, onBook }) => (
   <Card title={title} icon={icon} className="package-card">
-    <p className="price">€{price}</p>
-    <p className="duration">{duration}</p>
-    <Button onClick={onBook} className="book-button">Boek nu</Button>
+    <div className="package-card__content">
+      <p className="package-card__price">€{price}</p>
+      <p className="package-card__duration">{duration}</p>
+      <Button onClick={onBook} className="btn package-card__book-button">Boek nu</Button>
+    </div>
   </Card>
 );
 

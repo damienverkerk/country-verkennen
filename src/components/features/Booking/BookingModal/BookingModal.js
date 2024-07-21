@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Button from '../../common/Button/Button';
 import './BookingModal.css';
 
-const BookingModal = ({ hotel, onClose }) => {
+const BookingModal = ({ hotel, onClose, onBook }) => {
   if (!hotel) {
     return null;
   }
@@ -22,8 +23,8 @@ const BookingModal = ({ hotel, onClose }) => {
   return (
     <div className="booking-modal">
       <div className="modal-content">
-        <button className="close-button" onClick={onClose}>X</button>
-        <h2>Hotelinformatie</h2>
+        <button className="close-button" onClick={onClose}>×</button>
+        <h2 className="modal-title">Hotelinformatie</h2>
         <p>Hotelnaam: {name}</p>
         <p>Hotelketen: {chainCode}</p>
         <p>IATA-code: {iataCode}</p>
@@ -35,7 +36,7 @@ const BookingModal = ({ hotel, onClose }) => {
         <p>Laatste update: {new Date(lastUpdate).toLocaleString()}</p>
         
         {cheapestOffer && (
-          <div>
+          <div className="cheapest-offer">
             <h3>Goedkoopste aanbieding</h3>
             <p>Check-in datum: {cheapestOffer.checkInDate}</p>
             <p>Check-out datum: {cheapestOffer.checkOutDate}</p>
@@ -46,7 +47,7 @@ const BookingModal = ({ hotel, onClose }) => {
           </div>
         )}
         
-        <button className="book-button">Boek nu</button>
+        <Button onClick={onBook} className="btn book-button">Boek nu</Button>
       </div>
     </div>
   );
@@ -54,7 +55,7 @@ const BookingModal = ({ hotel, onClose }) => {
 
 BookingModal.propTypes = {
   hotel: PropTypes.shape({
-    name: PropTypes.string,
+    name: PropTypes.string.isRequired,
     chainCode: PropTypes.string,
     iataCode: PropTypes.string,
     hotelId: PropTypes.string,
@@ -92,8 +93,9 @@ BookingModal.propTypes = {
       countryCode: PropTypes.string
     }),
     lastUpdate: PropTypes.string
-  }),
-  onClose: PropTypes.func.isRequired
+  }).isRequired,
+  onClose: PropTypes.func.isRequired,
+  onBook: PropTypes.func.isRequired
 };
 
 export default BookingModal;

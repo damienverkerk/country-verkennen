@@ -5,7 +5,9 @@ import './PageLayout.css';
 const PageLayout = ({ title, children, sidebar }) => (
   <div className="page-layout">
     <header className="page-header">
-      <h1>{title}</h1>
+      <div className="page-header-content">
+        <h1 className="page-title">{title}</h1>
+      </div>
     </header>
     <div className="page-content">
       <main className="page-main">{children}</main>

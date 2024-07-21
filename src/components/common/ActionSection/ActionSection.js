@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Button from '../Button/Button';
+import './ActionSection.css';
 
 const ActionSection = ({ title, actionText, onAction }) => (
   <section className="dashboard-actions">

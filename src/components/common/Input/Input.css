@@ -1,14 +1,24 @@
 .custom-input {
   width: 100%;
-  padding: 0.5rem;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+  padding: var(--spacing-sm);
+  border: 1px solid var(--disabled-color);
+  border-radius: var(--border-radius);
   font-size: 1rem;
-  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
-  transition: border-color 0.3s ease;
+  font-family: var(--primary-font);
+  transition: border-color var(--transition-speed);
 }
 
 .custom-input:focus {
-  border-color: var(--primary-color);
   outline: none;
+  border-color: var(--primary-color);
+}
+
+.custom-input::placeholder {
+  color: var(--disabled-color);
+}
+
+@media (max-width: 768px) {
+  .custom-input {
+    font-size: 16px; 
+  }
 }

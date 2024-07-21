@@ -1,9 +1,9 @@
-.loading-container {
+.loading {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
-  height: 100%;
-  width: 100%;
+  justify-content: center;
+  padding: var(--spacing-lg);
 }
 
 .loading-spinner {
@@ -15,13 +15,29 @@
   animation: spin 1s linear infinite;
 }
 
+.loading-message {
+  margin-top: var(--spacing-md);
+  color: var(--text-color);
+  font-size: 1rem;
+}
+
 @keyframes spin {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
 
-.loading-text {
-  margin-top: var(--spacing-medium);
-  color: var(--text-color);
-  font-size: 1rem;
+.loading-small .loading-spinner {
+  width: 30px;
+  height: 30px;
+}
+
+.loading-large .loading-spinner {
+  width: 70px;
+  height: 70px;
+}
+
+@media (max-width: 768px) {
+  .loading {
+    padding: var(--spacing-md);
+  }
 }

@@ -21,7 +21,7 @@ const VisitedCountriesPage = () => {
 
   return (
     <PageLayout title="Bezochte Landen">
-      <main>
+      <main className="visited-countries-container">
         <InfoBox>
           Selecteer de landen die je hebt bezocht. Dit helpt ons bij het aanbevelen van nieuwe bestemmingen op basis van jouw reiservaringen.
         </InfoBox>
@@ -31,13 +31,13 @@ const VisitedCountriesPage = () => {
           title="Selecteer Bezochte Landen"
           showScore={false}
         />
+        <NavigationButtons 
+          onPrevious={handlePrev}
+          onNext={handleNext}
+          previousLabel="Terug"
+          nextLabel="Volgende"
+        />
       </main>
-      <NavigationButtons 
-        onPrevious={handlePrev}
-        onNext={handleNext}
-        previousLabel="Terug"
-        nextLabel="Volgende"
-      />
     </PageLayout>
   );
 };

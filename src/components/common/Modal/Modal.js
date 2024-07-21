@@ -97,7 +97,7 @@ const Modal = ({ isOpen, onClose, title, content, modalType, hotel }) => {
         tabIndex="-1"
       >
         <header className="modal-header">
-          <h2 id="modal-title">{title}</h2>
+          <h2 id="modal-title" className="modal-title">{title}</h2>
           <button className="close-button" onClick={onClose} aria-label="Close">
             ×
           </button>

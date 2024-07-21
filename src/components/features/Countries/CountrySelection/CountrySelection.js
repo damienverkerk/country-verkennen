@@ -48,7 +48,7 @@ const CountrySelection = ({
   const defaultRenderSelectedCountries = useCallback((countries, onRemove) => (
     <ul className="countries-grid">
       {countries.map(country => (
-        <li key={country.cca3}>
+        <li key={country.cca3} className="countries-grid__item">
           <CountryCard
             country={country}
             onSelect={onRemove}
@@ -64,7 +64,7 @@ const CountrySelection = ({
 
   return (
     <section className="country-selection" aria-labelledby="country-selection-title">
-      <h2 id="country-selection-title">{title}</h2>
+      <h2 id="country-selection-title" className="country-selection__title">{title}</h2>
       <Select
         onChange={handleCountrySelect}
         options={sortedAndFilteredCountries.map(country => ({

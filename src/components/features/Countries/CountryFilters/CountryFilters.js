@@ -7,17 +7,16 @@ import './CountryFilters.css';
 
 const FilterSection = ({ label, children }) => (
   <div className="filter-section">
-    <h3>{label}</h3>
+    <h3 className="filter-section__title">{label}</h3>
     {children}
   </div>
 );
 
-const CountryFilters = ({ onFilterChange }) => {
+const CountryFilters = ({ filters, onFilterChange }) => {
   const { languages, regions, subregions, currencies, populationRange, areaRange } = useFilterOptions();
 
   const handleRangeChange = (filterName, value) => {
-    const newRange = [0, value];
-    onFilterChange(filterName, newRange);
+    onFilterChange(filterName, value);
   };
 
   const mapOptions = (options) => options.map(option => ({
@@ -57,14 +56,14 @@ const CountryFilters = ({ onFilterChange }) => {
         <RangeInput 
           min={0} 
           max={populationRange[1]} 
-          value={populationRange[1]} 
+          value={filters.population || populationRange[1]} 
           onChange={value => handleRangeChange('population', value)} 
           label="Bevolking" 
         />
         <RangeInput 
           min={0} 
           max={areaRange[1]} 
-          value={areaRange[1]} 
+          value={filters.area || areaRange[1]} 
           onChange={value => handleRangeChange('area', value)} 
           label="Oppervlakte" 
         />
@@ -74,6 +73,7 @@ const CountryFilters = ({ onFilterChange }) => {
 };
 
 CountryFilters.propTypes = {
+  filters: PropTypes.object.isRequired,
   onFilterChange: PropTypes.func.isRequired
 };
 

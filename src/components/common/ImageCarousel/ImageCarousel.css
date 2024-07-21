@@ -1,15 +1,17 @@
 .carousel {
   position: relative;
   width: 100%;
-  height: auto;
+  max-width: 1200px;
+  margin: 0 auto;
   overflow: hidden;
+  border-radius: var(--border-radius);
 }
 
 .carousel-image {
   width: 100%;
   height: auto;
-  max-height: 400px; 
-  object-fit: cover; 
+  max-height: 400px;
+  object-fit: cover;
   display: block;
 }
 
@@ -22,8 +24,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 5;
-  transition: background-color 0.2s ease;
+  transition: background-color var(--transition-speed);
+  cursor: pointer;
+  border: none;
 }
 
 .carousel-overlay.left {
@@ -40,6 +43,16 @@
 
 .carousel-arrow {
   font-size: 2rem;
-  color: white;
+  color: var(--white);
   pointer-events: none;
+}
+
+@media (max-width: 768px) {
+  .carousel-image {
+    max-height: 300px;
+  }
+
+  .carousel-overlay {
+    width: 30%;
+  }
 }

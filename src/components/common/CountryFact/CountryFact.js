@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Card from '../Card/Card';
+import './CountryFact.css';
 
 const CountryFact = ({ title, icon, value }) => (
-  <Card title={title} icon={icon}>
+  <Card title={title} icon={icon} className="country-fact">
     <p className="fact-value">{value}</p>
   </Card>
 );

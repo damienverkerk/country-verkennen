@@ -5,18 +5,19 @@ import PropTypes from 'prop-types';
 const RangeInput = ({ label, min, max, value, onChange }) => {
   return (
     <div className="range-input">
-      <label>{label}</label>
+      <label className="range-input-label">{label}</label>
       <input 
         type="range" 
         min={min} 
         max={max}
         value={value} 
         onChange={e => onChange(Number(e.target.value))} 
+        className="range-input-slider"
         aria-valuemin={min}
         aria-valuemax={max}
         aria-valuenow={value}
       />
-      <span>{value}</span>
+      <span className="range-input-value">{value}</span>
     </div>
   );
 };

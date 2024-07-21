@@ -1,10 +1,11 @@
 .form-field {
-  margin-bottom: var(--spacing-medium);
+  display: flex;
+  flex-direction: column;
+  margin-bottom: var(--spacing-md);
 }
 
-.form-field label {
-  display: block;
-  margin-bottom: var(--spacing-small);
+.form-field-label {
+  margin-bottom: var(--spacing-xs);
   font-weight: bold;
   color: var(--text-color);
 }
@@ -12,12 +13,11 @@
 .form-field input,
 .form-field select,
 .form-field textarea {
-  width: 100%;
-  padding: var(--spacing-small);
+  padding: var(--spacing-sm);
   border: 1px solid var(--disabled-color);
   border-radius: var(--border-radius);
   font-size: 1rem;
-  transition: border-color var(--transition-speed);
+  font-family: var(--primary-font);
 }
 
 .form-field input:focus,
@@ -27,15 +27,16 @@
   border-color: var(--primary-color);
 }
 
-.form-field input:disabled,
-.form-field select:disabled,
-.form-field textarea:disabled {
-  background-color: var(--background-color);
-  cursor: not-allowed;
-}
-
 .form-field-error {
   color: #d32f2f;
   font-size: 0.875rem;
-  margin-top: var(--spacing-small);
+  margin-top: var(--spacing-xs);
+}
+
+@media (max-width: 768px) {
+  .form-field input,
+  .form-field select,
+  .form-field textarea {
+    font-size: 16px; 
+  }
 }
