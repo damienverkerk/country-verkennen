@@ -19,11 +19,11 @@ const CountryDetails = ({ country }) => {
 
   return (
     <Card className="country-details">
-      <header>
-        <h2>{country.name.common}</h2>
-        <img src={country.flags.png} alt={`Flag of ${country.name.common}`} className="country-flag" />
+      <header className="country-details__header">
+        <h2 className="country-details__name">{country.name.common}</h2>
+        <img src={country.flags.png} alt={`Flag of ${country.name.common}`} className="country-details__flag" />
       </header>
-      <dl>
+      <dl className="country-details__info">
         {details.map((detail) => (
           <KeyValuePair key={detail.key} term={detail.key} description={detail.value} />
         ))}

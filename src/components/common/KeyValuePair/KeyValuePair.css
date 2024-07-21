@@ -1,0 +1,29 @@
+.key-value-pair {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: var(--spacing-sm);
+  }
+  
+  .key-value-pair dt {
+    font-weight: bold;
+    width: 40%;
+    padding-right: var(--spacing-sm);
+    color: var(--text-color);
+  }
+  
+  .key-value-pair dd {
+    width: 60%;
+    margin-left: 0;
+    color: var(--text-color);
+  }
+  
+  @media (max-width: 768px) {
+    .key-value-pair dt,
+    .key-value-pair dd {
+      width: 100%;
+    }
+  
+    .key-value-pair dt {
+      margin-bottom: var(--spacing-xs);
+    }
+  }

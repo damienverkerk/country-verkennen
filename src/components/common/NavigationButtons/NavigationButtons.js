@@ -1,11 +1,12 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Button from '../Button/Button';
+import './NavigationButtons.css';
 
 const NavigationButtons = ({ onPrevious, onNext, previousLabel, nextLabel }) => (
   <footer className="navigation-buttons">
-    <Button onClick={onPrevious}>{previousLabel}</Button>
-    <Button onClick={onNext}>{nextLabel}</Button>
+    <Button onClick={onPrevious} className="btn navigation-button">{previousLabel}</Button>
+    <Button onClick={onNext} className="btn navigation-button">{nextLabel}</Button>
   </footer>
 );
 

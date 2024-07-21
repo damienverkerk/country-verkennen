@@ -1,0 +1,21 @@
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+    max-width: 400px;
+    margin: 0 auto;
+    padding: var(--spacing-lg);
+    background-color: var(--white);
+    border-radius: var(--border-radius);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  .auth-form button {
+    margin-top: var(--spacing-md);
+  }
+  
+  @media (max-width: 480px) {
+    .auth-form {
+      padding: var(--spacing-md);
+    }
+  }

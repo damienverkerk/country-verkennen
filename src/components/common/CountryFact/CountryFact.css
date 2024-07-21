@@ -1,0 +1,29 @@
+.country-fact {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  
+  .country-fact-icon {
+    font-size: 2rem;
+    color: var(--primary-color);
+    margin-bottom: var(--spacing-sm);
+  }
+  
+  .country-fact-title {
+    font-size: 1rem;
+    font-weight: bold;
+    margin-bottom: var(--spacing-xs);
+  }
+  
+  .fact-value {
+    font-size: 1.2rem;
+    color: var(--text-color);
+  }
+  
+  @media (max-width: 768px) {
+    .country-fact {
+      padding: var(--spacing-sm);
+    }
+  }

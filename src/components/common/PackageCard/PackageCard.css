@@ -1,0 +1,35 @@
+.package-card {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+  
+  .package-card__content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  
+  .package-card__price {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--primary-color);
+    margin-bottom: var(--spacing-sm);
+  }
+  
+  .package-card__duration {
+    font-size: 1rem;
+    color: var(--text-color);
+    margin-bottom: var(--spacing-md);
+  }
+  
+  .package-card__book-button {
+    align-self: stretch;
+  }
+  
+  @media (max-width: 768px) {
+    .package-card {
+      padding: var(--spacing-sm);
+    }
+  }

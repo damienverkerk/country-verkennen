@@ -8,14 +8,11 @@ import NavigationButtons from '../../components/common/NavigationButtons/Navigat
 import './FiltersPage.css';
 
 const FiltersPage = () => {
-  const { filters, setFilters } = useAppState();
+  const { filters, updateFilters } = useAppState();
   const navigate = useNavigate();
 
   const handleFilterChange = (filterKey, value) => {
-    setFilters(prevFilters => ({
-      ...prevFilters,
-      [filterKey]: value
-    }));
+    updateFilters({ [filterKey]: value });
   };
 
   const handleNext = () => navigate('/results');
@@ -23,7 +20,7 @@ const FiltersPage = () => {
 
   return (
     <PageLayout title="Filters">
-      <main>
+      <main className="filters-container">
         <InfoBox>
           Pas de filters aan om de zoekresultaten te verfijnen. Dit helpt ons bij het aanbevelen van de beste bestemmingen op basis van jouw voorkeuren.
         </InfoBox>
@@ -31,13 +28,13 @@ const FiltersPage = () => {
           <h2 id="filters-title" className="visually-hidden">Land Filters</h2>
           <CountryFilters filters={filters} onFilterChange={handleFilterChange} />
         </section>
+        <NavigationButtons 
+          onPrevious={handlePrev}
+          onNext={handleNext}
+          previousLabel="Terug"
+          nextLabel="Volgende"
+        />
       </main>
-      <NavigationButtons 
-        onPrevious={handlePrev}
-        onNext={handleNext}
-        previousLabel="Terug"
-        nextLabel="Volgende"
-      />
     </PageLayout>
   );
 };

@@ -21,7 +21,7 @@ const WishListPage = () => {
 
   return (
     <PageLayout title="Wenslijst Landen">
-      <main>
+      <main className="wishlist-container">
         <InfoBox>
           Selecteer de landen die je graag zou willen bezoeken. Dit helpt ons bij het aanbevelen van nieuwe bestemmingen op basis van jouw voorkeuren.
         </InfoBox>
@@ -30,13 +30,13 @@ const WishListPage = () => {
           onCountrySelect={setWishListCountries}
           title="Wenslijst Landen"
         />
+        <NavigationButtons 
+          onPrevious={handlePrev}
+          onNext={handleNext}
+          previousLabel="Terug"
+          nextLabel="Volgende"
+        />
       </main>
-      <NavigationButtons 
-        onPrevious={handlePrev}
-        onNext={handleNext}
-        previousLabel="Terug"
-        nextLabel="Volgende"
-      />
     </PageLayout>
   );
 };

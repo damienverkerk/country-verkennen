@@ -1,63 +1,58 @@
-.dashboard-container {
+.dashboard-content {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 2rem;
-  background-color: #ffffff;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: var(--spacing-lg);
 }
 
 .dashboard-stats {
-  display: flex;
-  justify-content: space-around;
-  margin-bottom: 2rem;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-lg);
 }
 
-.stat-card {
-  padding: 1rem;
-  text-align: center;
+.dashboard-recap,
+.dashboard-wishlist,
+.dashboard-booked-trips {
+  background-color: var(--white);
+  border-radius: var(--border-radius);
+  padding: var(--spacing-lg);
+  margin-bottom: var(--spacing-lg);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
-.stat-number {
-  font-size: 2rem;
-  font-weight: bold;
-}
-
-.dashboard-actions {
-  text-align: center;
-  margin-bottom: 2rem;
-}
-
-.dashboard-recap {
-  margin-bottom: 2rem;
-}
-
-.visited-countries-grid {
+.countries-grid,
+.booked-trips-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 1rem;
-  max-height: 400px;
-  overflow-y: auto;
-  padding: 1rem;
-  border-radius: 8px;
+  gap: var(--spacing-md);
+  list-style: none;
+  padding: 0;
 }
 
-.dashboard-inspiration {
-
-  padding: 1rem;
-  border-radius: 8px;
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 @media (max-width: 768px) {
+  .dashboard-content {
+    padding: var(--spacing-md);
+  }
+
   .dashboard-stats {
-    flex-direction: column;
+    grid-template-columns: 1fr;
   }
-  
-  .stat-card {
-    margin-bottom: 1rem;
-  }
-  
-  .visited-countries-grid {
+
+  .countries-grid,
+  .booked-trips-grid {
     grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
   }
 }

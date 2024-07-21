@@ -32,31 +32,34 @@ const ResultsPage = ({ allCountries, calculateMatchScore }) => {
   const nextCountries = filteredCountries.slice(3, 23);
 
   return (
-    <PageLayout title="Results">
-      <main>
+    <PageLayout title="Resultaten">
+      <main className="results-container">
         <section aria-labelledby="top-countries-header">
+          <h2 id="top-countries-header" className="visually-hidden">Top Landen</h2>
           <TopCountries 
             countries={topCountries} 
             onCountrySelect={handleCountrySelect} 
           />
         </section>
         <section aria-labelledby="other-countries-header">
+          <h2 id="other-countries-header" className="visually-hidden">Andere Aanbevolen Landen</h2>
           <CountryList 
             countries={nextCountries} 
             onCountrySelect={handleCountrySelect} 
           />
         </section>
         <section aria-labelledby="map-header" className="map-container">
+          <h2 id="map-header" className="visually-hidden">Interactieve Kaart</h2>
           <InteractiveMap 
             selectedCountries={selectedCountries.map(country => country.cca3)} 
             topCountries={filteredCountries.slice(0, 10)} 
           />
         </section>
+        <footer className="results-buttons">
+          <Button onClick={() => navigate('/filters')} className="btn-secondary">Terug</Button>
+          <Button onClick={() => navigate('/')} className="btn-primary">Dashboard</Button>
+        </footer>
       </main>
-      <footer className="buttons-section">
-        <Button onClick={() => navigate('/filters')}>Terug</Button>
-        <Button onClick={() => navigate('/')}>Dashboard</Button>
-      </footer>
     </PageLayout>
   );
 };

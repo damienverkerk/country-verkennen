@@ -32,7 +32,7 @@ function LoginPage() {
 
   return (
     <PageLayout title={isLogin ? "Login" : "Register"}>
-      <main>
+      <main className="login-container">
         <AuthForm
           onSubmit={handleAuth}
           submitButtonText={isLogin ? "Login" : "Register"}
@@ -45,7 +45,7 @@ function LoginPage() {
             { name: 'password', label: 'Password', type: 'password', minLength: 6 }
           ]}
         />
-        <Button onClick={toggleAuthMode}>
+        <Button onClick={toggleAuthMode} className="toggle-auth-btn">
           {isLogin ? "Need an account? Register" : "Already have an account? Login"}
         </Button>
       </main>

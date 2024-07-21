@@ -12,7 +12,7 @@ const CountryList = ({ countries, onCountrySelect, className = "country-list" })
   return (
     <ul className={className} role="list">
       {countries.map(country => (
-        <li key={country.cca3}>
+        <li key={country.cca3} className="country-list__item">
           <CountryCard
             country={country}
             onSelect={onCountrySelect} 

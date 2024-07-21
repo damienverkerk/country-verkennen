@@ -41,7 +41,7 @@ const CountryCard = ({ country, onSelect, className = '', showScore = true, show
         <div className="remove-button-container">
           <Button 
             onClick={handleRemove}
-            className="remove-button"
+            className="btn remove-button"
             aria-label={`Verwijder ${country.name.common}`}
           >
             Verwijderen

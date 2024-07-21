@@ -10,46 +10,36 @@ function Header() {
 
     return (
         <header className="header">
-            <div className="logo" onClick={() => navigate('/')} role="button" tabIndex="0">ReisApp</div>
-            {currentUser && (
-                <nav className="nav" aria-label="Main Navigation">
-                    <ul>
-                        <li>
-                            <NavLink
-                                to="/visited-countries"
-                                className={({ isActive }) => isActive ? 'active-link' : ''}
-                            >
-                                Bezochte Landen
-                            </NavLink>
-                        </li>
-                        <li>
-                            <NavLink
-                                to="/wishlist-countries"
-                                className={({ isActive }) => isActive ? 'active-link' : ''}
-                            >
-                                Wenslijst Landen
-                            </NavLink>
-                        </li>
-                        <li>
-                            <NavLink
-                                to="/filters"
-                                className={({ isActive }) => isActive ? 'active-link' : ''}
-                            >
-                                Filters
-                            </NavLink>
-                        </li>
-                        <li>
-                            <NavLink
-                                to="/results"
-                                className={({ isActive }) => isActive ? 'active-link' : ''}
-                            >
-                                Resultaten
-                            </NavLink>
-                        </li>
-                    </ul>
-                </nav>
-            )}
-            <LoginLogoutButton />
+            <div className="header-content">
+                <div className="logo" onClick={() => navigate('/')} role="button" tabIndex="0">ReisApp</div>
+                {currentUser && (
+                    <nav className="nav" aria-label="Main Navigation">
+                        <ul>
+                            <li>
+                                <NavLink to="/visited-countries" className={({ isActive }) => isActive ? 'active-link' : ''}>
+                                    Bezochte Landen
+                                </NavLink>
+                            </li>
+                            <li>
+                                <NavLink to="/wishlist-countries" className={({ isActive }) => isActive ? 'active-link' : ''}>
+                                    Wenslijst Landen
+                                </NavLink>
+                            </li>
+                            <li>
+                                <NavLink to="/filters" className={({ isActive }) => isActive ? 'active-link' : ''}>
+                                    Filters
+                                </NavLink>
+                            </li>
+                            <li>
+                                <NavLink to="/results" className={({ isActive }) => isActive ? 'active-link' : ''}>
+                                    Resultaten
+                                </NavLink>
+                            </li>
+                        </ul>
+                    </nav>
+                )}
+                <LoginLogoutButton />
+            </div>
         </header>
     );
 }

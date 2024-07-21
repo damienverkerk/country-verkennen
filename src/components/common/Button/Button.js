@@ -2,9 +2,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import './Button.css';
 
-function Button({ type = "button", onClick, children, className = "custom-button", ariaLabel }) {
+function Button({ type = "button", onClick, children, className = "", ariaLabel }) {
     return (
-        <button type={type} onClick={onClick} className={className} aria-label={ariaLabel}>
+        <button 
+            type={type} 
+            onClick={onClick} 
+            className={`btn ${className}`}
+            aria-label={ariaLabel}
+        >
             {children}
         </button>
     );

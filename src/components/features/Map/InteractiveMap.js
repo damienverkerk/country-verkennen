@@ -106,12 +106,13 @@ const InteractiveMap = ({ selectedCountryCode, selectedCountries, topCountries }
   }
 
   return (
-    <MapContainer center={center} zoom={zoom} style={{ height: '100%', width: '100%' }} aria-label="Interactive World Map">
-      <MapUpdater />
-      <TileLayer
-        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-      />
+    <div className="interactive-map-container">
+     <MapContainer center={center} zoom={zoom} style={{ height: '100%', width: '100%' }} aria-label="Interactive World Map">
+     <MapUpdater />
+        <TileLayer
+          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        />
       <GeoJSON data={countries} onEachFeature={onEachCountry} />
       {selectedCountryCode
         ? countries
@@ -135,6 +136,7 @@ const InteractiveMap = ({ selectedCountryCode, selectedCountries, topCountries }
             </Marker>
           ))}
     </MapContainer>
+    </div>
   );
 };
 

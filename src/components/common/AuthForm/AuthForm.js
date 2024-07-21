@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Button from '../Button/Button';
 import FormField from '../FormField/FormField';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
-import Form from '../Form/Form';
+import './AuthForm.css';
 
 const AuthForm = ({ onSubmit, submitButtonText, fields }) => {
   const [formData, setFormData] = useState({});
@@ -25,7 +25,7 @@ const AuthForm = ({ onSubmit, submitButtonText, fields }) => {
   };
 
   return (
-    <Form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className="auth-form">
       {fields.map((field) => (
         <FormField
           key={field.name}
@@ -41,7 +41,7 @@ const AuthForm = ({ onSubmit, submitButtonText, fields }) => {
       ))}
       <Button type="submit">{submitButtonText}</Button>
       {error && <ErrorMessage message={error} />}
-    </Form>
+    </form>
   );
 };
 
