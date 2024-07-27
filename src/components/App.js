@@ -13,6 +13,7 @@ import WishListPage from '../pages/WishListPage/WishListPage';
 import FiltersPage from '../pages/FiltersPage/FiltersPage';
 import ResultsPage from '../pages/ResultsPage/ResultsPage';
 import CountryDetailPage from '../pages/CountryDetailPage/CountryDetailPage';
+import BookedTripsPage from '../pages/BookedTripsPage/BookedTripsPage'; 
 import useCountries from '../hooks/useCountries';
 import { calculateMatchScore } from '../utils/calculateMatchScore';
 import './App.css';
@@ -72,6 +73,11 @@ function App() {
                                         <Route path="/country/:countryCode" element={
                                             <ProtectedRoute>
                                                 <CountryDetailPage allCountries={allCountries} />
+                                            </ProtectedRoute>
+                                        } />
+                                        <Route path="/booked-trips" element={
+                                            <ProtectedRoute>
+                                                <BookedTripsPage />
                                             </ProtectedRoute>
                                         } />
                                     </Routes>
