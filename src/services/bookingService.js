@@ -33,22 +33,33 @@ const getAccessToken = async () => {
 };
 
 
-const axiosRetry = async (axiosInstance, options, retries = 3, backoff = 3000) => {
+
+const calculateBackoff = (attempt, initialBackoff) => {
+  return initialBackoff * Math.pow(2, attempt);
+};
+
+const wait = (ms) => new Promise(resolve => setTimeout(resolve, ms));
+
+const axiosRetry = async (axiosInstance, options, retries = 3, initialBackoff = 3000) => {
+  let lastError;
+
   for (let attempt = 0; attempt < retries; attempt++) {
     try {
       return await axiosInstance(options);
     } catch (error) {
+      lastError = error;
       if (error.response && error.response.status === 429 && attempt < retries - 1) {
+        const backoff = calculateBackoff(attempt, initialBackoff);
         console.warn(`Retrying request in ${backoff}ms...`);
-        await new Promise(resolve => setTimeout(resolve, backoff));
-        backoff *= 2; 
+        await wait(backoff);
       } else {
-        throw error;
+        break;
       }
     }
   }
-};
 
+  throw lastError;
+};
 
 const fetchHotelOffers = async (hotelIds, token) => {
   try {
