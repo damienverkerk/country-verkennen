@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import PackageCard from '../../../common/PackageCard/PackageCard';
 import Modal from '../../../common/Modal/Modal';
 import Button from '../../../common/Button/Button';
+import Loading from '../../../common/Loading/Loading';
 import { useAppState } from '../../../../contexts/AppStateContext';
 import { fetchBookingOptions } from '../../../../services/bookingService';
 import './BookingSection.css';
@@ -29,8 +30,7 @@ const BookingSection = ({ country }) => {
         setError('Geen beschikbare boekingsopties gevonden.');
       }
     } catch (error) {
-      console.error('Failed to fetch booking options:', error);
-      setError('Er is een fout opgetreden bij het ophalen van boekingsopties. Probeer het later opnieuw.');
+      setError('Geen beschikbare boekingsopties gevonden.');
     } finally {
       setIsLoading(false);
     }
@@ -54,14 +54,14 @@ const BookingSection = ({ country }) => {
     const newTrip = {
       hotel: {
         name: hotel.name,
-        chainCode: hotel.chainCode,
-        iataCode: hotel.iataCode,
+        chainCode: hotel.chainCode || '',
+        iataCode: hotel.iataCode || '',
       },
       bookingDate: new Date().toISOString(),
-      checkInDate: hotel.cheapestOffer.checkInDate,
-      checkOutDate: hotel.cheapestOffer.checkOutDate,
-      price: parseFloat(hotel.cheapestOffer.price.total),
-      currency: hotel.cheapestOffer.price.currency,
+      checkInDate: hotel.cheapestOffer?.checkInDate || 'N/A',
+      checkOutDate: hotel.cheapestOffer?.checkOutDate || 'N/A',
+      price: parseFloat(hotel.cheapestOffer?.price?.total || 0),
+      currency: hotel.cheapestOffer?.price?.currency || 'N/A',
     };
     addBookedTrip(newTrip);
     setShowBookingModal(false);
@@ -81,18 +81,23 @@ const BookingSection = ({ country }) => {
         Bekijk hieronder de prijzen en boek vandaag nog!
       </p>
       <div className="package-list">
-        {isLoading && <p>Laden...</p>}
+        {isLoading && <Loading size="medium" message="Boekingsopties laden..." />}
         {error && <p className="error-message">{error}</p>}
-        {bookingOptions.map((option) => (
-          <PackageCard
-            key={option.hotelId}
-            title={option.name}
-            icon="fa-hotel"
-            price={option.cheapestOffer.price.total}
-            duration={`${option.distance.value} ${option.distance.unit}`}
-            onBook={() => handleInfoClick(option)}
-          />
-        ))}
+        {bookingOptions.map((option) => {
+          const price = option.cheapestOffer?.price?.total || 'N/A';
+          const distance = option.distance ? `${option.distance.value} ${option.distance.unit}` : 'Geen afstandsgegevens';
+          
+          return (
+            <PackageCard
+              key={option.hotelId}
+              title={option.name}
+              icon="fa-hotel"
+              price={price}
+              duration={distance}
+              onBook={() => handleInfoClick(option)}
+            />
+          );
+        })}
       </div>
       
       <Modal
