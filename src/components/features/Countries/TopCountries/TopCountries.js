@@ -14,7 +14,7 @@ const TopCountries = ({ countries = [], onCountrySelect }) => {
   return (
     <section className="top-countries-container" aria-labelledby="top-countries-title">
       <h2 id="top-countries-title" className="visually-hidden">Top 3 Landen</h2>
-      <ul className="top-countries-list" role="list">
+      <ul className="top-countries-list">
         {topCountries.map((country, index) => (
           <li key={country.cca3} className={`top-country-${index + 1}`}>
             <CountryCard 
