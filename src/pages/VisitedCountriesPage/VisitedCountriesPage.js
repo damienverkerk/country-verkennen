@@ -12,7 +12,6 @@ const VisitedCountriesPage = () => {
   const navigate = useNavigate();
 
   const handleCountrySelect = (updatedCountries) => {
-    console.log('Updated selected countries:', updatedCountries);
     setSelectedCountries(updatedCountries);
   };
 

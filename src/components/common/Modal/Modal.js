@@ -39,10 +39,10 @@ const Modal = ({ isOpen, onClose, title, content, modalType, hotel }) => {
           name: hotel.name,
         },
         bookingDate: new Date().toISOString(),
-        checkInDate: hotel.cheapestOffer.checkInDate,
-        checkOutDate: hotel.cheapestOffer.checkOutDate,
-        price: parseFloat(hotel.cheapestOffer.price.total),
-        currency: hotel.cheapestOffer.price.currency,
+        checkInDate: hotel.cheapestOffer?.checkInDate || 'N/A',
+        checkOutDate: hotel.cheapestOffer?.checkOutDate || 'N/A',
+        price: parseFloat(hotel.cheapestOffer?.price?.total || 0),
+        currency: hotel.cheapestOffer?.price?.currency || 'N/A',
       };
       addBookedTrip(newTrip);
       setShowSuccessModal(true);
@@ -71,13 +71,13 @@ const Modal = ({ isOpen, onClose, title, content, modalType, hotel }) => {
         <h3>{hotel.name}</h3>
         <dl>
           <dt>Hotelketen:</dt>
-          <dd>{hotel.chainCode}</dd>
+          <dd>{hotel.chainCode || 'N/A'}</dd>
           <dt>IATA-code:</dt>
-          <dd>{hotel.iataCode}</dd>
+          <dd>{hotel.iataCode || 'N/A'}</dd>
           <dt>Afstand:</dt>
-          <dd>{hotel.distance.value} {hotel.distance.unit}</dd>
+          <dd>{hotel.distance ? `${hotel.distance.value} ${hotel.distance.unit}` : 'Geen afstandsgegevens'}</dd>
           <dt>Prijs:</dt>
-          <dd>{hotel.cheapestOffer.price.total} {hotel.cheapestOffer.price.currency}</dd>
+          <dd>{hotel.cheapestOffer?.price?.total || 'N/A'} {hotel.cheapestOffer?.price?.currency || 'N/A'}</dd>
         </dl>
         <Button onClick={handleBookNow}>Boek nu</Button>
       </article>

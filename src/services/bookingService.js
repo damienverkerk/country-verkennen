@@ -1,10 +1,14 @@
 import axios from 'axios';
 
+
 const API_KEY = '9Yb8ThdwV56AZAFKTc5k6CUufesa4EpE';
 const API_SECRET = 'yHlJU4ASiM5rcvNt';
 
 let accessToken = null;
 let tokenExpiry = null;
+const MAX_HOTEL_IDS = 25; 
+const DESIRED_RESULTS = 5; 
+
 
 const getAccessToken = async () => {
   if (accessToken && tokenExpiry && new Date() < tokenExpiry) {
@@ -28,6 +32,7 @@ const getAccessToken = async () => {
   }
 };
 
+
 const axiosRetry = async (axiosInstance, options, retries = 3, backoff = 3000) => {
   for (let attempt = 0; attempt < retries; attempt++) {
     try {
@@ -44,16 +49,19 @@ const axiosRetry = async (axiosInstance, options, retries = 3, backoff = 3000) =
   }
 };
 
+
 const fetchHotelOffers = async (hotelIds, token) => {
   try {
     const response = await axiosRetry(axios, {
       method: 'get',
       url: 'https://test.api.amadeus.com/v3/shopping/hotel-offers',
       headers: {
-        'Authorization': `Bearer ${token}`
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
       },
       params: {
-        hotelIds: hotelIds.join(','),
+        hotelIds: hotelIds.join(','), 
+        view: 'LIGHT', 
       }
     });
     return response.data.data || [];
@@ -63,6 +71,15 @@ const fetchHotelOffers = async (hotelIds, token) => {
   }
 };
 
+
+const batchHotelIds = (hotelIds, batchSize) => {
+  const batches = [];
+  for (let i = 0; i < hotelIds.length; i += batchSize) {
+    batches.push(hotelIds.slice(i, i + batchSize));
+  }
+  return batches;
+};
+
 export const fetchBookingOptions = async (lat, lng) => {
   try {
     const token = await getAccessToken();
@@ -70,7 +87,8 @@ export const fetchBookingOptions = async (lat, lng) => {
       method: 'get',
       url: 'https://test.api.amadeus.com/v1/reference-data/locations/hotels/by-geocode',
       headers: {
-        'Authorization': `Bearer ${token}`
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
       },
       params: {
         latitude: lat,
@@ -81,29 +99,32 @@ export const fetchBookingOptions = async (lat, lng) => {
       }
     });
 
-    const hotels = hotelsResponse.data.data || [];
-    const batchSize = 10;
-    const hotelBatches = [];
-    for (let i = 0; i < hotels.length; i += batchSize) {
-      hotelBatches.push(hotels.slice(i, i + batchSize));
+    const hotelIds = hotelsResponse.data.data.map(hotel => hotel.hotelId) || [];
+
+    if (hotelIds.length === 0) {
+      console.error('No valid hotel IDs found');
+      return [];
     }
 
-    const allOffers = [];
-    for (const batch of hotelBatches) {
-      const batchOffers = await fetchHotelOffers(batch.map(hotel => hotel.hotelId), token);
-      allOffers.push(...batchOffers);
-      await new Promise(resolve => setTimeout(resolve, 100));
-    }
+    const hotelIdBatches = batchHotelIds(hotelIds, MAX_HOTEL_IDS);
+    let allOffers = [];
 
-    const hotelsWithPrices = hotels.map(hotel => {
-      const hotelOffers = allOffers.find(offer => offer.hotel.hotelId === hotel.hotelId);
-      if (hotelOffers && hotelOffers.offers && hotelOffers.offers.length > 0) {
-        const cheapestOffer = hotelOffers.offers.reduce((min, offer) =>
-          parseFloat(offer.price.total) < parseFloat(min.price.total) ? offer : min, hotelOffers.offers[0]);
-        return { ...hotel, cheapestOffer };
+    for (const batch of hotelIdBatches) {
+      const batchOffers = await fetchHotelOffers(batch, token);
+      allOffers = allOffers.concat(batchOffers);
+      if (allOffers.length >= DESIRED_RESULTS) {
+        allOffers = allOffers.slice(0, DESIRED_RESULTS); 
+        break;
       }
-      return null;
-    }).filter(hotel => hotel !== null);
+    }
+
+    const hotelsWithPrices = allOffers.map(offer => ({
+      hotelId: offer.hotel.hotelId,
+      name: offer.hotel.name,
+      latitude: offer.hotel.latitude,
+      longitude: offer.hotel.longitude,
+      cheapestOffer: offer.offers[0], 
+    }));
 
     return hotelsWithPrices;
   } catch (error) {
