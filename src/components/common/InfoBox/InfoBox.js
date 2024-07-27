@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import './InfoBox.css';
 
 const InfoBox = ({ children }) => (
-  <section className="info-box" role="region" aria-label="Information">
+  <section className="info-box" aria-label="Information">
     <p>{children}</p>
   </section>
 );

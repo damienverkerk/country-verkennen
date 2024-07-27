@@ -8,7 +8,7 @@ import useLogout from '../../../../hooks/useLogout';
 const LoginLogoutButton = () => {
   const { currentUser } = useAuth();
   const navigate = useNavigate();
-  const { logout, error } = useLogout();
+  const { logout } = useLogout();
 
   const handleLogout = async () => {
     try {

@@ -97,7 +97,7 @@ const InteractiveMap = ({ selectedCountryCode, selectedCountries, topCountries }
     const map = useMap();
     useEffect(() => {
       map.setView(center, zoom);
-    }, [center, zoom, map]);
+    }, [map]);
     return null;
   };
 
