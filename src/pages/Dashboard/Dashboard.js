@@ -27,6 +27,7 @@ const Dashboard = () => {
   const handleStartExploring = () => navigate('/visited-countries');
   const handleViewWishlist = () => navigate('/wishlist-countries');
   const handleViewVisited = () => navigate('/visited-countries');
+  const handleViewBookedTrips = () => navigate('/booked-trips');
 
   return (
       <PageLayout title="Welkom bij jouw Reisavontuur">
@@ -48,12 +49,12 @@ const Dashboard = () => {
               actionText="Bekijk Verlanglijst"
             />
             <StatCard 
-              title="Geboekte Reizen"
-              value={bookedTripsCount}
-              description="aankomende avonturen"
-              onAction={() => {}} 
-              actionText="Bekijk Boekingen"
-            />
+            title="Geboekte Reizen"
+            value={bookedTripsCount}
+            description="aankomende avonturen"
+            onAction={handleViewBookedTrips}
+            actionText="Bekijk Boekingen"
+          />
           </section>
   
           <ActionSection
