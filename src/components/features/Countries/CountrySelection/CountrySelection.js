@@ -66,6 +66,8 @@ const CountrySelection = ({
     <section className="country-selection" aria-labelledby="country-selection-title">
       <h2 id="country-selection-title" className="country-selection__title">{title}</h2>
       <Select
+        id="country-select"
+        name="country-select"
         onChange={handleCountrySelect}
         options={sortedAndFilteredCountries.map(country => ({
           value: country.cca3,
