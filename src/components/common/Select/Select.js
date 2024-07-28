@@ -2,10 +2,17 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import './Select.css';
 
-const Select = ({ onChange, options, label, placeholder }) => (
+const Select = ({ onChange, options, label, placeholder, id, name, autocomplete }) => (
   <div className="select-container">
-    <label className="select-label">{label}</label>
-    <select onChange={onChange} className="select-element" defaultValue="">
+    <label htmlFor={id} className="select-label">{label}</label>
+    <select 
+      id={id} 
+      name={name} 
+      onChange={onChange} 
+      className="select-element" 
+      defaultValue=""
+      autoComplete={autocomplete}
+    >
       <option value="" disabled>{placeholder}</option>
       {options.map(option => (
         <option key={option.value} value={option.value}>
@@ -25,7 +32,10 @@ Select.propTypes = {
     })
   ).isRequired,
   label: PropTypes.string.isRequired,
-  placeholder: PropTypes.string.isRequired
+  placeholder: PropTypes.string.isRequired,
+  id: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  autocomplete: PropTypes.string
 };
 
 export default Select;

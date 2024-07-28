@@ -84,7 +84,7 @@ const BookingSection = ({ country }) => {
         {isLoading && <Loading size="medium" message="Boekingsopties laden..." />}
         {error && <p className="error-message">{error}</p>}
         {bookingOptions.map((option) => {
-          const price = option.cheapestOffer?.price?.total || 'N/A';
+          const price = parseFloat(option.cheapestOffer?.price?.total) || 0;
           const distance = option.distance ? `${option.distance.value} ${option.distance.unit}` : 'Geen afstandsgegevens';
           
           return (

@@ -5,7 +5,14 @@ import Button from '../Button/Button';
 import { useAppState } from '../../../contexts/AppStateContext';
 import './Modal.css';
 
-const Modal = ({ isOpen, onClose, title, content, modalType, hotel }) => {
+const Modal = ({ 
+  isOpen, 
+  onClose, 
+  title, 
+  content = null, 
+  modalType = 'default', 
+  hotel = null 
+}) => {
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const { addBookedTrip } = useAppState();
   const navigate = useNavigate();
@@ -133,12 +140,6 @@ Modal.propTypes = {
       checkOutDate: PropTypes.string
     })
   })
-};
-
-Modal.defaultProps = {
-  modalType: 'default',
-  content: null,
-  hotel: null
 };
 
 export default Modal;
